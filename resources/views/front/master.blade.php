@@ -161,6 +161,9 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ asset('frontAssets/js/script-custome.js') }}"></script>
 
+        <script src="{{ asset('frontAssets/lib/jq/datepicker-ar.js') }}"></script>
+
+
         <!-- <script src="{{ asset('frontend/js/jquery.min.js') }}"></script> -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script> -->
         <script src="{{ asset('frontend/js/jquery.easing.min.js') }}"></script>
