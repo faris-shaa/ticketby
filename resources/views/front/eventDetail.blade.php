@@ -85,7 +85,7 @@ $phone = \App\Models\Country::get();
       </div>
       <div class="col-span-12 md:col-span-6 xl:col-span-4 bg-light rounded-xl  p-22-32">
          <div class="flex flex-col items-center justify-center h-full	py-4">
-            <h5 class="text-gray_6">Tickets starting at</h5>
+            <h5 class="text-gray_6"> {{__(key: 'Tickets starting at ')}}</h5>
             <span class="h4 text-dark font-medium">{{ __($currency) }} {{$minPrice}}</span>
             <a href="#tickets_section" class="mt-4 rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2 cursor-pointer btn-hover-primary">
                <span class="z-20">{{ __('Get Tickets') }}</span>
@@ -129,7 +129,7 @@ $phone = \App\Models\Country::get();
    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
       <div class="h-44 bg-location bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 flex items-center justify-center">
          <a class="rounded-full bg-primary_color_8 py-2 px-7 flex items-center gap-2 cursor-pointer btn-hover-primary text-h5 " onclick="openModal()">
-            <span class=" z-20" id="openMapBtn">Show in map</span>
+            <span class=" z-20" id="openMapBtn"> {{__(key: 'Show in map ')}}</span>
             <svg width="15" height="21" viewBox="0 0 15 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M10.625 8C10.625 9.75781 9.21875 11.125 7.5 11.125C5.74219 11.125 4.375 9.75781 4.375 8C4.375 6.28125 5.74219 4.875 7.5 4.875C9.21875 4.875 10.625 6.28125 10.625 8ZM7.5 9.875C8.51562 9.875 9.375 9.05469 9.375 8C9.375 6.98438 8.51562 6.125 7.5 6.125C6.44531 6.125 5.625 6.98438 5.625 8C5.625 9.05469 6.44531 9.875 7.5 9.875ZM15 8C15 11.4375 10.4297 17.4922 8.39844 20.0312C7.92969 20.6172 7.03125 20.6172 6.5625 20.0312C4.53125 17.4922 0 11.4375 0 8C0 3.85938 3.32031 0.5 7.5 0.5C11.6406 0.5 15 3.85938 15 8ZM7.5 1.75C4.02344 1.75 1.25 4.5625 1.25 8C1.25 8.625 1.44531 9.44531 1.875 10.5C2.30469 11.5156 2.89062 12.6094 3.59375 13.7031C4.92188 15.8516 6.48438 17.9219 7.5 19.1719C8.47656 17.9219 10.0391 15.8516 11.3672 13.7031C12.0703 12.6094 12.6562 11.5156 13.0859 10.5C13.5156 9.44531 13.75 8.625 13.75 8C13.75 4.5625 10.9375 1.75 7.5 1.75Z" fill="#A986BF" />
             </svg>
@@ -168,7 +168,7 @@ $phone = \App\Models\Country::get();
          @endif
       </p>
       <span class="flex items-center gap-2 mt-3 py-1 cursor-pointer">
-         <span class="h4 showMore"><span class="more">Show more ...</span> <span class="less hidden">Show less ...</span></span>
+         <span class="h4 showMore"><span class="more">{{__(key: 'Show more ...')}}</span> <span class="less hidden"> {{__(key: 'Show less ...')}}</span></span>
       </span>
    </div>
    <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 mt-8">
@@ -181,7 +181,7 @@ $phone = \App\Models\Country::get();
          </svg>
       </div>
       <div id="Terms_conditions" class="hidden h4 mt-4">
-         <p>Content for Terms and conditions.</p>
+         <p>{{__(key: 'Content for Terms and conditions.')}}</p>
       </div>
    </div>
 </div>
