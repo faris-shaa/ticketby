@@ -260,7 +260,7 @@
                <option value="choose_date">choose date</option>
             </select>
          </div>
-         <input type="text" name="" placeholder="choose event date" id="datepicker" class="hidden placeholder-primary_color_6 w-full min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border   outline-0">
+         <input type="text" name="" placeholder="choose event date" id="datepicker" class="datepicker hidden placeholder-primary_color_6 w-full min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border   outline-0">
       </div>
    </div>
 </div>
@@ -557,7 +557,7 @@
 <script script>
    $(document).ready(function() {
       $(function() {
-         $("#datepicker").datepicker();
+         $(".datepicker").datepicker();
       });
 
       $('#event_date').change(function() {
