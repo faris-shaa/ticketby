@@ -185,24 +185,24 @@
 
 
         <!-- frontAssets -->
-        <script src="{{ url('frontAssets/lib/jq/jquery.min.js') }}"></script>
-        <script src="{{ url('frontAssets/lib/jq/jquery-ui.min.js') }}"></script>
-        <script src="{{ url('frontAssets/lib/swiper/swiper-bundle.min.js') }}"></script>
+        <script src="{{ asset('frontAssets/lib/jq/jquery.min.js') }}"></script>
+        <script src="{{ asset('frontAssets/lib/jq/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('frontAssets/lib/swiper/swiper-bundle.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
             integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="{{ url('frontAssets/js/script-custome.js') }}"></script>
+        <script src="{{ asset('frontAssets/js/script-custome.js') }}"></script>
 
-        <!-- <script src="{{ url('frontend/js/jquery.min.js') }}"></script> -->
+        <!-- <script src="{{ asset('frontend/js/jquery.min.js') }}"></script> -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script> -->
-        <script src="{{ url('frontend/js/jquery.easing.min.js') }}"></script>
-        <script src="{{ url('frontend/js/validate.js') }}"></script>
+        <script src="{{ asset('frontend/js/jquery.easing.min.js') }}"></script>
+        <script src="{{ asset('frontend/js/validate.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/l10n/ar.js"></script>
         <script src="{{ asset('translate/flatpicker-ar.js') }}"></script>
-        <!-- <script src="{{ url('frontend/js/owl.carousel.min.js') }}"></script> -->
-        <!-- <script src="{{ url('frontend/js/scrollreveal.min.js') }}"></script> -->
-        <script src="{{ url('frontend/js/map.js') }}"></script>
+        <!-- <script src="{{ asset('frontend/js/owl.carousel.min.js') }}"></script> -->
+        <!-- <script src="{{ asset('frontend/js/scrollreveal.min.js') }}"></script> -->
+        <script src="{{ asset('frontend/js/map.js') }}"></script>
 
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <?php $client_id = \App\Models\PaymentSetting::find(1)->paypalClientId;
@@ -215,10 +215,10 @@
         @endif
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
         <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
-        <script src="{{ url('frontend/js/qrcode.min.js') }}"></script>
-        <script src="{{ url('frontend/js/main.js') }}"></script>
-        <script src="{{ url('frontend/js/custom.js') }}"></script>
-        <!-- <script src="{{ url('js/custom.js') }}"></script> -->
+        <script src="{{ asset('frontend/js/qrcode.min.js') }}"></script>
+        <script src="{{ asset('frontend/js/main.js') }}"></script>
+        <script src="{{ asset('frontend/js/custom.js') }}"></script>
+        <!-- <script src="{{ asset('js/custom.js') }}"></script> -->
         <script src="./TW-ELEMENTS-PATH/dist/js/index.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
         <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> -->
