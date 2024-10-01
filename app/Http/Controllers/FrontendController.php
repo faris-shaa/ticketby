@@ -3588,4 +3588,108 @@ class FrontendController extends Controller
         $order_child = OrderChild::whereIn('order_id', $orders)->forceDelete();
         $order = Order::whereIn('id', $orders)->forceDelete();
     }
+
+
+    public function eventDetailApi($id, $name = null)
+    {
+
+        $setting = Setting::first(['app_name', 'logo']);
+        $currency = "$"; //Setting::first(['currency_sybmol']);
+
+        $data = Event::with(['category:id,name,image', 'organization:id,first_name,organization_name,bio,last_name,image'])->find($id);
+        SEOMeta::setTitle($data->name)
+            ->setDescription($data->description)
+            ->addMeta('event:category', $data->category->name, 'property')
+            ->addKeyword([
+                $setting->app_name,
+                $data->name,
+                $setting->app_name . ' - ' . $data->name,
+                $data->category->name,
+                $data->tags
+            ]);
+
+        OpenGraph::setTitle($data->name)
+            ->setDescription($data->description)
+            ->setUrl(url()->current())
+            ->addImage($data->imagePath . $data->image)
+            ->setArticle([
+                'start_time' => $data->start_time,
+                'end_time' => $data->end_time,
+                'organization' => $data->organization->name,
+                'catrgory' => $data->category->name,
+                'type' => $data->type,
+                'address' => $data->address,
+                'tag' => $data->tags,
+            ]);
+
+
+        JsonLd::setTitle($data->name)
+            ->setDescription($data->description)
+            ->setType('Article')
+            ->addImage($data->imagePath . $data->image);
+
+        SEOTools::setTitle($data->name);
+        SEOTools::setDescription($data->description);
+        SEOTools::opengraph()->setUrl(url()->current());
+        SEOTools::setCanonical(url()->current());
+        SEOTools::opengraph()->addProperty('keywords', [
+            $setting->app_name,
+            $data->name,
+            $setting->app_name . ' - ' . $data->name,
+            $data->category->name,
+            $data->tags
+        ]);
+        SEOTools::jsonLd()->addImage($setting->imagePath . $setting->logo);
+        SEOTools::jsonLd()->addImage($data->imagePath . $data->image);
+        $timezone = Setting::find(1)->timezone;
+        $date = Carbon::now($timezone);
+
+        $data->free_ticket = Ticket::where([['event_id', $data->id], ['is_deleted', 0], ['type', 'free'], ['status', 1], ['end_time', '>=', $date->format('Y-m-d H:i:s')], ['start_time', '<=', $date->format('Y-m-d H:i:s')]])->orderBy('id', 'DESC')->get();
+        $data->paid_ticket = Ticket::where([['event_id', $data->id], ['is_deleted', 0], ['type', 'paid'], ['status', 1], ['end_time', '>=', $date->format('Y-m-d H:i:s')], ['start_time', '<=', $date->format('Y-m-d H:i:s')]])->orderBy('id', 'DESC')->get();
+
+        $data->review = Review::where('event_id', $data->id)->orderBy('id', 'DESC')->get();
+        
+        $total_paid =  $used_paid = 0;
+        foreach ($data->paid_ticket as $value) {
+            if ($data->is_repeat == 1) {
+
+                $start_date = Carbon::now()->subDays(1)->format("Y-m-d") . " " . Carbon::parse($data->end_time)->format("H:i:s");
+                $end_date = Carbon::now()->format("Y-m-d") . " " . Carbon::parse($data->start_time)->format("H:i:s");
+                $used = Order::where('ticket_id', $value->id)->where('created_at', '<', $end_date)->where('created_at', '>', $start_date)->sum('quantity');
+                //dd($start_date , $end_date);
+                $total_paid  =  $total_paid  +  $value->quantity;
+                $used_paid = $used_paid + $used;
+            } else {
+                $used = Order::where('ticket_id', $value->id)->sum('quantity');
+                $total_paid  =  $total_paid  +  $value->quantity;
+                $used_paid = $used_paid + $used;
+            }
+        }
+
+        foreach ($data->paid_ticket as $value) {
+            $value->available_qty = $total_paid  - $used_paid;
+        }
+
+        foreach ($data->free_ticket as $value) {
+            $used = Order::where('ticket_id', $value->id)->sum('quantity');
+            $value->available_qty = $value->quantity - $used;
+        }
+        $images = explode(",", string: $data->gallery);
+        $tags =  explode(",", $data->tags);
+        $appUser = Auth::guard('appuser')->user();
+        $rate = round(Review::where('event_id', $data->id)->avg('rate'));
+        if ($data->category_id == 14) {
+            $ticket_detail = DB::table('event_ticket_details')->get();
+        } else {
+            $ticket_detail = null;
+        }
+        $array = array();
+        $array['event'] = $data; 
+        $array['images'] = $images; 
+        $array['tags'] = $tags; 
+        $array['appUser'] = $appUser; 
+        $array['rate'] = $rate; 
+        return response()->json($array);
+        // return view('front.eventDetail', compact('currency', 'data', 'images', 'tags', 'appUser', 'rate', 'ticket_detail'));
+    }
 }

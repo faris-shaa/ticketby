@@ -81,6 +81,7 @@ Route::group(['middleware' => ['mode', 'XSS']], function () {
         Route::get('/events-category/{id}/{name}', [FrontendController::class, 'categoryEvents']);
         Route::get('/event-type/{type}', [FrontendController::class, 'eventType']);
         Route::get('/event/{id}/{name}', [FrontendController::class, 'eventDetail']);
+        Route::get('/event/details/{id}/{name}', [FrontendController::class, 'eventDetailApi']);
         Route::get('/events/{id}', [FrontendController::class, 'eventDetail']);
         Route::get('/organizations/{id}', [FrontendController::class, 'orgDetail'])->name('organizationDetails');
         Route::post('/report-event', [FrontendController::class, 'reportEvent']);
