@@ -83,10 +83,10 @@ $phone = \App\Models\Country::get();
 
          </div>
       </div>
-      <div class="col-span-12 md:col-span-6 xl:col-span-4 bg-light rounded-xl  p-22-32">
-         <div class="flex flex-col items-center justify-center h-full	py-4">
-            <h5 class="text-gray_6">Tickets starting at</h5>
-            <span class="h4 text-dark font-medium">{{ __($currency) }} {{$minPrice}}</span>
+      <div class="col-span-12 md:col-span-6 xl:col-span-4 bg-light rounded-xl  p-2">
+         <div class="flex flex-col items-center justify-center h-full	">
+            <h5 class="text-gray_6"> {{__(key: 'Tickets starting at')}}</h5>
+            <span class="h4 text-dark font-medium">{{ __(key: $currency) }} {{$minPrice}}</span>
             <a href="#tickets_section" class="mt-4 rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2 cursor-pointer btn-hover-primary">
                <span class="z-20">{{ __('Get Tickets') }}</span>
                <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -95,6 +95,7 @@ $phone = \App\Models\Country::get();
                      fill="#A986BF" />
                </svg>
             </a>
+            <div class="text-gray_6 mt-2"> {{__(key: 'Expire in')}} <span class="font-medium text-dark">14:59 min</span></div>
          </div>
       </div>
    </div>
@@ -129,7 +130,7 @@ $phone = \App\Models\Country::get();
    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
       <div class="h-44 bg-location bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 flex items-center justify-center">
          <a class="rounded-full bg-primary_color_8 py-2 px-7 flex items-center gap-2 cursor-pointer btn-hover-primary text-h5 " onclick="openModal()">
-            <span class=" z-20" id="openMapBtn">Show in map</span>
+            <span class=" z-20" id="openMapBtn"> {{__(key: 'Show in map ')}}</span>
             <svg width="15" height="21" viewBox="0 0 15 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M10.625 8C10.625 9.75781 9.21875 11.125 7.5 11.125C5.74219 11.125 4.375 9.75781 4.375 8C4.375 6.28125 5.74219 4.875 7.5 4.875C9.21875 4.875 10.625 6.28125 10.625 8ZM7.5 9.875C8.51562 9.875 9.375 9.05469 9.375 8C9.375 6.98438 8.51562 6.125 7.5 6.125C6.44531 6.125 5.625 6.98438 5.625 8C5.625 9.05469 6.44531 9.875 7.5 9.875ZM15 8C15 11.4375 10.4297 17.4922 8.39844 20.0312C7.92969 20.6172 7.03125 20.6172 6.5625 20.0312C4.53125 17.4922 0 11.4375 0 8C0 3.85938 3.32031 0.5 7.5 0.5C11.6406 0.5 15 3.85938 15 8ZM7.5 1.75C4.02344 1.75 1.25 4.5625 1.25 8C1.25 8.625 1.44531 9.44531 1.875 10.5C2.30469 11.5156 2.89062 12.6094 3.59375 13.7031C4.92188 15.8516 6.48438 17.9219 7.5 19.1719C8.47656 17.9219 10.0391 15.8516 11.3672 13.7031C12.0703 12.6094 12.6562 11.5156 13.0859 10.5C13.5156 9.44531 13.75 8.625 13.75 8C13.75 4.5625 10.9375 1.75 7.5 1.75Z" fill="#A986BF" />
             </svg>
@@ -168,12 +169,12 @@ $phone = \App\Models\Country::get();
          @endif
       </p>
       <span class="flex items-center gap-2 mt-3 py-1 cursor-pointer">
-         <span class="h4 showMore"><span class="more">Show more ...</span> <span class="less hidden">Show less ...</span></span>
+         <span class="h4 showMore"><span class="more">{{__(key: 'Show more ...')}}</span> <span class="less hidden"> {{__(key: 'Show less ...')}}</span></span>
       </span>
    </div>
    <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 mt-8">
       <div class="flex items-center   justify-between cursor-pointer" onclick="toggleAccordion('Terms_conditions')">
-         <h3 class="text-primary_color_6 font-medium">Terms and conditions</h3>
+         <h3 class="text-primary_color_6 font-medium">{{__( 'Terms and conditions')}}</h3>
          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                d="M7.28125 8.71875L1.28125 2.71875C0.875 2.34375 0.875 1.6875 1.28125 1.3125C1.65625 0.90625 2.3125 0.90625 2.6875 1.3125L8 6.59375L13.2812 1.3125C13.6562 0.90625 14.3125 0.90625 14.6875 1.3125C15.0938 1.6875 15.0938 2.34375 14.6875 2.71875L8.6875 8.71875C8.3125 9.125 7.65625 9.125 7.28125 8.71875Z"
@@ -181,7 +182,7 @@ $phone = \App\Models\Country::get();
          </svg>
       </div>
       <div id="Terms_conditions" class="hidden h4 mt-4">
-         <p>Content for Terms and conditions.</p>
+         <p>{{__(key: 'Content for Terms and conditions.')}}</p>
       </div>
    </div>
 </div>
@@ -189,81 +190,101 @@ $phone = \App\Models\Country::get();
 
 <div class="container mt-32">
    <div class="mb-4">
-      <h2 class="font-medium">Search ticket availability by date</h2>
-      <p class="h4 mt-2 text-gray_9">Select day</p>
-      <button class="mt-8 h4 text-primary_color_8 hover:text-primary_color_4">+ Show More Dates</button>
+      <h2 class="font-medium"> {{__(key: 'Select your desirable tickets')}}</h2>
+      <p class="text-gray_9 text-h4">{{__( 'Choose your ticket and quantity.')}}</p>
+      <input type="text" name="" placeholder="{{__( '+ Show More Dates')}}" id="datepicker" class="datepicker mt-4 md:mt-12 cursor-pointer placeholder-primary_color_8  f-bri bg-transparent outline-0  ">
    </div>
    <div class="relative">
       <div class="swiper ticket_avail">
          <div class="swiper-wrapper">
             <div
                class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
-               <h5 class="font-bold">Today </h5>
-               <div class="f-bri my-2  bg-light-gradient   p-32-24  rounded-lg   border-before">
-                  <span class="h1 font-medium">16 Sep</span>
+               <h5 class="font-bold">12 Sep </h5>
+               <div class="f-bri my-2  bg-light-gradient   py-7 px-5  rounded-lg   border-before">
+                  <span class="h5 md:text-h3 font-bold">SAR 10,500</span>
                </div>
                <div class="f-bri">
-                  <span class="text-gray_9 h5 font-medium">( 2 ) Slots</span>
+                  <span class="text-gray_9 h5 font-medium">09:00pm</span>
                </div>
             </div>
             <div
-               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8  py-2 px-1  text-center inner-hover transition">
-               <h5 class="font-bold">Today </h5>
-               <div class="f-bri my-2  bg-light-gradient   p-32-24  rounded-lg   border-before">
-                  <span class="h1 font-medium">16 Sep</span>
+               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
+               <h5 class="font-bold">12 Sep </h5>
+               <div class="f-bri my-2  bg-light-gradient   py-7 px-5  rounded-lg   border-before">
+                  <span class="h5 md:text-h3 font-bold">SAR 10,500</span>
                </div>
                <div class="f-bri">
-                  <span class="text-gray_9 h5 font-medium">( 2 ) Slots</span>
+                  <span class="text-gray_9 h5 font-medium">09:00pm</span>
                </div>
             </div>
             <div
-               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8  py-2 px-1  text-center inner-hover transition">
-               <h5 class="font-bold">Today </h5>
-               <div class="f-bri my-2  bg-light-gradient   p-32-24  rounded-lg   border-before">
-                  <span class="h1 font-medium">16 Sep</span>
+               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
+               <h5 class="font-bold">12 Sep </h5>
+               <div class="f-bri my-2  bg-light-gradient   py-7 px-5  rounded-lg   border-before">
+                  <span class="h5 md:text-h3 font-bold">SAR 10,500</span>
                </div>
                <div class="f-bri">
-                  <span class="text-gray_9 h5 font-medium">( 2 ) Slots</span>
+                  <span class="text-gray_9 h5 font-medium">09:00pm</span>
                </div>
             </div>
             <div
-               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8  py-2 px-1  text-center inner-hover transition">
-               <h5 class="font-bold">Today </h5>
-               <div class="f-bri my-2  bg-light-gradient   p-32-24  rounded-lg   border-before">
-                  <span class="h1 font-medium">16 Sep</span>
+               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
+               <h5 class="font-bold">12 Sep </h5>
+               <div class="f-bri my-2  bg-light-gradient   py-7 px-5  rounded-lg   border-before">
+                  <span class="h5 md:text-h3 font-bold">SAR 10,500</span>
                </div>
                <div class="f-bri">
-                  <span class="text-gray_9 h5 font-medium">( 2 ) Slots</span>
+                  <span class="text-gray_9 h5 font-medium">09:00pm</span>
                </div>
             </div>
             <div
-               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8  py-2 px-1  text-center inner-hover transition">
-               <h5 class="font-bold">Today </h5>
-               <div class="f-bri my-2  bg-light-gradient   p-32-24  rounded-lg   border-before">
-                  <span class="h1 font-medium">16 Sep</span>
+               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
+               <h5 class="font-bold">12 Sep </h5>
+               <div class="f-bri my-2  bg-light-gradient   py-7 px-5  rounded-lg   border-before">
+                  <span class="h5 md:text-h3 font-bold">SAR 10,500</span>
                </div>
                <div class="f-bri">
-                  <span class="text-gray_9 h5 font-medium">( 2 ) Slots</span>
+                  <span class="text-gray_9 h5 font-medium">09:00pm</span>
                </div>
             </div>
             <div
-               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8  py-2 px-1  text-center inner-hover transition">
-               <h5 class="font-bold">Today </h5>
-               <div class="f-bri my-2  bg-light-gradient   p-32-24  rounded-lg   border-before">
-                  <span class="h1 font-medium">16 Sep</span>
+               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
+               <h5 class="font-bold">12 Sep </h5>
+               <div class="f-bri my-2  bg-light-gradient    py-7 px-5 rounded-lg   border-before">
+                  <span class="h5 md:text-h3 font-bold">SAR 10,500</span>
                </div>
                <div class="f-bri">
-                  <span class="text-gray_9 h5 font-medium">( 2 ) Slots</span>
+                  <span class="text-gray_9 h5 font-medium">09:00pm</span>
                </div>
             </div>
             <div
-               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8  py-2 px-1  text-center inner-hover transition">
-               <h5 class="font-bold">Today </h5>
-               <div class="f-bri my-2  bg-light-gradient   p-32-24  rounded-lg   border-before">
-                  <span class="h1 font-medium">16 Sep</span>
+               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
+               <h5 class="font-bold">12 Sep </h5>
+               <div class="f-bri my-2  bg-light-gradient   py-7 px-5  rounded-lg   border-before">
+                  <span class="h5 md:text-h3 font-bold">SAR 10,500</span>
                </div>
                <div class="f-bri">
-                  <span class="text-gray_9 h5 font-medium">( 2 ) Slots</span>
+                  <span class="text-gray_9 h5 font-medium">09:00pm</span>
+               </div>
+            </div>
+            <div
+               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
+               <h5 class="font-bold">12 Sep </h5>
+               <div class="f-bri my-2  bg-light-gradient   py-7 px-5  rounded-lg   border-before">
+                  <span class="h5 md:text-h3 font-bold">SAR 10,500</span>
+               </div>
+               <div class="f-bri">
+                  <span class="text-gray_9 h5 font-medium">09:00pm</span>
+               </div>
+            </div>
+            <div
+               class="swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
+               <h5 class="font-bold">12 Sep </h5>
+               <div class="f-bri my-2  bg-light-gradient   py-7 px-5  rounded-lg   border-before">
+                  <span class="h5 md:text-h3 font-bold">SAR 10,500</span>
+               </div>
+               <div class="f-bri">
+                  <span class="text-gray_9 h5 font-medium">09:00pm</span>
                </div>
             </div>
          </div>
@@ -277,7 +298,7 @@ $phone = \App\Models\Country::get();
    </div>
 </div>
 
-<div class="container mt-32">
+<!-- <div class="container mt-32">
    <div class="mb-4">
       <h2 class="font-medium">Select time</h2>
       <p class="h4 mt-2 text-gray_9">Select time and slots</p>
@@ -296,13 +317,13 @@ $phone = \App\Models\Country::get();
       <button class="rounded-full border bg-primary_color_8 bg-opacity-5 hover:bg-primary_color_8 border-primary_color_8 py-2 w-44">08:30
          pm</button>
    </div>
-</div>
+</div> -->
 
 
-<div class="container mt-12 md:mt-32" id="tickets_section">
+<div class="container mt-20 md:mt-32" id="tickets_section">
    <div class="mb-10 md:mb-16">
-      <h2 class="font-medium">Tickets options</h2>
-      <p class="h4 mt-2 text-gray_9">Choose your ticket and quantity.</p>
+      <h2 class="font-medium">{{__( 'Tickets options')}}</h2>
+      <p class="h4 mt-2 text-gray_9">{{__( 'Choose your ticket and quantity.')}}</p>
    </div>
 </div>
 
@@ -325,7 +346,7 @@ $phone = \App\Models\Country::get();
             </div>
             <div class="f-bri">
                <span class="h4">{{ __($currency) }}</span>
-               <span class="h1 font-medium"> {{ $item->price }}</span>
+               <span class="h5 md:text-h3 font-bold"> {{ $item->price }}</span>
             </div>
             <div class="flex mt-4 items-center justify-center gap-4">
                <button type="button" class="disable decrement opacity-25" data-ticket-price="{{ $item->price }}" data-ticket-id="{{ $item->id }}">
@@ -347,20 +368,39 @@ $phone = \App\Models\Country::get();
          @endforeach
       </div>
    </div>
+
    <div class="container mt-16">
-      <div class=" bg-light rounded-2xl  px-7 py-9 ">
+      <div class=" bg-light rounded-2xl p-2 md:px-7 md:py-9 ">
          <div id="tickets-info" class="hidden grid  grid-cols-12 gap-4  items-center ">
-            <div class="col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-5 ">
-               <div class="grid grid-cols-2   gap-4">
-                  <!-- <div class="col-span-1 md:col-span-1  border-line">
+            <div class="col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-6 ">
+               <div class="grid grid-cols-3  gap-1 md:gap-4">
+                  <div class="hidden col-span-1 md:col-span-1  border-line">
+                     <div class="flex mt-4 items-center justify-center gap-4">
+                        <button type="button" class="decrement" data-ticket-price="10" data-ticket-id="88">
+                           <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <rect x="1" y="0.5" width="31" height="31" rx="7.5" fill="#FBF9FD" stroke="#723995"></rect>
+                              <path d="M9.5 16H23.5" stroke="#723995" stroke-width="2" stroke-linecap="round"></path>
+                           </svg>
+                        </button>
+                        <div class="count text-primary_color_8 ">1</div>
+                        <button type="button" class="increment " data-ticket-price="10" data-ticket-id="88">
+                           <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <rect x="1" y="0.5" width="31" height="31" rx="7.5" fill="#FBF9FD" stroke="#723995"></rect>
+                              <path d="M9.5 16H23.5" stroke="#723995" stroke-width="2" stroke-linecap="round"></path>
+                              <path d="M16.5 9L16.5 23" stroke="#723995" stroke-width="2" stroke-linecap="round"></path>
+                           </svg>
+                        </button>
+                     </div>
+                  </div>
+                  <div class="col-span-1 md:col-span-1  border-line">
                      <h4 class="w-fit md:m-auto">
-                        <span class="block text-gray_6 font-light mb-1"> {{ __('Type') }} </span>
-                        <span class="block text-dark font-medium">{{ __('Mixed') }} </span>
+                        <span class="block text-gray_6 font-light mb-1"> {{ __('Expire in') }} </span>
+                        <span class="block text-dark font-medium">{{ __('14:59 min') }} </span>
                      </h4>
-                  </div> -->
+                  </div>
                   <div class="col-span-1   border-line">
                      <h4 class="w-fit ">
-                        <span class="block text-gray_6 font-light mb-1">Quantity</span>
+                        <span class="block text-gray_6 font-light mb-1">{{__( 'Quantity')}}</span>
                         <span class="block text-dark font-medium"><span class="tickets-quantity">0</span> </span>
                      </h4>
                   </div>
@@ -372,7 +412,7 @@ $phone = \App\Models\Country::get();
                   </div>
                </div>
             </div>
-            <div class="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-7 ">
+            <div class="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-5 ">
                <button id="checkAuthButton"
                   class="rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2  mr-auto lg:mr-0 ml-auto btn-hover-primary">
                   <span class="z-10"> {{ __('Buy Tickets') }}</span>
@@ -384,7 +424,7 @@ $phone = \App\Models\Country::get();
                </button>
             </div>
          </div>
-         <h4 id="tickets-alert" class="text-gray_6 flex items-center justify-center gap-2">Choose your tickets to continue
+         <h4 id="tickets-alert" class="text-gray_6 flex items-center justify-center gap-2">{{__( 'Choose your tickets to continue')}}
             <span>
                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -421,8 +461,8 @@ $phone = \App\Models\Country::get();
       <!-- register popup -->
       <div id="register-model" class=" hidden form-container">
          <div class="mb-6 md:mb-14 border-b border-primary_color_8 pb-2">
-            <h2 class="text-h3 md:text-h2 text-primary_color_5 font-medium">Create account to continue</h2>
-            <h4 class="text-gray_9 ">Hello, Welcome</h4>
+            <h2 class="text-h3 md:text-h2 text-primary_color_5 font-medium">{{__( 'Create account to continue')}}</h2>
+            <h4 class="text-gray_9 ">{{__( 'Hello, Welcome')}}</h4>
          </div>
          <div id="responceMessage " class="mb-2 responceMessage hidden text-center">
             <div class="mx-auto flex items-center justify-center bg-light bg-opacity-5 rounded-full w-14 h-14 border border-primary_color_o10_1   mb-5 fa-bounce">
@@ -440,16 +480,9 @@ $phone = \App\Models\Country::get();
             <input type="hidden" name="checkout" value="checkout">
 
             <div class=" mb-2">
-               <!-- <div class=" "> -->
                <label for="name">{{ __('full Name') }}</label>
                <input type="text" name="name" required placeholder="{{ __('full Name') }}"
                   class=" mt-1 w-full focus:border-primary_color_6 outline-0 bg-light  p-3 md:p-16-16 rounded-lg text-dark">
-               <!-- </div> -->
-               <!-- <div class=" mb-2">
-                  <label for="last_name">{{ __('Last Name') }}</label>
-                  <input type="text" name="last_name" required placeholder="{{ __('First Name') }}"
-                     class=" mt-1 w-full focus:border-primary_color_6 outline-0 bg-light  p-3 md:p-16-16 rounded-lg text-dark">
-               </div> -->
             </div>
             <div class="mb-2">
                <label for="number">{{ __('Mobile number') }}</label>
@@ -463,7 +496,7 @@ $phone = \App\Models\Country::get();
                      </option>
                      @endforeach
                   </select>
-                  <input type="number" name="phone" required placeholder="Mobile number"
+                  <input type="number" name="phone" required placeholder=" {{ __('Mobile number') }}"
                      class=" mt-1 w-full focus:border-primary_color_6 outline-0 bg-light  p-3 md:p-16-16 rounded-lg text-dark">
                </div>
             </div>
@@ -477,20 +510,20 @@ $phone = \App\Models\Country::get();
                <input type="password" name="password" id="password" required placeholder="******"
                   class="mt-1 w-full focus:border-primary_color_6 outline-0 bg-light  p-3 md:p-16-16 rounded-lg text-dark">
             </div>
-            <button id="submitRegisterForm" class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-7 text-center">Create account
+            <button id="submitRegisterForm" class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-7 text-center">{{__( 'Create account')}}
             </button>
          </form> <span class=" close-modal absolute -top-50 left-0 cursor-pointer">
             <i class="fa-regular fa-circle-xmark fa-2xl my-6"></i></span>
          <div class="  f-bri mt-7 md:mt-12 text-center text-primary_color_6">
-            <span>Already have account</span>
-            <button data-form-user="login-model" class="from-switch h4 font-bold underline">sign in</button>
+            <span>{{__( 'Already have account')}}</span>
+            <button data-form-user="login-model" class="from-switch h4 font-bold underline">{{__( 'sign in')}}</button>
          </div>
       </div>
       <!-- login popup -->
       <div id="login-model" class="hidden form-container  ">
          <div class="mb-6 md:mb-14 border-b border-primary_color_8 pb-2">
-            <h2 class="text-h3 md:text-h2 text-primary_color_5 font-medium">login to continue</h2>
-            <h4 class="text-gray_9 ">Hello, Welcome back</h4>
+            <h2 class="text-h3 md:text-h2 text-primary_color_5 font-medium"> {{__( 'login to continue')}}</h2>
+            <h4 class="text-gray_9 ">{{__( 'Hello, Welcome back')}}</h4>
          </div>
          <div id="responceMessage " class="mb-2 responceMessage hidden text-center">
             <div class="mx-auto flex items-center justify-center bg-light bg-opacity-5 rounded-full w-14 h-14 border border-primary_color_o10_1   mb-5 fa-bounce">
@@ -500,8 +533,6 @@ $phone = \App\Models\Country::get();
          </div>
          <form action="{{ url('user/login') }}" method="post" data-qa="form-login" name="login" class=" min-w ">
             @csrf
-            <!-- <input type="hidden" value="{{ url()->previous() }}" name="url"> -->
-
             <input type="hidden" value="user" name="type">
             <div class="mb-2">
                <label for="email">{{ __('Email') }}</label>
@@ -525,16 +556,16 @@ $phone = \App\Models\Country::get();
                @error('password')
                <div class="_2OcwfRx4 font-bold-big" data-qa="email-status-message">{{ $message }}</div>
                @enderror
-               <a data-form-user="password-model" class="cursor-pointer from-switch f-bri mt-1 block text-end text-primary_color_6 h6  underline">Forget password ?</a>
+               <a data-form-user="password-model" class="cursor-pointer from-switch f-bri mt-1 block text-end text-primary_color_6 h6  underline"> {{__( 'Forget password ?')}}</a>
             </div>
-            <button class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-8 text-center">Login
+            <button class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-8 text-center"> {{__( 'Login')}}
             </button>
          </form>
          <span class=" close-modal absolute -top-50 left-0 cursor-pointer">
             <i class="fa-regular fa-circle-xmark fa-2xl my-6"></i></span>
          <div class="f-bri mt-14 text-center text-primary_color_6">
-            <span>Don`t have account</span>
-            <button data-form-user="register-model" class="from-switch h4 font-bold underline">sign up</button>
+            <span> {{__( 'Don`t have account')}}</span>
+            <button data-form-user="register-model" class="from-switch h4 font-bold underline">{{__( 'sign up')}}</button>
          </div>
       </div>
       <!--  password popup -->
@@ -549,13 +580,12 @@ $phone = \App\Models\Country::get();
             </div>
             <h4 class="text-white massage"></h4>
          </div>
-         <!-- <form action="{{ url('user/resetPassword') }}" method="post" data-qa="form-login" name="login"> -->
          <form id="resetPasswordForm">
             @csrf
             <input type="hidden" value="user" name="type">
             <div class="mb-2">
                <label for="">{{ __('Email') }}</label>
-               <input name="email" type="email" placeholder="Email"
+               <input name="email" type="email" placeholder="{{__( 'Email')}}"
                   class="text-dark mt-1 w-full focus:border-primary_color_6 outline-0  bg-light p-16-16 rounded-lg "
                   id="">
                @error('email')
@@ -602,6 +632,12 @@ $phone = \App\Models\Country::get();
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script script>
+   $(document).ready(function() {
+      $(function() {
+         $(".datepicker").datepicker();
+      });
+   });
+
    $('.from-switch').on('click', function(e) {
       let model_id = $(this).attr('data-form-user');
       $('.form-container').addClass('hidden');
