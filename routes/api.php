@@ -63,8 +63,8 @@ Route::post('/user/search-event', [ApiController::class, 'searchEvent']);
 Route::post('/user/search-event/web', [ApiController::class, 'searchEventWeb']);
 Route::get('/user/previous/event', [ApiController::class, 'perviousEvent']);
 Route::post('/time/slots', [ApiController::class, 'getTimeSlots']);
-Route::post('/web/login', [ApiController::class, 'webUserLogin']);
-
+Route::post('/web/login', [OrderController::class, 'webUserLogin']);
+Route::post('/app/login',[OrderController::class,'webUserApp']);
 
 Route::post('/user/search-filter', [ApiController::class, 'searchFilter']);
 Route::get('/user/category', [ApiController::class, 'category']);

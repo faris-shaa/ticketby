@@ -43,6 +43,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Banner;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use stdClass ;
+use Illuminate\Support\Str;
+
 
 class ApiController extends Controller
 {
@@ -1733,6 +1735,7 @@ class ApiController extends Controller
                 foreach ($combinedResults as $key => $combinedResult) {
                    
                         $combinedResult->details = Event::find($combinedResult->id);
+                        $combinedResult->slug = Str::slug($combinedResult->name);
                     
                 }
             return response()->json($combinedResults);
@@ -1756,9 +1759,9 @@ class ApiController extends Controller
             }
             $data = $data->whereIn('id', $event);
         }
-        // if ($request->category != "All") {
-        //     $data = $data->where([['category_id', $request->category], ['start_time', '>=', $date->format('Y-m-d H:i:s')]]);
-        // }
+        if ($request->category != "All") {
+            $data = $data->where([['category_id', $request->category]]);
+        }
 
         if (isset($request->date) && $request->date != "All") {
 
