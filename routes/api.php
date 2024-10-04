@@ -60,6 +60,12 @@ Route::post('/user/search-free-event', [ApiController::class, 'searchFreeEvent']
 Route::post('/user/report-event', [ApiController::class, 'reportEvent']);
 Route::get('/user/all-coupon', [ApiController::class, 'allCoupon']);
 Route::post('/user/search-event', [ApiController::class, 'searchEvent']);
+Route::post('/user/search-event/web', [ApiController::class, 'searchEventWeb']);
+Route::get('/user/previous/event', [ApiController::class, 'perviousEvent']);
+Route::post('/time/slots', [ApiController::class, 'getTimeSlots']);
+Route::post('/web/login', [OrderController::class, 'webUserLogin']);
+Route::post('/app/login',[OrderController::class,'webUserApp']);
+
 Route::post('/user/search-filter', [ApiController::class, 'searchFilter']);
 Route::get('/user/category', [ApiController::class, 'category']);
 Route::get('/organizer-profile', [ApiController::class, 'organizerProfile']);
@@ -96,6 +102,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:userApi']], function ()
 });
 
 // organization
+Route::post('/web/user/login', [OrderController::class, 'webUserLogin']);
 Route::post('/organization/login', [OrganizationApiController::class, 'organizationLogin']);
 Route::post('/organization/forget-password', [OrderController::class, 'forgetPasswordOrganizer']);
 //Route::post('/organization/register', [OrganizationApiController::class, 'organizationRegister']);

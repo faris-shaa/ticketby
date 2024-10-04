@@ -1130,6 +1130,37 @@ class FrontendController extends Controller
 
     public function checkout(Request $request, $id)
     {
+
+        /*ticket_id =  [date = { time_slot : quantity  }]*/
+            /*$request_ticket_array["101"] = [ "2024-10-03" => [ "4" => 1 , "5" => 2 ] ]; 
+            foreach ($request_ticket_array as $key => $ticket_array) {
+                $ticekt = Ticket::find($key);
+                $selected_ticket_id = $key ; 
+                if(count($ticket_array) > 0 )
+                {
+                    foreach ($ticket_array as $date_key => $date_array) {
+                        $selected_date = $date_key ; 
+                        if(count($date_array) > 0)
+                        {
+                            foreach ($date_array as $time_slot_id_key => $value_quantity) {
+                                
+                                for ($i = 1; $i <= $value_quantity; $i++) {
+                                    $child['ticket_number'] = uniqid();
+                                    $child['ticket_id'] = $selected_ticket_id;
+                                    $child['order_id'] = $order->id;
+                                    $child['customer_id'] = Auth::guard('appuser')->user()->id;
+                                    $child['checkin'] = $ticket->maximum_checkins ?? null;
+                                    $child['time_slot_id'] = $time_slot_id_key;
+                                    $child['event_book_date'] = $selected_date;
+                                    $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
+                                    OrderChild::create($child);
+                                }
+                            }
+                        }
+                    }
+                }
+            }*/
+
         // for new design 
         if ($request->ids) {
             $ticketIdsString = $request->ids;
@@ -1409,24 +1440,9 @@ class FrontendController extends Controller
     public function createOrder(Request $request)
     {
 
+
+
         $data = $request->all();
-
-
-
-        /*if($request->payment_type =="TABBY"  )
-        {
-            
-            $tabby = new Tabby();
-           
-            $payment = $tabby->makeCurlCall($data);
-            
-            $response['url'] = $payment ; 
-            $response['type'] = "Tabby" ; 
-            $response['status'] = 201 ; 
-            return response()->json($response);
-        }
-        */
-
 
         if ($request->payment_type == "TAMARA") {
 
@@ -1457,6 +1473,9 @@ class FrontendController extends Controller
             }
         }
         $event = Event::find($ticket->event_id);
+
+
+
 
         $org = User::find($event->user_id);
         $user = AppUser::find(Auth::guard('appuser')->user()->id);
@@ -1517,7 +1536,73 @@ class FrontendController extends Controller
             }
         }
 
-        for ($i = 1; $i <= $request->quantity; $i++) {
+         // multiple ticket 
+        if($event->is_repeat == 0)
+        {
+            /*$ticketIdsString = $request->ticket_ids; 
+            $quantitiesString = $request->ticket_quantities; */
+            $ticketIdsString =  "99,98"; 
+            $quantitiesString = "2,0";
+            // Convert the comma-separated strings into arrays
+            $ticketIds = explode(',', $ticketIdsString);
+            $quantities = explode(',', $quantitiesString);
+
+            // Check if both arrays have the same length
+            if (count($ticketIds) !== count($quantities)) {
+                // Handle the case where arrays do not match in length
+                return response()->json(['error' => 'Mismatch between ticket IDs and quantities.'], 400);
+            }   
+
+            // Pair the ticket IDs with their quantities
+            $tickets = array_map(function ($ticketId, $quantity) {
+                return [
+                    'ticket_id' => (int) $ticketId,  // Casting to int if necessary
+                    'quantity' => (int) $quantity,  // Casting to int if necessary
+                ];
+            }, $ticketIds, $quantities);
+
+            foreach ($tickets as $key => $ticket_array) {
+                $ticekt = Ticket::find($ticket_array['ticket_id']);
+                for ($i = 1; $i <= $ticket_array['quantity']; $i++) {
+                    $child['ticket_number'] = uniqid();
+                    $child['ticket_id'] = $ticket_array['ticket_id'];
+                    $child['order_id'] = $order->id;
+                    $child['customer_id'] = Auth::guard('appuser')->user()->id;
+                    $child['checkin'] = $ticket->maximum_checkins ?? null;
+                    $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
+                    OrderChild::create($child);
+                }
+            }
+
+            
+        }
+        // multiple ticket 
+
+        // reperat ticket 
+        else
+        {
+            /*ticket_id =  [date = { time_slot : quantity  }]*/
+            $request_ticket_array["101"] = [ "2024-10-03" => [ "4" => 1 , "5" => 2 ] ]; 
+            foreach ($request_ticket_array as $key => $ticket_array) {
+                $ticekt = Ticket::find($ticket_array['ticket_id']);
+                for ($i = 1; $i <= $ticket_array['quantity']; $i++) {
+                    $child['ticket_number'] = uniqid();
+                    $child['ticket_id'] = $ticket_array['ticket_id'];
+                    $child['order_id'] = $order->id;
+                    $child['customer_id'] = Auth::guard('appuser')->user()->id;
+                    $child['checkin'] = $ticket->maximum_checkins ?? null;
+                    $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
+                    OrderChild::create($child);
+                }
+            }
+
+                                                    
+
+            
+        }
+        // reperat ticket 
+
+        /*for ($i = 1; $i <= $request->quantity; $i++) {
             $child['ticket_number'] = uniqid();
             $child['ticket_id'] = $request->ticket_id;
             $child['order_id'] = $order->id;
@@ -1525,7 +1610,7 @@ class FrontendController extends Controller
             $child['checkin'] = $ticket->maximum_checkins ?? null;
             $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
             OrderChild::create($child);
-        }
+        }*/
         if (isset($request->tax_data)) {
             foreach (json_decode($data['tax_data']) as $value) {
                 $tax['order_id'] = $order->id;
@@ -2833,16 +2918,17 @@ class FrontendController extends Controller
     }
     public function searchEvent(Request $request)
     {
+            
         $search = $request->search ?? '';
         if ($search == '') {
             return redirect()->back();
         }
         $timezone = Setting::find(1)->timezone;
         $date = Carbon::now($timezone);
-        $events  = Event::with(['category:id,name'])
-            ->where([['address', 'LIKE', "%$search%"], ['status', 1], ['is_deleted', 0], ['event_status', 'Pending'], ['end_time', '>', $date->format('Y-m-d')]])
-            ->orWhere([['name', 'LIKE', "%$search%"], ['status', 1], ['is_deleted', 0], ['event_status', 'Pending'], ['end_time', '>', $date->format('Y-m-d')]])
-            ->orWhere([['description', 'LIKE', "%$search%"], ['status', 1], ['is_deleted', 0], ['event_status', 'Pending'], ['end_time', '>', $date->format('Y-m-d')]]);
+        $events  = Event::with(['category:id,name'])->where('is_deleted',0)
+            ->where([['address', 'LIKE', "%$search%"], ['status', 1], ['is_deleted', 0], ['event_status', 'Pending'], ['end_time', '>', $date->format('Y-m-d')]])->where('is_deleted',0)
+            ->orWhere([['name', 'LIKE', "%$search%"], ['status', 1], ['is_deleted', 0], ['event_status', 'Pending'], ['end_time', '>', $date->format('Y-m-d')]])->where('is_deleted',0)
+            ->orWhere([['description', 'LIKE', "%$search%"], ['status', 1], ['is_deleted', 0], ['event_status', 'Pending'], ['end_time', '>', $date->format('Y-m-d')]])->where('is_deleted',0);
         $chip = array();
         if ($request->has('type') && $request->type != null) {
             $chip['type'] = $request->type;
@@ -2872,7 +2958,7 @@ class FrontendController extends Controller
                 }
             }
         }
-        $events = $events->orderBy('start_time', 'ASC')->get();
+        $events = $events->where('is_deleted',0)->orderBy('start_time', 'ASC')->get();
         foreach ($events as $value) {
             $value->total_ticket = Ticket::where([['event_id', $value->id], ['is_deleted', 0], ['status', 1]])->sum('quantity');
             $value->sold_ticket = Order::where('event_id', $value->id)->sum('quantity');
@@ -3691,5 +3777,75 @@ class FrontendController extends Controller
         $array['rate'] = $rate; 
         return response()->json($array);
         // return view('front.eventDetail', compact('currency', 'data', 'images', 'tags', 'appUser', 'rate', 'ticket_detail'));
+    }
+
+    public function webUserLogin ( Request $request )
+    {
+        $username = $request->user_name ; 
+       
+        $user = AppUser::where('email',$request->user_name)->where('status',1)->where('is_delete',1)->first();
+        if(!is_null($user))
+        {
+            $user = AppUser::where('phone',$request->user_name)->where('status',1)->where('is_delete',1)->first();
+        }
+
+        if($user)
+        {
+            $otp = rand(100000, 999999);
+
+            $to = str_replace('+', '', $user->phone);
+            $message = "Your phone verification code is $otp for $setting->app_name.";
+            if (true) {
+
+                try {
+                    $curl = curl_init();
+
+                    curl_setopt_array($curl, array(
+                        CURLOPT_URL => 'https://api.taqnyat.sa/v1/messages',
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                        CURLOPT_POSTFIELDS => '{
+                    "recipients": [
+                       ' . $to . '
+                    ],
+                    "body":' . $message . ',
+                    "sender":"TICKETBY"
+                }',
+                        CURLOPT_HTTPHEADER => array(
+                            'Content-Type: application/json',
+                            'Authorization: Bearer 17bcd048f6bad60a6812030bd1c1c5c2'
+                        ),
+                    ));
+
+                    $response = curl_exec($curl);
+
+                    curl_close($curl);
+                    $responseData = json_decode($response, true);
+                } catch (\Throwable $th) {
+                    Log::info("thaqniyat error");
+                    Log::info($th->getMessage());
+                }
+
+                $user = AppUser::find($user->id);
+                $dataemail['name'] = $user->name;
+                $dataemail['email'] = $user->email;
+                $dataemail['otp'] = $otp;
+
+                $data = array('name' => "TicketBy", 'email' => 'hivasavada@gmail.com', "otp" => $otp);
+                Mail::send(['html' => 'frontend.email.otp'], $data, function ($message) use ($data) {
+                    $message->to($dataemail['email'])->subject('OTP Verification');
+                    $message->from('ticketbyksa@gmail.com', 'TicketBy');
+                });
+                $user->otp = $otp;
+                $user->update();
+            }    
+        }
+
+        return response()->json("OTP sent ");
     }
 }

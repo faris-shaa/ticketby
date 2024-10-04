@@ -22,6 +22,9 @@ Route::get('/order-mail-sendar', [FrontendController::class, 'ordarMailSender'])
 Route::get('/create-order', [FrontendController::class, 'createOrderTickets']);
 
 Route::any('/get-apple-pay-session', [FrontendController::class, 'getApplePaySession']);
+
+Route::post('/web/login', [FrontendController::class, 'webUserLogin']);
+
 Route::group(['middleware' => ['mode', 'XSS']], function () {
 
 

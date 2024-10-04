@@ -42,6 +42,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Banner;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use stdClass ;
+use Illuminate\Support\Str;
+
 
 class ApiController extends Controller
 {
@@ -1629,7 +1632,7 @@ class ApiController extends Controller
         {
             $firstQuery = DB::table('events')->where([['status', 1], ['is_deleted', 0]])
             ->select('id', 'name', 'address',DB::raw("'event' as type") )->where('name', 'like', '%' . $request->search . '%')
-        ->orWhere('address', 'like', '%' . $request->search  . '%'); // Adjust the selected columns as needed
+        ->orWhere('address', 'like', '%' . $request->search  . '%')->where('is_deleted',0); // Adjust the selected columns as needed
 
             $secondQuery = DB::table('users')
                 ->select('id', DB::raw('CONCAT(last_name, " ", first_name) AS name'),DB::raw('NULL as address'),DB::raw("'user' as type"))->where('first_name', 'like', '%' . $request->search . '%')->orWhere('last_name', 'like', '%' . $request->search  . '%'); // Ensure the columns match in order and type
@@ -1712,6 +1715,151 @@ class ApiController extends Controller
             }
         }
         return response()->json(['success' => true, 'msg' => null, 'data' => $data], 200);
+    }
+
+    public function searchEventWeb(Request $request)
+    {
+
+        // if search name 
+        if(isset($request->search))
+        {
+            $firstQuery = DB::table('events')->where([['status', 1], ['is_deleted', 0]])
+            ->select('id', 'name', 'address',DB::raw("'event' as type") )->where('name', 'like', '%' . $request->search . '%')->whereDate('start_time','>=',Carbon::now())->where('is_deleted',0); // Adjust the selected columns as needed
+
+      
+
+            $combinedResults = $firstQuery
+               
+                ->get();
+                $data = array();
+                foreach ($combinedResults as $key => $combinedResult) {
+                   
+                        $combinedResult->details = Event::find($combinedResult->id);
+                        $combinedResult->slug = Str::slug($combinedResult->name);
+                    
+                }
+            return response()->json($combinedResults);
+            }
+        
+
+        // if search name ends 
+        $timezone = Setting::find(1)->timezone;
+        $date = Carbon::now($timezone);
+        $data = Event::where([['status', 1], ['is_deleted', 0], ['end_time', '>', $date->format('Y-m-d H:i:s')]]);
+
+        if ($request->lat != null && $request->lang != null) {
+           
+            $lat = $request->lat;
+            $lang = $request->lang;
+            $event = array();
+            $radius = 250;
+            $results = DB::select(DB::raw('SELECT id,name, ( 3959 * acos( cos( radians(' . $lat . ') ) * cos( radians( lat ) ) * cos( radians( lang ) - radians(' . $lang . ') ) + sin( radians(' . $lat . ') ) * sin( radians(lat) ) ) ) AS distance FROM events HAVING distance < ' . $radius . '  ORDER BY distance'));
+            if (count($results) > 0) {
+                foreach ($results as $q) {
+                    array_push($event, $q->id);
+                }
+            }
+            $data = $data->whereIn('id', $event);
+        }
+        if (isset($request->category_id)) {
+            
+            $data = $data->where([['category_id', $request->category_id]]);
+        }
+
+        if (isset($request->date) && $request->date != "All") {
+          
+
+            if ($request->date == "Today") {
+                $start_date = Carbon::now()->format('Y-m-d') . ' 00:00:00';
+                $end_date = Carbon::now()->format('Y-m-d') . ' 23:59:59';
+            } elseif ($request->date == "Tommorow") {
+                $start_date = Carbon::now()->addDays(1)->format('Y-m-d') . ' 00:00:00';
+                $end_date = Carbon::now()->addDays(1)->format('Y-m-d') . ' 23:59:59';
+            } elseif ($request->date == "This Week") {
+                $start_date = Carbon::now()->modify('this week')->format('Y-m-d') . ' 00:00:00';
+                $end_date = Carbon::now()->modify('this week +6 days')->format('Y-m-d') . ' 23:59:59';
+            } elseif ($request->date == "This Weekend") {
+                $start_date = Carbon::now()->endOfWeek()->subDays(2)->format('Y-m-d') . ' 00:00:00';
+                $end_date = Carbon::now()->endOfWeek()->format('Y-m-d') . ' 23:59:59';
+            } else {
+                $start_date = carbon::parse($request->date)->format('Y-m-d') . ' 00:00:00';
+                $end_date = carbon::parse($request->date)->format('Y-m-d') . ' 23:59:59';
+            }
+            $data = $data->durationData($start_date, $end_date);
+        }
+       
+        if(isset($request->limit))
+        {
+            $data = $data->limit($request->limit);
+        }
+        if(isset($request->sort))
+        {
+            $data = $data->orderBy('lowest_price',$request->sort);
+        }
+        $data = $data->get();
+        foreach ($data as $value) {
+            $value->description =  str_replace("&nbsp;", " ", strip_tags($value->description));
+            $value->time = $value->start_time->format('d F Y h:i a');
+            if (Auth::guard('userApi')->check()) {
+                if (in_array($value->id, array_filter(explode(',', Auth::guard('userApi')->user()->favorite)))) {
+                    $value->isLike = true;
+                } else {
+                    $value->isLike = false;
+                }
+            } else {
+                $value->isLike = false;
+            }
+        }
+        return response()->json(['success' => true, 'msg' => null, 'data' => $data], 200);
+    }
+
+    public function perviousEvent ( Request $request)
+    {
+        $data = Event::where([['status', 1], ['is_deleted', 0], ['start_time', '<=', Carbon::now()->format('Y-m-d')]]);
+
+         if(isset($request->limit))
+        {
+            $data = $data->limit($request->limit);
+        }
+
+        $data = $data->get();
+
+        return response()->json(['success' => true, 'msg' => null, 'data' => $data], 200);
+    } 
+
+    public function getTimeSlots ( Request $request ) 
+    {
+        if(!isset($request->ticket_id))
+        {
+            return response()->json("ticket id missing");
+        }
+        if(!isset($request->date))
+        {
+            return response()->json("date missing");
+        }
+
+        $ticket_id = $request->ticket_id;
+         $ticket_array = array();
+        if(is_array($request->date))
+        {
+           
+            $time_slots = EventTime::where('ticket_id',$request->ticket_id)->get();
+            $ticket = Ticket::where('event_id',$request->ticket_id)->first();
+            foreach ($request->date as $key => $date) {
+                $tickets = Ticket::where('event_id',$request->ticket_id)->get();
+                
+                foreach ($time_slots as $key1 => $value_slot) {
+                    $slot_obj = new stdClass; 
+                    $slot_obj->available_quanity =  $ticket->quantity - Order::where('ticket_id',$ticket->id)->where('time_slot_id',$value_slot->id)->where('event_book_date',$date)->sum('quantity');  
+                    $slot_obj->time_slot_id =  $value_slot->id;
+                    $slot_obj->start_time = $value_slot->start_time;
+                    $slot_obj->end_time = $value_slot->end_time;
+                    $slot_obj->date = $date;
+                    $ticket_array[] = $slot_obj;
+                }
+            }
+        }
+        return response()->json(['success' => true, 'msg' => null, 'data' => $ticket_array], 200);
     }
 
     public function changePassword(Request $request)
@@ -2034,6 +2182,87 @@ class ApiController extends Controller
         $data['data'] = $event_time ;
         return $data  ;
     }
+    public function webUserLogin ( Request $request )
+    {
+        $username = $request->user_name ; 
+       
+        $user = AppUser::where('email',$request->user_name)->where('status',1)->first();
+        if(!is_null($user))
+        {
+            $user = AppUser::where('phone',$request->user_name)->where('status',1)->first();
+        }
+
+        if($user)
+        {
+            $otp = rand(100000, 999999);
+
+            $to = str_replace('+', '', $user->phone);
+            $message = "Your phone verification code is $otp for $setting->app_name.";
+            $user = AppUser::find($user->id);
+            $dataemail['name'] = $user->name;
+            $dataemail['email'] = $user->email;
+            $dataemail['otp'] = $otp;
+
+            $data = array('name' => "TicketBy", 'email' => 'hivasavada@gmail.com', "otp" => $otp);
+            Mail::send(['html' => 'frontend.email.otp'], $data, function ($message) use ($data) {
+                $message->to($dataemail['email'])->subject('OTP Verification');
+                $message->from('ticketbyksa@gmail.com', 'TicketBy');
+            });
+            if (true) {
+
+                $user = AppUser::find($user->id);
+                $dataemail['name'] = $user->name;
+                $dataemail['email'] = $user->email;
+                $dataemail['otp'] = $otp;
+
+                $data = array('name' => "TicketBy", 'email' => 'hivasavada@gmail.com', "otp" => $otp);
+                Mail::send(['html' => 'frontend.email.otp'], $data, function ($message) use ($data) {
+                    $message->to($dataemail['email'])->subject('OTP Verification');
+                    $message->from('ticketbyksa@gmail.com', 'TicketBy');
+                });
+                $user->otp = $otp;
+                $user->update();
+                try {
+                    $curl = curl_init();
+
+                    curl_setopt_array($curl, array(
+                        CURLOPT_URL => 'https://api.taqnyat.sa/v1/messages',
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                        CURLOPT_POSTFIELDS => '{
+                    "recipients": [
+                       ' . $to . '
+                    ],
+                    "body":' . $message . ',
+                    "sender":"TICKETBY"
+                }',
+                        CURLOPT_HTTPHEADER => array(
+                            'Content-Type: application/json',
+                            'Authorization: Bearer 17bcd048f6bad60a6812030bd1c1c5c2'
+                        ),
+                    ));
+
+                    $response = curl_exec($curl);
+
+                    curl_close($curl);
+                    $responseData = json_decode($response, true);
+                } catch (\Throwable $th) {
+                    Log::info("thaqniyat error");
+                    Log::info($th->getMessage());
+                }
+
+                
+            }    
+        }
+
+        return response()->json("OTP sent ");
+    }
+
 
    
 }
