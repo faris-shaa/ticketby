@@ -1511,7 +1511,7 @@ class OrderController extends Controller
             }    
         }
 
-        return response()->json("OTP sent ");
+         return response()->json(['msg' => 'Otp sent', 'data' => $user, 'success' => true], 200);
     }
      public function webUserApp ( Request $request )
     {

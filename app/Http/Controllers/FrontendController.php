@@ -1581,22 +1581,37 @@ class FrontendController extends Controller
         // reperat ticket 
         else
         {
-            /*ticket_id =  [date = { time_slot : quantity  }]*/
-            $request_ticket_array["101"] = [ "2024-10-03" => [ "4" => 1 , "5" => 2 ] ]; 
+           // format to send data 
+            // $request_ticket_array[ticket_id] = [ "date" => [ "time_slot_id" => quantity , "time_slot_id" => quantity ] ]; 
+           //  $request_ticket_array["101"] = [ "2024-10-03" => [ "4" => 1 , "5" => 2 ] ]; 
+            $request_ticket_array  = $request->ticket_data ;
             foreach ($request_ticket_array as $key => $ticket_array) {
-                $ticekt = Ticket::find($ticket_array['ticket_id']);
-                for ($i = 1; $i <= $ticket_array['quantity']; $i++) {
-                    $child['ticket_number'] = uniqid();
-                    $child['ticket_id'] = $ticket_array['ticket_id'];
-                    $child['order_id'] = $order->id;
-                    $child['customer_id'] = Auth::guard('appuser')->user()->id;
-                    $child['checkin'] = $ticket->maximum_checkins ?? null;
-                    $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
-                    OrderChild::create($child);
+                $ticekt = Ticket::find($key);
+                $selected_ticket_id = $key ; 
+                if(count($ticket_array) > 0 )
+                {
+                    foreach ($ticket_array as $date_key => $date_array) {
+                        $selected_date = $date_key ; 
+                        if(count($date_array) > 0)
+                        {
+                            foreach ($date_array as $time_slot_id_key => $value_quantity) {
+                                
+                                for ($i = 1; $i <= $value_quantity; $i++) {
+                                    $child['ticket_number'] = uniqid();
+                                    $child['ticket_id'] = $selected_ticket_id;
+                                    $child['order_id'] = $order->id;
+                                    $child['customer_id'] = Auth::guard('appuser')->user()->id;
+                                    $child['checkin'] = $ticket->maximum_checkins ?? null;
+                                    $child['time_slot_id'] = $time_slot_id_key;
+                                    $child['event_book_date'] = $selected_date;
+                                    $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
+                                    OrderChild::create($child);
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-
-                                                    
+            }                                  
 
             
         }

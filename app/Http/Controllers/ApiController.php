@@ -1721,10 +1721,9 @@ class ApiController extends Controller
     {
 
         // if search name 
-        if(isset($request->search))
+         if(isset($request->search))
         {
-            $firstQuery = DB::table('events')->where([['status', 1], ['is_deleted', 0]])
-            ->select('id', 'name', 'address',DB::raw("'event' as type") )->where('name', 'like', '%' . $request->search . '%')->whereDate('start_time','>=',Carbon::now())->where('is_deleted',0); // Adjust the selected columns as needed
+            $firstQuery = Event::where([['status', 1], ['is_deleted', 0]])->where('name', 'like', '%' . $request->search . '%')->whereDate('start_time','>=',Carbon::now())->where('is_deleted',0); // Adjust the selected columns as needed
 
       
 
@@ -1734,11 +1733,12 @@ class ApiController extends Controller
                 $data = array();
                 foreach ($combinedResults as $key => $combinedResult) {
                    
-                        $combinedResult->details = Event::find($combinedResult->id);
+                       // $combinedResult->details = Event::find($combinedResult->id);
                         $combinedResult->slug = Str::slug($combinedResult->name);
                     
                 }
-            return response()->json($combinedResults);
+                return response()->json(['success' => true, 'msg' => null, 'data' => $combinedResults], 200);
+            //return response()->json($combinedResults);
             }
         
 
@@ -1800,6 +1800,7 @@ class ApiController extends Controller
         foreach ($data as $value) {
             $value->description =  str_replace("&nbsp;", " ", strip_tags($value->description));
             $value->time = $value->start_time->format('d F Y h:i a');
+             $value->slug = Str::slug($value->name);
             if (Auth::guard('userApi')->check()) {
                 if (in_array($value->id, array_filter(explode(',', Auth::guard('userApi')->user()->favorite)))) {
                     $value->isLike = true;
@@ -2260,7 +2261,7 @@ class ApiController extends Controller
             }    
         }
 
-        return response()->json("OTP sent ");
+        return response()->json(['msg' => 'Otp sent', 'data' => $user, 'success' => true], 200);
     }
 
 
