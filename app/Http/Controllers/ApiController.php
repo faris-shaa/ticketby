@@ -1745,8 +1745,10 @@ class ApiController extends Controller
         // if search name ends 
         $timezone = Setting::find(1)->timezone;
         $date = Carbon::now($timezone);
-        $data = Event::where([['status', 1], ['is_deleted', 0], ['start_time', '>=', $date->format('Y-m-d')]]);
+        $data = Event::where([['status', 1], ['is_deleted', 0], ['end_time', '>', $date->format('Y-m-d H:i:s')]]);
+
         if ($request->lat != null && $request->lang != null) {
+           
             $lat = $request->lat;
             $lang = $request->lang;
             $event = array();
@@ -1759,11 +1761,13 @@ class ApiController extends Controller
             }
             $data = $data->whereIn('id', $event);
         }
-        if ($request->category != "All") {
-            $data = $data->where([['category_id', $request->category]]);
+        if (isset($request->category_id)) {
+            
+            $data = $data->where([['category_id', $request->category_id]]);
         }
 
         if (isset($request->date) && $request->date != "All") {
+          
 
             if ($request->date == "Today") {
                 $start_date = Carbon::now()->format('Y-m-d') . ' 00:00:00';
@@ -1783,6 +1787,7 @@ class ApiController extends Controller
             }
             $data = $data->durationData($start_date, $end_date);
         }
+       
         if(isset($request->limit))
         {
             $data = $data->limit($request->limit);

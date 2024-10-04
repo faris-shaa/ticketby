@@ -1130,6 +1130,37 @@ class FrontendController extends Controller
 
     public function checkout(Request $request, $id)
     {
+
+        /*ticket_id =  [date = { time_slot : quantity  }]*/
+            /*$request_ticket_array["101"] = [ "2024-10-03" => [ "4" => 1 , "5" => 2 ] ]; 
+            foreach ($request_ticket_array as $key => $ticket_array) {
+                $ticekt = Ticket::find($key);
+                $selected_ticket_id = $key ; 
+                if(count($ticket_array) > 0 )
+                {
+                    foreach ($ticket_array as $date_key => $date_array) {
+                        $selected_date = $date_key ; 
+                        if(count($date_array) > 0)
+                        {
+                            foreach ($date_array as $time_slot_id_key => $value_quantity) {
+                                
+                                for ($i = 1; $i <= $value_quantity; $i++) {
+                                    $child['ticket_number'] = uniqid();
+                                    $child['ticket_id'] = $selected_ticket_id;
+                                    $child['order_id'] = $order->id;
+                                    $child['customer_id'] = Auth::guard('appuser')->user()->id;
+                                    $child['checkin'] = $ticket->maximum_checkins ?? null;
+                                    $child['time_slot_id'] = $time_slot_id_key;
+                                    $child['event_book_date'] = $selected_date;
+                                    $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
+                                    OrderChild::create($child);
+                                }
+                            }
+                        }
+                    }
+                }
+            }*/
+
         // for new design 
         if ($request->ids) {
             $ticketIdsString = $request->ids;
@@ -1409,24 +1440,9 @@ class FrontendController extends Controller
     public function createOrder(Request $request)
     {
 
+
+
         $data = $request->all();
-
-
-
-        /*if($request->payment_type =="TABBY"  )
-        {
-            
-            $tabby = new Tabby();
-           
-            $payment = $tabby->makeCurlCall($data);
-            
-            $response['url'] = $payment ; 
-            $response['type'] = "Tabby" ; 
-            $response['status'] = 201 ; 
-            return response()->json($response);
-        }
-        */
-
 
         if ($request->payment_type == "TAMARA") {
 
@@ -1457,6 +1473,9 @@ class FrontendController extends Controller
             }
         }
         $event = Event::find($ticket->event_id);
+
+
+
 
         $org = User::find($event->user_id);
         $user = AppUser::find(Auth::guard('appuser')->user()->id);
@@ -1517,7 +1536,73 @@ class FrontendController extends Controller
             }
         }
 
-        for ($i = 1; $i <= $request->quantity; $i++) {
+         // multiple ticket 
+        if($event->is_repeat == 0)
+        {
+            /*$ticketIdsString = $request->ticket_ids; 
+            $quantitiesString = $request->ticket_quantities; */
+            $ticketIdsString =  "99,98"; 
+            $quantitiesString = "2,0";
+            // Convert the comma-separated strings into arrays
+            $ticketIds = explode(',', $ticketIdsString);
+            $quantities = explode(',', $quantitiesString);
+
+            // Check if both arrays have the same length
+            if (count($ticketIds) !== count($quantities)) {
+                // Handle the case where arrays do not match in length
+                return response()->json(['error' => 'Mismatch between ticket IDs and quantities.'], 400);
+            }   
+
+            // Pair the ticket IDs with their quantities
+            $tickets = array_map(function ($ticketId, $quantity) {
+                return [
+                    'ticket_id' => (int) $ticketId,  // Casting to int if necessary
+                    'quantity' => (int) $quantity,  // Casting to int if necessary
+                ];
+            }, $ticketIds, $quantities);
+
+            foreach ($tickets as $key => $ticket_array) {
+                $ticekt = Ticket::find($ticket_array['ticket_id']);
+                for ($i = 1; $i <= $ticket_array['quantity']; $i++) {
+                    $child['ticket_number'] = uniqid();
+                    $child['ticket_id'] = $ticket_array['ticket_id'];
+                    $child['order_id'] = $order->id;
+                    $child['customer_id'] = Auth::guard('appuser')->user()->id;
+                    $child['checkin'] = $ticket->maximum_checkins ?? null;
+                    $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
+                    OrderChild::create($child);
+                }
+            }
+
+            
+        }
+        // multiple ticket 
+
+        // reperat ticket 
+        else
+        {
+            /*ticket_id =  [date = { time_slot : quantity  }]*/
+            $request_ticket_array["101"] = [ "2024-10-03" => [ "4" => 1 , "5" => 2 ] ]; 
+            foreach ($request_ticket_array as $key => $ticket_array) {
+                $ticekt = Ticket::find($ticket_array['ticket_id']);
+                for ($i = 1; $i <= $ticket_array['quantity']; $i++) {
+                    $child['ticket_number'] = uniqid();
+                    $child['ticket_id'] = $ticket_array['ticket_id'];
+                    $child['order_id'] = $order->id;
+                    $child['customer_id'] = Auth::guard('appuser')->user()->id;
+                    $child['checkin'] = $ticket->maximum_checkins ?? null;
+                    $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
+                    OrderChild::create($child);
+                }
+            }
+
+                                                    
+
+            
+        }
+        // reperat ticket 
+
+        /*for ($i = 1; $i <= $request->quantity; $i++) {
             $child['ticket_number'] = uniqid();
             $child['ticket_id'] = $request->ticket_id;
             $child['order_id'] = $order->id;
@@ -1525,7 +1610,7 @@ class FrontendController extends Controller
             $child['checkin'] = $ticket->maximum_checkins ?? null;
             $child['paid'] = $request->payment_type == 'LOCAL' ? 0 : 1;
             OrderChild::create($child);
-        }
+        }*/
         if (isset($request->tax_data)) {
             foreach (json_decode($data['tax_data']) as $value) {
                 $tax['order_id'] = $order->id;

@@ -1595,7 +1595,7 @@ class OrderController extends Controller
                 
             }    
         }
-
-        return response()->json("OTP sent ");
+        return response()->json(['msg' => 'OTP sent', 'success' => true], 200);
+        
     }
 }
