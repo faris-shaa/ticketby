@@ -1723,9 +1723,8 @@ class ApiController extends Controller
         // if search name 
          if(isset($request->search))
         {
-            $firstQuery = Event::where([['status', 1], ['is_deleted', 0]])->where('name', 'like', '%' . $request->search . '%')->whereDate('start_time','>=',Carbon::now())->where('is_deleted',0); // Adjust the selected columns as needed
-
-      
+            $firstQuery = Event::where([['status', 1], ['is_deleted', 0]])->where('name', 'like', '%' . $request->search . '%')->whereDate('end_time', '>',Carbon::now())->where('is_deleted',0); 
+            // Adjust the selected columns as needed
 
             $combinedResults = $firstQuery
                
