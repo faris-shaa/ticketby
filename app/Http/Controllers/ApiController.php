@@ -1856,6 +1856,7 @@ class ApiController extends Controller
                     $slot_obj->start_time = $value_slot->start_time;
                     $slot_obj->end_time = $value_slot->end_time;
                     $slot_obj->date = $date;
+                    $slot_obj->price = $ticket->price;
                     $ticket_array[] = $slot_obj;
                 }
             }
