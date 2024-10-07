@@ -1449,7 +1449,7 @@ class OrderController extends Controller
         
         if($user)
         {
-            $otp = rand(100000, 999999);
+            $otp = rand(1000, 9999);
 
             $to = str_replace('+', '', $user->phone);
             $message = "Your phone verification code is $otp for $setting->app_name.";
@@ -1520,7 +1520,7 @@ class OrderController extends Controller
         $user = AppUser::where('email',$request->user_name)->where('status',1)->first();
         if(!is_null($user))
         {
-             return response()->json(['msg' => 'email is entered', 'success' => false], 400);
+             return response()->json(['msg' => 'email is entered', 'success' => false], 200);
         }
         if(is_null($user))
         {
@@ -1528,13 +1528,13 @@ class OrderController extends Controller
         }
         if(is_null($user))
         {
-            return response()->json(['msg' => 'invalid user', 'success' => false], 400);
+            return response()->json(['msg' => 'invalid user', 'success' => false], 200);
             
         }
         
         if($user)
         {
-            $otp = rand(100000, 999999);
+            $otp = rand(1000, 9999);
 
             $to = str_replace('+', '', $user->phone);
             $message = "Your phone verification code is $otp for $setting->app_name.";
@@ -1595,7 +1595,7 @@ class OrderController extends Controller
                 
             }    
         }
-        return response()->json(['msg' => 'OTP sent', 'success' => true], 200);
+        return response()->json(['msg' => 'OTP sent', 'data' =>$user , 'success' => true], 200);
         
     }
 }

@@ -2265,5 +2265,26 @@ class ApiController extends Controller
     }
 
 
-   
+   public function loginVerifyOtp ( Request $request ) 
+   {
+
+     $request->validate([
+            'id' => 'required',
+            'otp' => 'required',
+        ]);
+        $user = AppUser::where('id',$request->id)->first();
+        
+        
+        if ($user->otp == $request->otp) {
+            $user->otp = null;
+            $user->device_token = $request->device_token ?? null;
+            $user->update();
+            Auth::guard('appuser')->login($user);
+            $user = Auth::guard('appuser')->user();
+            $user['token'] = $user->createToken('eventRight')->accessToken;
+            return response()->json(['msg' => 'OTP verify successfully', 'data' => $user, 'success' => true], 200);
+        } else {
+            return response()->json(['msg' => 'Wrong OTP. Please try again.', 'success' => false]);
+        }
+   }
 }

@@ -49,6 +49,15 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
+                                            <label>{{ __('Short Description') }}</label>
+                                            <input type="text" name="short_description" placeholder="{{ __('Short Description') }}"
+                                                value="{{ $banner->short_description }}"
+                                                class="form-control @error('short_description')? is-invalid @enderror">
+                                            @error('short_description')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label>{{ __('Events') }}</label>
                                             <select name="event_id" class="form-control select2 @error('event_id')? is-invalid @enderror">
                                                 <option value="" disabled selected>{{ __('Select Event') }}</option>

@@ -13,6 +13,7 @@ class Banner extends Model
         'image',
         'status',
         'event_id',
+        'short_description'
     ];
 
     protected $table = 'banner';

@@ -49,6 +49,7 @@ Route::post('/user/ticket-detail-multiple', [ApiController::class, 'ticketDetail
 
 
 //Route::post('/user/forget-password', [ApiController::class, 'forgetPassword']);
+Route::post('/login/verify/otp', [ApiController::class, 'loginVerifyOtp']);
 Route::get('/user/setting', [ApiController::class, 'allSetting']);
 Route::post('/user/events', [ApiController::class, 'events']);
 Route::get('/city', [ApiController::class, 'cityList']);
