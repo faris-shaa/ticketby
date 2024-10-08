@@ -62,6 +62,8 @@ Route::group(['middleware' => ['mode', 'XSS']], function () {
         Route::post('/otp-verify', [FrontendController::class, 'otpVerify']);
         Route::get('login', [FrontendController::class, 'login'])->name('user.login');
         Route::post('/login', [FrontendController::class, 'userLogin']);
+        Route::post('/login/verify/otp', [FrontendController::class, 'loginVerifyOtp']);
+        
         Route::get('/resetPassword', [FrontendController::class, 'resetPassword']);
         Route::post('/resetPassword', [FrontendController::class, 'userResetPassword']);
         Route::get('/org-register', [FrontendController::class, 'orgRegister']);
@@ -112,7 +114,7 @@ Route::group(['middleware' => ['mode', 'XSS']], function () {
             Route::get('/change-password', [FrontendController::class, 'changePassword']);
             Route::post('/user-change-password', [FrontendController::class, 'changeUserPassword']);
             Route::post('/upload-profile-image', [FrontendController::class, 'uploadProfileImage']);
-            Route::get('/my-tickets', [FrontendController::class, 'userTickets'])->name('myTickets');
+            Route::get('/user/profile2', [FrontendController::class, 'userTickets'])->name('myTickets');
             Route::get('/my-ticket/{id}', [FrontendController::class, 'userOrderTicket']);
 
             Route::get('/update_profile', [FrontendController::class, 'update_profile']);

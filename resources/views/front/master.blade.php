@@ -1,5 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+@php
+if (session('direction') == 'rtl') {
+$lang = 'ar';
+}else{
+$lang = 'en';
+}
+@endphp
+
+
+<html lang={{$lang}}>
 
 <head>
     <!-- Google Tag Manager -->
@@ -20,6 +29,7 @@
         })(window, document, 'script', 'dataLayer', 'GTM-5R6SN5SW');
     </script>
     <!-- End Google Tag Manager -->
+
     @php
     $favicon = \App\Models\Setting::find(1)->favicon;
     @endphp
@@ -45,6 +55,10 @@
     <link href="{{ asset('frontAssets/css/output.css') }}" rel="stylesheet">
     <link href="{{ asset('frontAssets/css/custome.css') }}" rel="stylesheet">
     <!-- font -->
+    <!-- inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <!-- Bricolage Grotesque font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,7 +81,7 @@
     <link href="{{ url('frontend/css/ionicons.min.css') }}" rel="stylesheet">
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" /> -->
     <!-- <link href="{{ url('frontend/css/animate.min.css') }}" rel="stylesheet"> -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- <link href="{{ url('frontend/css/font-awesome.min.css') }}" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- <link href="{{ url('frontend/css/owl.carousel.min.css') }}" rel="stylesheet"> -->
@@ -115,7 +129,7 @@
     <!--  -->
 </head>
 
-<body>
+<body class="{{ $lang == 'ar' ? 'rtl' : '' }}">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5R6SN5SW"
             height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -128,50 +142,6 @@
     <div id="app">
 
 
-        <?php $primary_color = \App\Models\Setting::find(1)->primary_color; ?>
-
-        <style>
-            :root {
-                --primary_color: <?php echo $primary_color; ?>;
-                --light_primary_color: <?php echo $primary_color . '1a'; ?>;
-                --profile_primary_color: <?php echo $primary_color . '52'; ?>;
-                --middle_light_primary_color: <?php echo $primary_color . '85'; ?>;
-            }
-
-            .bg-primary {
-                --tw-bg-opacity: 1;
-                background-color: var(--primary_color);
-            }
-
-            .bg-primary-dark {
-                --tw-bg-opacity: 1;
-                background-color: var(--profile_primary_color);
-                /* Use the profile_primary_color variable */
-            }
-
-            .navbar-nav>.active>a {
-                color: var(--primary_color);
-            }
-
-            .text-primary {
-                --tw-text-opacity: 1;
-                color: var(--primary_color);
-            }
-
-            .border-primary {
-                --tw-border-opacity: 1;
-                border-color: var(--primary_color);
-            }
-
-            .carousel-indicators button[aria-current=true] {
-                background: var(--primary_color) !important;
-            }
-
-            .profile button[aria-selected=true] {
-                background: var(--primary_color) !important;
-                color: #FFFFFF !important;
-            }
-        </style>
 
         <input type="hidden" name="currency" id="currency" value="{{ $currency }}">
         <input type="hidden" name="default_lat" id="default_lat"

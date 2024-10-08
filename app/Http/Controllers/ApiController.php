@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 use App\Models\Banner;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use stdClass ;
@@ -1844,7 +1845,7 @@ class ApiController extends Controller
         {
            
             $time_slots = EventTime::where('ticket_id',$request->ticket_id)->get();
-            $ticket = Ticket::where('event_id',$request->ticket_id)->first();
+            $ticket = Ticket::where('id',$request->ticket_id)->first();
             foreach ($request->date as $key => $date) {
                 $tickets = Ticket::where('event_id',$request->ticket_id)->get();
                 
@@ -1856,6 +1857,7 @@ class ApiController extends Controller
                     $slot_obj->end_time = $value_slot->end_time;
                     $slot_obj->date = $date;
                     $slot_obj->price = $ticket->price;
+                    $slot_obj->ticket_id = $ticket->id;
                     $ticket_array[] = $slot_obj;
                 }
             }
@@ -2273,15 +2275,15 @@ class ApiController extends Controller
             'otp' => 'required',
         ]);
         $user = AppUser::where('id',$request->id)->first();
-        
-        
+       
         if ($user->otp == $request->otp) {
-            $user->otp = null;
+            //$user->otp = null;
             $user->device_token = $request->device_token ?? null;
             $user->update();
+            $user = AppUser::where('id',$request->id)->first();
             Auth::guard('appuser')->login($user);
-            $user = Auth::guard('appuser')->user();
-            $user['token'] = $user->createToken('eventRight')->accessToken;
+            Session::put("user_id",$request->id);
+            
             return response()->json(['msg' => 'OTP verify successfully', 'data' => $user, 'success' => true], 200);
         } else {
             return response()->json(['msg' => 'Wrong OTP. Please try again.', 'success' => false]);

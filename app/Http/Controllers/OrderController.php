@@ -1471,8 +1471,11 @@ class OrderController extends Controller
                     $message->to($data['email'])->subject('OTP Verification');
                     $message->from('ticketbyksa@gmail.com', 'TicketBy');
                 });
-                $user->otp = $otp;
-                $user->update();
+                AppUser::where('id',$user->id)->update(['otp'=>$otp]);
+                 $user = AppUser::find($user->id);
+                
+                /*$user->otp = $otp;
+                $user->save();*/
                 try {
                     $curl = curl_init();
 

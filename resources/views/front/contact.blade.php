@@ -23,8 +23,8 @@ $admin = \App\Models\User::find(1);
                     </defs>
                 </svg>
             </div>
-            <div class="font-medium mt-2 mb-1 text-h5 md:text-h3">Address</div>
-            <p class="text-gray_b5 text-h6 md:text-h5 text-center ">Northern Ring Rd, Al Wadi, Riyadh</p>
+            <div class="font-medium mt-2 mb-1 text-h5 md:text-h3"> {{__('Address')}}</div>
+            <p class="text-gray_b5 text-h6 md:text-h5 text-center "> {{__('Northern Ring Rd, Al Wadi, Riyadh')}}</p>
         </div>
         <div class="p-1 md:p-3 xl:p-4 bg-light bg-opacity-5  border border-primary_color_o10_1 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl">
             <div class="w-24 h-24 rounded-full flex items-center justify-center bg-gradient-circle border border-primary_color_o10_1">
@@ -32,7 +32,7 @@ $admin = \App\Models\User::find(1);
                     <path d="M45.4339 30.996C45.4325 30.996 45.431 30.996 45.4295 30.9931L35.8904 26.9018C34.156 26.1811 32.1213 26.6791 30.945 28.1278L27.838 31.9218C22.8927 29.2294 18.7808 25.1176 16.0899 20.1737L19.8883 17.0623C21.3576 15.851 21.8409 13.8602 21.0924 12.1082L17.004 2.56622C16.1866 0.682409 14.1344 -0.350341 12.1465 0.10819L3.29738 2.16188C1.35647 2.60428 0 4.3035 0 6.29278C0 29.291 18.7091 48 41.7073 48C43.698 48 45.4016 46.6464 45.8484 44.707L47.8919 35.8506C48.3504 33.8525 47.3162 31.8105 45.4339 30.996ZM42.9246 44.0332C42.7957 44.5928 42.283 45 41.7073 45C20.3644 45 3 27.6356 3 6.29278C3 5.71266 3.39703 5.21616 3.96975 5.08575L12.8204 3.03206C12.9142 3.01003 13.0079 2.99981 13.1002 2.99981C13.5909 2.99981 14.048 3.28988 14.2486 3.75272L18.3341 13.2875C18.5553 13.8045 18.4117 14.3904 17.9826 14.745L13.2481 18.6239C12.709 19.0663 12.545 19.8207 12.8527 20.4461C15.9816 26.8036 21.2067 32.0273 27.5656 35.1562C28.1882 35.4668 28.947 35.2998 29.3879 34.7607L33.2683 30.0263C33.6155 29.5986 34.2204 29.4579 34.7214 29.666L44.2445 33.7499C44.7982 33.9902 45.1028 34.5908 44.968 35.1767L42.9246 44.0332Z" fill="#C4ACD3" />
                 </svg>
             </div>
-            <div class="font-medium mt-2 mb-1 text-h5 md:text-h3">Phone</div>
+            <div class="font-medium mt-2 mb-1 text-h5 md:text-h3"> {{__('Phone')}}</div>
             <p class="text-gray_b5 text-h6 md:text-h5 text-center ">0565009999</p>
         </div>
         <div class="p-1 md:p-3 xl:p-4 bg-light bg-opacity-5  border border-primary_color_o10_1 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl">
@@ -41,7 +41,7 @@ $admin = \App\Models\User::find(1);
                     <path d="M42 6H6C2.68631 6 0 8.68613 0 12V36C0 39.3137 2.68631 42 6 42H42C45.3139 42 48 39.3137 48 36V12C48 8.68613 45.3139 6 42 6ZM6 9H42C43.6542 9 45 10.3458 45 12V15.3757L26.7011 29.1006C25.1074 30.293 22.8926 30.293 21.2989 29.1006L3 15.3757V12C3 10.3458 4.34578 9 6 9ZM45 36C45 37.6542 43.6542 39 42 39H6C4.34578 39 3 37.6542 3 36V19.1244L19.5 31.5C20.8242 32.4946 22.4121 32.9912 24 32.9912C25.5879 32.9912 27.1758 32.4946 28.5 31.5L45 19.1244V36Z" fill="#C4ACD3" />
                 </svg>
             </div>
-            <div class="font-medium mt-2 mb-1 text-h5 md:text-h3">Email</div>
+            <div class="font-medium mt-2 mb-1 text-h5 md:text-h3"> {{__('Email')}}</div>
             <p class="text-gray_b5 text-h6 md:text-h5 text-center ">info@wasltec.com</p>
         </div>
     </div>
@@ -78,7 +78,9 @@ $admin = \App\Models\User::find(1);
                 </div>
             </form>
         </div>
-        <div>map</div>
+        <div class="p-1 md:p-3 xl:p-4 bg-light bg-opacity-5  border border-primary_color_o10_1 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl">
+            <img class="w-full rounded-2xl md:rounded-3xl " src="{{asset('frontAssets/images/contactmap.jpg')}}" alt="">
+        </div>
     </div>
 </div>
 

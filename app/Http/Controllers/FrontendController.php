@@ -191,6 +191,7 @@ class FrontendController extends Controller
     }
     public function userLogin(Request $request)
     {
+
         $request->validate([
             'email' => 'bail|required|email',
             'password' => 'bail|required',
@@ -245,7 +246,9 @@ class FrontendController extends Controller
         $remember = $request->get('remember');
         if ($request->type == 'user') {
             if (Auth::guard('appuser')->attempt($userdata, $remember)) {
+
                 $user =  Auth::guard('appuser')->user();
+
                 $setting = Setting::first();
                 if ($user->status == 0) {
                     $request->session()->flush();
@@ -300,6 +303,7 @@ class FrontendController extends Controller
                             $user->otp = $otp;
                             $user->update();
                             $request->session()->flush();
+                            dd("jjs");
                             return redirect('user/otp-verify/' . $user->id)->with(['success' => "Phone verification code sent via SMS."]);
                         }
                     } else {
@@ -377,6 +381,7 @@ class FrontendController extends Controller
                                 $user->otp = $otp;
                                 $user->update();
                                 $request->session()->flush();
+                                dd("jjs");
                                 return redirect('organizer/otp-verify/' . $user->id)->with(['success' => "Phone verification code sent via SMS."]);
                             }
                         } else {
@@ -1130,6 +1135,13 @@ class FrontendController extends Controller
 
     public function checkout(Request $request, $id)
     {
+        $user_id_session = Session::get("user_id");
+        
+        if($user_id_session)
+        {
+            $user = AppUser::find($user_id_session);
+            Auth::guard('appuser')->login($user);   
+        }
 
         /*ticket_id =  [date = { time_slot : quantity  }]*/
             /*$request_ticket_array["101"] = [ "2024-10-03" => [ "4" => 1 , "5" => 2 ] ]; 
@@ -1162,7 +1174,8 @@ class FrontendController extends Controller
             }*/
 
         // for new design 
-        if ($request->ids) {
+        if ($request->ids  ) {
+
             $ticketIdsString = $request->ids;
             $quantitiesString = $request->quantities;
 
@@ -1201,6 +1214,7 @@ class FrontendController extends Controller
                 if ($value['quantity'] > 0) {
                     // Retrieve ticket and event details
                     $ticket = Ticket::find($value['ticket_id']);
+                   /* dd($ticket , $value['ticket_id']);*/
                     $event = Event::find($ticket->event_id);
 
                     // Calculate ticket amount
@@ -2857,7 +2871,8 @@ class FrontendController extends Controller
         $likedBlogs = Blog::whereIn('id', array_filter(explode(',', $user->favorite_blog)))->where([['status', 1]])->orderBy('id', 'DESC')->get();
         $userFollowing = User::whereIn('id', array_filter(explode(',', $user->following)))->where([['status', 1]])->orderBy('id', 'DESC')->get();
         $wallet = PaymentSetting::first()->wallet;
-        return view('frontend.userTickets', compact('likedEvents', 'ticket', 'likedBlogs', 'userFollowing', 'wallet'));
+
+        return view('front.userProfile', compact('likedEvents', 'ticket', 'likedBlogs', 'userFollowing', 'wallet'));
     }
     public function userOrderTicket($id)
     {
@@ -3863,4 +3878,26 @@ class FrontendController extends Controller
 
         return response()->json("OTP sent ");
     }
+    public function loginVerifyOtp ( Request $request ) 
+   {
+
+     $request->validate([
+            'id' => 'required',
+            'otp' => 'required',
+        ]);
+        $user = AppUser::where('id',$request->id)->first();
+       
+        if ($user->otp == $request->otp) {
+            //$user->otp = null;
+            $user->device_token = $request->device_token ?? null;
+            $user->update();
+            $user = AppUser::where('id',$request->id)->first();
+            Auth::guard('appuser')->login($user);
+            Session::put("user_id",$request->id);
+            
+            return response()->json(['msg' => 'OTP verify successfully', 'data' => $user, 'success' => true], 200);
+        } else {
+            return response()->json(['msg' => 'Wrong OTP. Please try again.', 'success' => false]);
+        }
+   }
 }

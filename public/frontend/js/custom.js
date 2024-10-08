@@ -206,7 +206,7 @@ $(document).ready(function () {
                             parseFloat(result.payment).toFixed(2)
                         );
                         $(".payment").text(
-                            parseFloat(result.payment).toFixed(2)
+                            currency + parseFloat(result.payment).toFixed(2)
                         );
 
                         // $(".subtotal").text(
