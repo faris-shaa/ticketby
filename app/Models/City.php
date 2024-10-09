@@ -13,7 +13,15 @@ class City extends Model
         'image',
         'status',
         'arabic_name', 
+        'image'
     ];
 
     protected $table = 'city';
+
+    protected $appends = ['imagePath'];
+
+    public function getImagePathAttribute()
+    {
+        return url('images/upload') . '/';
+    }
 }

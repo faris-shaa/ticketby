@@ -70,7 +70,7 @@ Route::post('/app/login',[OrderController::class,'webUserApp']);
 Route::post('/user/search-filter', [ApiController::class, 'searchFilter']);
 Route::get('/user/category', [ApiController::class, 'category']);
 Route::get('/organizer-profile', [ApiController::class, 'organizerProfile']);
-
+Route::get('/pos/events', [ApiController::class, 'posEvent']);
 Route::group(['prefix' => 'user', 'middleware' => ['auth:userApi']], function () {
     
     Route::get('/organization', [ApiController::class, 'organization']);

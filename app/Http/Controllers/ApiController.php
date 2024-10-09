@@ -265,7 +265,7 @@ class ApiController extends Controller
     $query->where('is_deleted', 0);
 }])->where('city_id',$request->city_id)
             ->where([['status', 1], ['is_deleted', 0], ['event_status', 'Pending'], ['end_time', '>', $date->format('Y-m-d H:i:s')]])
-            ->orderBy('start_time', 'ASC')->get()->makeHidden(['created_at', 'updated_at']);
+            ->orderBy('created_at', 'DESC')->get()->makeHidden(['created_at', 'updated_at']);
         }
         else
         {
@@ -273,7 +273,7 @@ class ApiController extends Controller
     $query->where('is_deleted', 0);
 }])
             ->where([['status', 1], ['is_deleted', 0], ['event_status', 'Pending'], ['end_time', '>', $date->format('Y-m-d H:i:s')]])
-            ->orderBy('start_time', 'ASC')->get()->makeHidden(['created_at', 'updated_at']);
+            ->orderBy('created_at', 'DESC')->get()->makeHidden(['created_at', 'updated_at']);
         }
 
        
@@ -2288,5 +2288,14 @@ class ApiController extends Controller
         } else {
             return response()->json(['msg' => 'Wrong OTP. Please try again.', 'success' => false]);
         }
+   }
+
+
+   public function posEvent ( Request $request )
+   {
+    $events = Event::where('user_id',$request->organizer_id)->orderBy('start_time','ASC')->get();
+
+    return response()->json(['msg' => 'Event listing', 'data' => $events, 'success' => true], 200);
+
    }
 }
