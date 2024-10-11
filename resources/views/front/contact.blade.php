@@ -46,31 +46,31 @@ $admin = \App\Models\User::find(1);
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-20 shadow-dark">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-4 xl:mt-20 shadow-dark">
         <div class=" bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1 p-2 md:p-4">
             <div class="pb-4 border-b border-gray_f">
-                <div class=" text-h2 "> {{ __('Get in touch with us') }}</div>
+                <div class=" text-h4 md:text-h2 "> {{ __('Get in touch with us') }}</div>
                 <p class="mt-1 h4 text-gray_9"> {{ __('Send us a message') }}</p>
             </div>
             <form action="{{ url('/send-to-admin') }}" method="post" class="mt-4 php-email-form">
                 @csrf
                 <div class="">
                     <div class="mb-4">
-                        <label for="firstname" class="mb-1 block">{{ __('First Name') }}</label>
-                        <input type="text" name="name" required class="bg-dark_1 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1" placeholder="{{ __('Your Name') }}">
+                        <label for="firstname" class="mb-1 block text-h6 md:text-h5">{{ __('First Name') }}</label>
+                        <input type="text" name="name" required class="bg-dark_1 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1  md:text-h5 text-h6" placeholder="{{ __('Your Name') }}">
                     </div>
                     <div class="mb-4">
-                        <label for="lastname" class="mb-1 block">{{ __('Your Email') }}</label>
-                        <input type="text" name="email" required class="bg-dark_1 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1" placeholder="{{ __('Your Email') }}">
+                        <label for="lastname" class="mb-1 block text-h6 md:text-h5">{{ __('Your Email') }}</label>
+                        <input type="text" name="email" required class="bg-dark_1 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1  md:text-h5 text-h6" placeholder="{{ __('Your Email') }}">
                     </div>
                     <div class="mb-4">
                         <div class="">
-                            <label for="subject" class="mb-1 block">{{ __('Subject') }}</label>
-                            <input type="text" required name="subject" class="bg-dark_1 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1" placeholder="{{ __('Subject Message') }}">
+                            <label for="subject" class="mb-1 block text-h6 md:text-h5">{{ __('Subject') }}</label>
+                            <input type="text" required name="subject" class="bg-dark_1 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1  md:text-h5 text-h6" placeholder="{{ __('Subject Message') }}">
                         </div>
                     </div>
                     <div class="mb-4">
-                        <textarea id="message" rows="4" name="msg" class="bg-dark_1 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1" required placeholder="{{ __('Describe your message...') }}"></textarea>
+                        <textarea id="message" rows="4" name="msg" class="bg-dark_1 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1  md:text-h5 text-h6" required placeholder="{{ __('Describe your message...') }}"></textarea>
                     </div>
                     <div class=" ">
                         <button class="bg-primary_color_8 text-white  px-5 py-2 rounded-6xl w-full">{{ __('Send Message') }}</button>

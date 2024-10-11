@@ -9,11 +9,8 @@ $logo = \App\Models\Setting::find(1)->logo;
 $wallet = \App\Models\PaymentSetting::first()->wallet;
 
 
-if (session('direction') == 'rtl') {
-$lang = 'ar';
-}else{
-$lang = 'en';
-}
+$lang = session('direction') == 'rtl' ? 'ar' : 'en';
+
 @endphp
 
 <!-- component -->
@@ -23,7 +20,7 @@ $lang = 'en';
 
 
 
-<nav class="container  mt-0 py-4 lg:py-0 lg:mt-8 bg-primary_color_15 lg:bg-transparent rounded-b-3xl">
+<nav class="container  mt-0 py-4 lg:py-0 lg:mt-14 bg-primary_color_15 lg:bg-transparent rounded-b-3xl">
     <div class="">
         <div class="flex justify-between ">
             <div class="flex w-full justify-between items-center">
@@ -44,7 +41,7 @@ $lang = 'en';
                         </svg>
                     </a>
                 </div>
-                <ul class="hidden lg:flex gap-8  items-center flex-1 justify-center">
+                <ul class="hidden lg:flex gap-8  items-center flex-1 justify-end me-16">
                     <li>
                         <a href="{{ url('/all-events') }}" class="text-light hover:text-primary_color_9">{{ __('Upcoming events') }}</a>
                     </li>
@@ -57,7 +54,7 @@ $lang = 'en';
                                     fill="#E0D3E8"></path>
                             </svg></a>
                         <div class="relative inline-block text-left z-30">
-                            <div id="dropdownMenu" class="hidden absolute left-1/2 transform -translate-x-1/2   z-10 mt-3 w-56  rounded-md bg-dark_3  transition ease-out duration-100 transform opacity-0 scale-95">
+                            <div id="dropdownMenu" class=" @if($lang == 'ar') text-start @endif  hidden absolute left-1/2  -translate-x-1/2   z-10 mt-3 w-56  rounded-md bg-dark_3  transition ease-out duration-100 transform opacity-0 scale-95">
                                 <div class="p-1">
                                     @php
                                     if (!isset($catactive)) {
@@ -70,7 +67,7 @@ $lang = 'en';
                                     <a href="{{ url('/all-events') }}"
                                         class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md"
                                         id="menu-item-0">
-                                        @if (session('direction') == 'rtl')
+                                        @if($lang == 'ar')
                                         {{ $item->ar_name }}
                                         @else
                                         {{ $item->name }}
@@ -130,8 +127,8 @@ $lang = 'en';
                                     alt="">
                             </div>
                             <div class="relative inline-block text-left z-30">
-                                <div id="dropdownMenu-user" class="hidden absolute left-1/2 transform -translate-x-1/2   z-10  w-64  border border-primary_color_11 rounded-2xl bg-dark_3  transition ease-out duration-100 transform ">
-                                    <div class="flex p-5 gap-1 items-center">
+                                <div id="dropdownMenu-user" class=" hidden absolute left-1/2 transform -translate-x-1/2   z-10  w-64  border border-primary_color_11 rounded-2xl bg-dark_3  transition ease-out duration-100 transform ">
+                                    <div class="flex  p-5 gap-1 items-center @if($lang == 'ar') flex-row-reverse @endif">
                                         <div class="w-9 h-9 shrink-0">
                                             <img src="{{ asset('images/upload/' . $user->image) }}"
                                                 class=" object-cover  rounded-full w-full h-full"
@@ -243,7 +240,7 @@ $lang = 'en';
 
 
 <div id="sidebar"
-    class=" fixed inset-0 bg-dark bg-opacity-75 z-50 transform -translate-x-full transition-transform duration-300">
+    class=" fixed inset-0 bg-dark bg-opacity-75 z-50     @if($lang == 'ar') translate-x-full @else -translate-x-full @endif  transition-transform duration-300">
     <div class="w-64 bg-primary_color_15 p-24-16 h-full shadow-md p-4 overflow-auto">
         <button id="close-btn" class="text-light hover:text-primary_color_9 focus:outline-none">
             <i class="fa-regular fa-circle-xmark fa-2xl my-6"></i>
