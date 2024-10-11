@@ -4,11 +4,8 @@
 
 @php
 use Illuminate\Support\Facades\Http;
-if (session('direction') == 'rtl') {
-$lang = 'ar';
-}else{
-$lang = 'en';
-}
+$lang = session('direction') == 'rtl' ? 'ar' : 'en';
+
 
 $citys = null;
 try {
@@ -44,9 +41,9 @@ $error = $response->json();
 
 @endphp
 <div class="lg:bg-primary_color_15 hero rounded-b-3xl">
-   <div class="container mt-12 pb-0 lg:pb-44 overflow-hidden">
+   <div class="container mt-16 pb-0 lg:pb-32 overflow-hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
-         <div class=" tiket-info order-2 lg:order-1 mt-7">
+         <div class=" tiket-info order-2 lg:order-1 mt-7 md:mt-0">
             @foreach ( $banner as $item )
             <div class="lg:w-w-400 xl:w-w-500 hidden " data-tiket-id="{{ $item['id']}}">
                <div class="lg:min-h-40">
@@ -54,7 +51,7 @@ $error = $response->json();
                      <h1 class="text-h4 lg:text-h2  xl:text-h9 font-medium anim-tiket-h text-center lg:text-left">{{ $lang == 'ar' ? $item->event->name_arabic : $item->event->name }}</h1>
                   </div>
                   <div class="overflow-hidden text-center lg:text-left">
-                     <p class="mt-1 lg:mt-4 text-primary_color_4 anim-tiket-p text-h6 lg:text-h5 ">{{ $lang == 'ar' ? $item->event->name_arabic : $item->event->name }}</p>
+                     <p class="mt-1 lg:mt-4 text-primary_color_4 anim-tiket-p text-h18 lg:text-h5 ">{{ $lang == 'ar' ? $item->event->name_arabic : $item->event->name }}</p>
                   </div>
                </div>
                <div class="hidden md:flex gap-4 mt-7 overflow-hidden relative z-10">
@@ -83,8 +80,8 @@ $error = $response->json();
    </div>
 </div>
 
-<div class="container hidden md:block">
-   <div class="bg-primary_color_10 py-7 px-2 md:px-8 xl:px-24 rounded-2xl -mt-20 flex items-center gap-6 justify-between flex-wrap xl:flex-nowrap">
+<div class="container hidden lg:block">
+   <div class="fs-select bg-primary_color_10 py-7 px-2 md:px-8 xl:px-24 rounded-2xl -mt-20 flex items-center gap-6 justify-between flex-wrap xl:flex-nowrap">
       <div class="w-full sm:w-auto">
          <span class="flex items-center gap-1 mb-1">
             <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,12 +90,16 @@ $error = $response->json();
                   fill="#EEE8F4" />
             </svg>
             <label for="">{{__('Event title')}}</label>
-            <div class="ms-auto hidden" id="Searchbtn"> <i class="fa-solid fa-right-to-bracket"></i>
-            </div>
          </span>
-         <input type="text" name="" id="SearchEventName" value="" placeholder="Search by event name"
-            class="text-h4 placeholder-primary_color_6 w-full min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border   outline-0">
-
+         <div class="relative">
+            <div class="ms-auto hidden absolute @if($lang == 'ar') left-0 @else right-0 @endif  bottom-1/2 transform translate-y-1/2 " id="Searchbtn">
+               <svg class="@if($lang == 'ar') rotate-180 @endif" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.25 1.21875L13.75 6.46875C13.9062 6.625 14 6.8125 14 7.03125C14 7.21875 13.9062 7.40625 13.75 7.5625L8.25 12.8125C7.96875 13.0938 7.46875 13.0938 7.1875 12.7812C6.90625 12.5 6.90625 12 7.21875 11.7188L11.375 7.78125H0.75C0.3125 7.78125 0 7.4375 0 7.03125C0 6.59375 0.3125 6.28125 0.75 6.28125H11.375L7.21875 2.3125C6.90625 2.03125 6.90625 1.53125 7.1875 1.25C7.46875 0.9375 7.9375 0.9375 8.25 1.21875Z" fill="#A986BF" />
+               </svg>
+            </div>
+            <input type="text" name="" id="SearchEventName" value="" placeholder="Search by event name"
+               class="text-h4 placeholder-primary_color_6 w-full min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border   outline-0">
+         </div>
       </div>
       <div class="w-full sm:w-auto">
          <span class="flex items-center gap-1 mb-1">
@@ -136,6 +137,7 @@ $error = $response->json();
             </select>
          </div>
          <input type="text" name="" placeholder="choose event date" id="datepicker" class="datepicker hidden placeholder-primary_color_6 w-full min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border   outline-0">
+         <div class="datepicker-container relative"></div>
       </div>
    </div>
 </div>
@@ -143,10 +145,10 @@ $error = $response->json();
 
 <div class="container mt-9 md:mt-40 xl:mt-32 hidden lg:block" id="UpcomingEventsSection">
    <div class="flex justify-between flex-wrap gap-y-4">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white">{{__('Upcoming Events')}}</h2>
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium">{{__('Upcoming Events')}}</h2>
       <div class="flex gap-2 flex-wrap gap-y-4">
          <div
-            class=" text-h6 rounded-full  bg-gray_f bg-opacity-5 gap-x-1  py-3 px-6 flex items-center  justify-between   h-8">
+            class=" text-h6 rounded-full  bg-gray_f bg-opacity-5 gap-x-1  py-2 px-6 flex items-center  justify-between   h-8">
             <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path
                   d="M8.61328 1.1875L11.2383 5.5625C11.4023 5.83594 11.4023 6.16406 11.2383 6.4375C11.1016 6.71094 10.8008 6.875 10.5 6.875H5.25C4.92188 6.875 4.62109 6.71094 4.48438 6.4375C4.32031 6.16406 4.32031 5.83594 4.48438 5.5625L7.10938 1.1875C7.27344 0.914062 7.54688 0.75 7.875 0.75C8.17578 0.75 8.44922 0.914062 8.61328 1.1875ZM7.875 9.28125C7.875 8.67969 8.33984 8.1875 8.96875 8.1875H12.9062C13.5078 8.1875 14 8.67969 14 9.28125V13.2188C14 13.8477 13.5078 14.3125 12.9062 14.3125H8.96875C8.33984 14.3125 7.875 13.8477 7.875 13.2188V9.28125ZM3.5 14.75C1.55859 14.75 0 13.1914 0 11.25C0 9.33594 1.55859 7.75 3.5 7.75C5.41406 7.75 7 9.33594 7 11.25C7 13.1914 5.41406 14.75 3.5 14.75Z"
@@ -161,33 +163,42 @@ $error = $response->json();
          </div>
       </div>
    </div>
+   <div class="mt-4 hidden text-center" id="empty_search">
+      <svg class="mx-auto" width="128" height="120" viewBox="0 0 128 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <path fill-rule="evenodd" clip-rule="evenodd" d="M11.2766 14.0379C10.4503 13.4008 9.47195 13.0909 8.50501 13.0909C7.16908 13.0909 5.84495 13.6759 4.96014 14.7939C3.42508 16.7288 3.76483 19.5265 5.72195 21.0414L6.73287 21.8247C6.80973 21.8204 6.88673 21.8182 6.96377 21.8182C7.83402 21.8182 8.71455 22.0996 9.45823 22.6781L109.358 100.779C109.879 101.186 110.273 101.696 110.533 102.256L116.721 107.051C118.69 108.572 121.514 108.224 123.038 106.295C124.573 104.361 124.233 101.563 122.276 100.048L119.726 98.0716C123.216 95.6312 125.499 91.5822 125.499 87V70.125C119.907 70.125 115.374 65.5919 115.374 60C115.374 54.408 119.907 49.875 125.499 49.875V33C125.499 25.5438 119.455 19.5 111.999 19.5H18.3256L11.2766 14.0379ZM95.867 100.5L87.233 93.75H17.499C13.777 93.75 10.749 90.722 10.749 87V75.4655C16.7042 72.8568 20.874 66.9065 20.874 60C20.874 53.0935 16.7042 47.1427 10.749 44.534V33.9551L4.56478 29.1203C4.19675 30.349 3.99902 31.6514 3.99902 33V49.875C9.59098 49.875 14.124 54.408 14.124 60C14.124 65.5919 9.59098 70.125 3.99902 70.125V87C3.99902 94.4558 10.0432 100.5 17.499 100.5H95.867ZM30.999 49.7865V73.5C30.999 77.2277 34.0213 80.25 37.749 80.25H69.9651L61.3311 73.5H37.749V55.0636L30.999 49.7865ZM53.1702 46.5L88.0148 73.5H91.749V46.5H53.1702ZM98.499 73.5C98.499 75.8959 97.2507 78.0004 95.3688 79.1983L113.825 93.4992C116.663 92.701 118.749 90.0896 118.749 87V75.4655C112.794 72.8568 108.624 66.9065 108.624 60C108.624 53.0935 112.794 47.1427 118.749 44.534V33C118.749 29.278 115.721 26.25 111.999 26.25H27.0368L44.4591 39.75H91.749C95.4771 39.75 98.499 42.7719 98.499 46.5V73.5Z" fill="#312C35"></path>
+      </svg>
+      <p class="text-h6 mb-1 mt-4">{{__('No tickets found')}} </p>
+   </div>
+   <div class="spinner  absolute" id="spinner"></div>
    <div class="mt-16 grid grid-cols-2 lg:grid-cols-3 gap-2 xl:gap-20 upcomingEventsCon" id="upcomingEventsCon"></div>
    <div class="flex justify-center">
       <button id="load_more"
-         class=" mt-16  rounded-5xl border border-light   text-center    py-2 px-4 lg:px-9   lg:w-48 f-bri l leading-5  inline-block">
+         class=" mt-16  rounded-5xl border border-light   text-center    py-2 px-4 lg:px-p32    lg:w-48 f-bri l leading-5  inline-block">
          {{__('Load More')}}</button>
    </div>
 </div>
 
 <div class="container mt-9 md:mt-40 xl:mt-32">
    <div class=" lg:text-center mb-4 lg:mb-8">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white text-primary_color_6 lg:text-white"> <span class="hidden lg:inline-block">{{__('Discover the lovely ')}}</span> {{__('categories')}}</h2>
-      <p class="text-gray_6 mt-1"></p>
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium text-primary_color_6 lg:text-white">
+         <span class="hidden md:inline-block">{{__('Discover the lovely ')}}</span> {{__('categories')}}
+      </h2>
+      <p class="text-gray_6 mt-1">{{__('Discover the lovely categories')}}</p>
    </div>
 </div>
-<div class="xl:px-72 m-auto">
+<div class="xl:px-p423 m-auto">
    <div class="swiper swiper-cat order-1 lg:order-2 m-auto">
       <div class="swiper-wrapper">
          @foreach ($categorys['data'] as $cat)
          <div class="swiper-slide text-center flex items-center flex-col ">
             <a href="/all-events">
-               <!-- <a href="/all-events/{{$cat['id']}}"> -->
-               <div
-                  class=" mx-auto flex items-center justify-center w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-light bg-opacity-5  border border-primary_color_o10_1   ">
-                  <img class="w-9 lg:w-2/4" src="{{ url('images/upload/' .$cat['app_icon']) }}" alt="{{ $cat['name']}}">
-               </div>
-               <h5 class="mt-3 text-h6 lg:text-h5">{{ $lang == 'ar' ? $cat['ar_name'] : $cat['name'] }}</h5>
-            </a>
+               <a href="/all-events/{{$cat['id']}}">
+                  <div
+                     class=" mx-auto flex items-center justify-center w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-light bg-opacity-5  border border-primary_color_o10_1   ">
+                     <img class="w-9 lg:w-w-32" src="{{ url('images/upload/' .$cat['app_icon']) }}" alt="{{ $cat['name']}}">
+                  </div>
+                  <h5 class="mt-3 text-h6 lg:text-h5">{{ $lang == 'ar' ? $cat['ar_name'] : $cat['name'] }}</h5>
+               </a>
          </div>
          @endforeach
       </div>
@@ -198,8 +209,9 @@ $error = $response->json();
 
 <div class="container mt-9 md:mt-40 xl:mt-32 block lg:hidden overflow-hidden" id="">
    <div class="flex justify-between flex-wrap gap-y-4">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white">{{__('Upcoming Events')}}</h2>
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium">{{__('Upcoming Events')}}</h2>
    </div>
+
    <div class="upcomingEventsConswiper">
       <div class="mt-4 lg:mt-16  swiper-wrapper upcomingEventsCon" id=""></div>
    </div>
@@ -207,8 +219,8 @@ $error = $response->json();
 </div>
 
 <div class="container mt-9 md:mt-40 xl:mt-32">
-   <div class="text-start lg:text-center mb-4 lg:mb-8">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white hidden lg:block">{{__('Discover the lovely cities')}}</h2>
+   <div class="text-start lg:text-center mb-4 lg:mb-16">
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white hidden lg:block font-medium">{{__('Discover the lovely cities')}}</h2>
       <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white lg:hidden">{{__('Cities to discover')}}</h2>
       <p class="text-gray_6 mt-1 hidden lg:block">{{__('Discover the lovely cities')}}</p>
    </div>
@@ -220,7 +232,7 @@ $error = $response->json();
             @foreach ($citys['city'] as $city)
             <div class="swiper-slide text-center flex items-center flex-col">
                <a href="/all-events">
-                  <div class="lg:w-24 w-32 h-20 lg:h-28  md:h-52 md:w-48  xl:h-h-270  xl:w-w-256 rounded-lg rounded-2xl overflow-hidden">
+                  <div class="lg:w-24 w-32 h-20 lg:h-28  md:h-52 md:w-48  xl:h-h-256  xl:w-w-256 rounded-lg rounded-2xl overflow-hidden">
                      <img class="w-full h-full object-cover"
                         src="{{ url('images/upload/' .$city['image']) }}"
                         alt="">
@@ -237,9 +249,9 @@ $error = $response->json();
 
 <div class="container mt-9 md:mt-40 xl:mt-32 hidden lg:block">
    <div class="">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white">{{__('Previous Events')}}</h2>
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium">{{__('Previous Events')}}</h2>
    </div>
-   <div class="mt-16 grid grid-cols-2 lg:grid-cols-3 gap-2 ">
+   <div class="mt-16 grid grid-cols-2 lg:grid-cols-3 gap-4 ">
       @foreach ($pervious_events as $item)
       <a href="{{ url('event/' . $item->id . '/' . Str::slug($item->name)) }}">
          <div class="h-full bg-light hover:bg-primary_color_o25_9 bg-opacity-5 rounded-2xl border border-primary_color_o10_1 overflow-hidden grayscale-hover ">
@@ -272,14 +284,14 @@ $error = $response->json();
    </div>
    <div class="flex justify-center">
       <a href="/all-events"
-         class=" m-auto mt-16  rounded-5xl border border-light   text-center    py-2 px-4 lg:px-9    f-bri l leading-5  inline-block text-h6 md:text-h5 ">
+         class=" m-auto mt-16  rounded-5xl border border-light   text-center    py-2 px-4 lg:px-p32    f-bri l leading-5  inline-block text-h6 md:text-h5 ">
          {{__('Discover all previous events')}}</a>
    </div>
 </div>
 
 <div class="container mt-9 md:mt-40 xl:mt-32 block lg:hidden overflow-hidden">
    <div class="">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white">{{__('Previous Events')}}</h2>
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium">{{__('Previous Events')}}</h2>
    </div>
    <div class="upcomingPreviousEvents">
       <div class="mt-4 lg:mt-16 swiper-wrapper ">
@@ -322,11 +334,12 @@ $error = $response->json();
          {{__('Discover all previous events')}}</a>
    </div>
 </div>
+
 @endsection
 
 
 
-@if (session('direction') == 'rtl'))
+@if (session('direction') == 'rtl')
 <script>
    var lang = 'ar';
 </script>
@@ -421,6 +434,9 @@ $error = $response->json();
                category_id: category_id,
                limit: limit
             },
+            beforeSend: function() {
+               $('.spinner').show();
+            },
             success: function(data) {
                $('.upcomingEventsCon').html('');
                let events = [];
@@ -430,8 +446,9 @@ $error = $response->json();
                   events = data.data;
                }
                if (events.length === 0) {
-                  let eventHtml = `<p> nothing found</p>`
-                  $('.upcomingEventsCon').append(eventHtml);
+                  $('#empty_search').removeClass("hidden");
+               } else {
+                  $('#empty_search').addClass("hidden");
                }
                events.forEach(item => {
                   let gallery = '';
@@ -472,9 +489,10 @@ $error = $response->json();
                                         </p>
                                     </div>
                                     <div class="wahlist  lg:hidden" id="${item.id}">
-                                    <svg width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                   <path d="M12.4531 3.39014L13.0156 2.87451C14.5625 1.32764 16.7656 0.624512 18.875 0.999512C22.1094 1.51514 24.5 4.32764 24.5 7.60889V7.84326C24.5 9.81201 23.6562 11.687 22.25 12.9995L13.7656 20.9214C13.4375 21.2495 12.9688 21.3901 12.5 21.3901C11.9844 21.3901 11.5156 21.2495 11.1875 20.9214L2.70312 12.9995C1.29688 11.687 0.5 9.81201 0.5 7.84326V7.60889C0.5 4.32764 2.84375 1.51514 6.07812 0.999512C8.1875 0.624512 10.3906 1.32764 11.9375 2.87451L12.4531 3.39014ZM12.4531 5.54639L10.8594 3.90576C9.6875 2.73389 8 2.17139 6.3125 2.45264C3.82812 2.87451 1.95312 5.03076 1.95312 7.60889V7.84326C1.95312 9.39014 2.60938 10.8433 3.73438 11.8745L12.2188 19.7964C12.2656 19.8901 12.3594 19.8901 12.4531 19.8901C12.5938 19.8901 12.6875 19.8901 12.7344 19.7964L21.2188 11.8745C22.3438 10.8433 23 9.39014 23 7.84326V7.60889C23 5.03076 21.125 2.87451 18.6406 2.45264C16.9531 2.17139 15.2656 2.73389 14.0938 3.90576L12.4531 5.54639Z" fill="#FBF9FD" fill-opacity="0.32"/>
-                                   </svg>
+                                    <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path class='fill' d="M12.2031 24.1094C10.7969 22.7969 10 20.9219 10 18.9531V18.7188C10 15.4375 12.3438 12.625 15.5781 12.1094C17.7344 11.7344 19.8906 12.4375 21.4375 13.9375L22 14.5L22.5625 13.9375C24.0625 12.4375 26.2656 11.7344 28.375 12.1094C31.6094 12.625 34 15.4375 34 18.7188V18.9531C34 20.9219 33.1562 22.7969 31.75 24.1094L23.2656 32.0312C22.9375 32.3594 22.4688 32.5 22 32.5C21.4844 32.5 21.0156 32.3594 20.6875 32.0312L12.2031 24.1094Z" fill="#A986BF"/>
+                                    <path class='stroke' d="M21.9531 14.5L22.5156 13.9844C24.0625 12.4375 26.2656 11.7344 28.375 12.1094C31.6094 12.625 34 15.4375 34 18.7188V18.9531C34 20.9219 33.1562 22.7969 31.75 24.1094L23.2656 32.0312C22.9375 32.3594 22.4688 32.5 22 32.5C21.4844 32.5 21.0156 32.3594 20.6875 32.0312L12.2031 24.1094C10.7969 22.7969 10 20.9219 10 18.9531V18.7188C10 15.4375 12.3438 12.625 15.5781 12.1094C17.6875 11.7344 19.8906 12.4375 21.4375 13.9844L21.9531 14.5ZM21.9531 16.6562L20.3594 15.0156C19.1875 13.8438 17.5 13.2812 15.8125 13.5625C13.3281 13.9844 11.4531 16.1406 11.4531 18.7188V18.9531C11.4531 20.5 12.1094 21.9531 13.2344 22.9844L21.7188 30.9062C21.7656 31 21.8594 31 21.9531 31C22.0938 31 22.1875 31 22.2344 30.9062L30.7188 22.9844C31.8438 21.9531 32.5 20.5 32.5 18.9531V18.7188C32.5 16.1406 30.625 13.9844 28.1406 13.5625C26.4531 13.2812 24.7656 13.8438 23.5938 15.0156L21.9531 16.6562Z" fill="#FBF9FD" fill-opacity="0.32"/>
+                                    </svg>
                                     </div>
                                 </div>
                             </div>
@@ -484,9 +502,28 @@ $error = $response->json();
                });
                setTimeout(initializeSwiper, 1000);
 
+            },
+            complete: function() {
+               $('.spinner').hide();
             }
          });
       }
+
+      function initializeSwiper() {
+         let swiperEvent = new Swiper(".swiper-event", {
+            slidesPerView: 1,
+            loop: true,
+            autoplay: {
+               delay: 1200,
+               disableOnInteraction: false,
+            },
+         });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+         initializeSwiper();
+      });
+
 
       function dateFormat(date) {
          let dateObject = new Date(date);
@@ -508,9 +545,14 @@ $error = $response->json();
    });
 
    $(document).ready(function() {
-      $(function() {
-         $(".datepicker").datepicker();
+      $(".datepicker").datepicker({
+         beforeShow: function(input, inst) {
+            setTimeout(function() {
+               inst.dpDiv.appendTo('.datepicker-container');
+            }, 0);
+         }
       });
+
 
       $('#event_date').change(function() {
          var selectedValue = $('#event_date select').val();

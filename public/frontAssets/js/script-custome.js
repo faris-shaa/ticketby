@@ -5,9 +5,15 @@ var swiper = new Swiper(".event_details_swiper", {
     thresholdDelta: 70
   },
   loop: true,
-  autoplay: {
-    delay: 1000,
-    disableOnInteraction: false,
+  // autoplay: {
+  //   delay: 2000,
+  //   disableOnInteraction: false,
+  // },
+  scrollbar: {
+    el: ".swiper-scrollbar",
+    draggable: true,
+    dragSize: 226 // Set the size of the scrollbar drag element
+
   },
   breakpoints: {
     320: {
@@ -33,19 +39,21 @@ var swiper = new Swiper(".event_details_swiper", {
 const menuBtn = document.getElementById('menu-btn');
 const sidebar = document.getElementById('sidebar');
 const closeBtn = document.getElementById('close-btn');
-
+var language = document.getElementById('lang').value;
 menuBtn.addEventListener('click', () => {
-  sidebar.classList.toggle('-translate-x-full');
+  language != 'English' ? sidebar.classList.toggle('translate-x-0') : sidebar.classList.toggle('-translate-x-full')
+
 });
 
 closeBtn.addEventListener('click', (e) => {
-  sidebar.classList.add('-translate-x-full');
+  language != 'English' ? sidebar.classList.toggle('translate-x-0') : sidebar.classList.toggle('-translate-x-full')
+
 });
 
 document.addEventListener('click', (e) => {
 
   if (e.target.id === 'sidebar') {
-    sidebar.classList.add('-translate-x-full');
+    language != 'English' ? sidebar.classList.toggle('translate-x-0') : sidebar.classList.toggle('-translate-x-full')
   }
 });
 
@@ -90,9 +98,14 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $(".toggleCategories").click(function (e) {
-    console.log('ddd');
     e.preventDefault();
     $("#categoryList").toggleClass("hidden");
+  });
+});
+$(document).ready(function () {
+  $(".toggleuser-list").click(function (e) {
+    e.preventDefault();
+    $("#userList").toggleClass("hidden");
   });
 });
 
@@ -129,8 +142,8 @@ var swiper = new Swiper(".ticket_avail", {
   spaceBetween: 10,
   loop: true,
   autoplay: {
-    delay: 2000, 
-    disableOnInteraction: false, 
+    delay: 2000,
+    disableOnInteraction: false,
   },
   navigation: {
     nextEl: '.swiper-button-next',
@@ -168,17 +181,20 @@ var swiper_hero = new Swiper(".swiper-hero", {
   mousewheel: {
     thresholdDelta: 70
   },
-  // autoplay:true,
   grabCursor: true,
   centeredSlides: true,
   slidesPerView: "auto",
   loop: true,
-  initialSlide: 3,
+  initialSlide: 1,
+  lazy: {
+    loadPrevNext: true,
+    loadPrevNextAmount: 1,
+  },
   coverflowEffect: {
     rotate: 0,
-    stretch: 5,
+    stretch: 10,
     depth: 80,
-    modifier: 5,
+    modifier: 10,
     slideShadows: true
   },
   breakpoints: {
@@ -196,7 +212,7 @@ var swiper_hero = new Swiper(".swiper-hero", {
       centeredSlides: true,
       coverflowEffect: {
         rotate: 0,
-        stretch: 30,
+        stretch: 20,
         depth: 15,
         modifier: 15,
         slideShadows: true
@@ -205,34 +221,32 @@ var swiper_hero = new Swiper(".swiper-hero", {
   },
   on: {
     init: function () {
-      var activeSlide = this.slides[this.activeIndex];
-      if (activeSlide) {
-        var activeSlideId = activeSlide.getAttribute('id');
-        var element = document.querySelector(`[data-tiket-id="${activeSlideId}"]`);
-        if (element) {
-          element.classList.remove('hidden');
-        }
-      }
+      updateActiveSlideInfo(this);
     },
-    slideChange: function () {
-      if (swiper_hero && !swiper_hero.destroyed) {
-        var activeSlide = swiper_hero.slides[swiper_hero.activeIndex];
-        if (activeSlide) {
-          $('.tiket-info > div').addClass('hidden');
-          var activeSlideId = activeSlide.getAttribute('id');
-          var element = document.querySelector(`[data-tiket-id="${activeSlideId}"]`);
-          if (element) {
-            element.classList.remove('hidden');
-          }
-        }
-      }
+    slideChangeTransitionEnd: function () {
+      updateActiveSlideInfo(this);
     }
   }
 });
 
+function updateActiveSlideInfo(swiper) {
+  var activeSlide = swiper.slides[swiper.activeIndex];
+  if (activeSlide) {
+    var activeSlideId = activeSlide.getAttribute('id');
+    var element = document.querySelector(`[data-tiket-id="${activeSlideId}"]`);
+    if (element) {
+      document.querySelectorAll('.tiket-info > div').forEach(function (div) {
+        div.classList.add('hidden');
+      });
+      element.classList.remove('hidden');
+    }
+  }
+}
+
+
 
 var swiper_Cat = new Swiper(".swiper-cat", {
-  slidesPerView: 3,
+  slidesPerView: 3.5,
   loop: true,
   mousewheel: {
     thresholdDelta: 70
@@ -247,13 +261,62 @@ var swiper_Cat = new Swiper(".swiper-cat", {
       spaceBetween: 16,
     },
     1024: {
-      slidesPerView: 6,
-      spaceBetween: 16,
+      slidesPerView: 4,
+      spaceBetween: 40,
     },
   },
 });
+
+function initializeSwiper() {
+
+  let swiperEvent = new Swiper(".swiper-event", {
+    slidesPerView: 1,
+    loop: true,
+    autoplay: {
+      delay: 1200,
+      disableOnInteraction: false,
+    },
+  });
+  if (swiperEvent) {
+    swiperEvent.destroy(true, true);
+  }
+
+}// Initialize Swiper on DOM content load
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  initializeSwiper2();
+  initializeSwiper();
+});
+
+function initializeSwiper2() {
+  let swiperContainer = document.querySelector(".swiper-devent2");
+  if (!swiperContainer) {
+    console.log("Swiper container not found");
+    return;
+  }
+
+  let swiperEvent2 = new Swiper($('.swiper-devent2'), {
+    slidesPerView: 1,
+    loop: true,
+    autoplay: {
+      delay: 1200,
+      disableOnInteraction: false,
+    },
+  });
+
+  // Commenting out the destroy call for testing purposes
+  // if (swiperEvent2) {
+  //   swiperEvent2.destroy(true, true);
+  // }
+}
+
+
+
+
 var swiper_city = new Swiper(".swiper-city", {
-  slidesPerView: 3,
+  slidesPerView: 2.5,
+  spaceBetween: 8,
 
   loop: true,
   pagination: {
@@ -274,10 +337,52 @@ var swiper_city = new Swiper(".swiper-city", {
     },
     1024: {
       slidesPerView: 4,
-      spaceBetween: 14,
+      spaceBetween: 22,
     },
   },
 });
+
+
+var swiper_upcoming = new Swiper(".upcomingEventsConswiper", {
+  slidesPerView: 1.2,
+  spaceBetween: 24,
+
+  loop: true,
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  mousewheel: {
+    thresholdDelta: 70
+  },
+  breakpoints: {
+    425: {
+      slidesPerView: 2.5,
+      spaceBetween: 14,
+    }
+  },
+
+});
+var swiper_upcoming = new Swiper(".upcomingPreviousEvents", {
+  slidesPerView: 1.2,
+  spaceBetween: 24,
+
+  loop: true,
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  mousewheel: {
+    thresholdDelta: 70
+  },
+  breakpoints: {
+    425: {
+      slidesPerView: 2.5,
+      spaceBetween: 14,
+    }
+  },
+});
+
 
 
 

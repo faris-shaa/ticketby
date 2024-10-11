@@ -6,16 +6,16 @@ $showLinkBanner = \App\Models\Setting::find(1,['show_link_banner','googleplay_li
 <?php $url =  $_SERVER['REQUEST_URI'];
 ?>
 
-<footer class="container mt-20 lg:mt-32 mb-10 flex flex-col items-center">
+<footer class="container mt-20 lg:mt-64 mb-10 flex flex-col items-center">
     <div>
         @if($url=='/')
         <div class="text-center">
-            <h3 class="text-h5 lg:text-h3">{{__('We are here to know all of your opinion')}}</h3>
-            <p class="text-gray_6 mt-1 lg:mt-2  h6 lg:text-h5">{{__('Subscribe to our newsletter to stay updated with the latest features<br>
+            <h3 class="text-h5 lg:text-h3 font-medium">{{__('We are here to know all of your opinion')}}</h3>
+            <p class="text-gray_6 mt-1 lg:mt-1  h6 lg:text-h5  lg:w-9/12 m-auto">{{__('Subscribe to our newsletter to stay updated with the latest features
                 and improvements in Ticketby.')}}</p>
         </div>
         <div
-            class="flex items-center bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1 xl:w-w-480  max-w-full	 mt-7 mb-7 lg:mb-14 mx-auto ">
+            class="flex items-center bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1 xl:w-w-480  max-w-full	 mt-m-32 mb-7 lg:mb-16 mx-auto ">
             <span class="p-16-16">
                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -26,12 +26,12 @@ $showLinkBanner = \App\Models\Setting::find(1,['show_link_banner','googleplay_li
             <form action="" class="flex items-center space-x-2  h-14 w-full m-0">
                 <input type="text" class="border bg-transparent border-transparent p-16-16 w-full text-h6 lg:text-h5 "
                     placeholder="{{__('Your email address')}}">
-                <button type="submit" class="bg-primary_color_8 text-white h-full rounded-1-lr p-x3 text-h6 lg:text-h5 m-0">{{{__('Subscribe')}}}</button>
+                <button type="submit" class="  @if($lang == 'ar')  rounded-tl-2xl rounded-bl-2xl @else rounded-1-lr @endif bg-primary_color_8 text-white h-full  p-x3 text-h6 lg:text-h5 m-0 font-medium">{{{__('Subscribe')}}}</button>
             </form>
         </div>
         @endif
 
-        <div class="flex flex-row gap-5 md:gap-9 mb-3 justify-center">
+        <div class="flex flex-row gap-5 md:gap-7 mb-3 justify-center">
             <a href="">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.7188 9.25C17.7188 13.6094 14.5195 17.2305 10.3359 17.8633V11.7812H12.375L12.7617 9.25H10.3359V7.63281C10.3359 6.92969 10.6875 6.26172 11.7773 6.26172H12.8672V4.11719C12.8672 4.11719 11.8828 3.94141 10.8984 3.94141C8.92969 3.94141 7.62891 5.17188 7.62891 7.35156V9.25H5.41406V11.7812H7.62891V17.8633C3.44531 17.2305 0.28125 13.6094 0.28125 9.25C0.28125 4.43359 4.18359 0.53125 9 0.53125C13.8164 0.53125 17.7188 4.43359 17.7188 9.25Z" fill="#A986BF" />
@@ -53,10 +53,10 @@ $showLinkBanner = \App\Models\Setting::find(1,['show_link_banner','googleplay_li
                 </svg>
             </a>
         </div>
-        <p class="text-center mt-4 text-h7"> {{__('Copyright @ 2024 Wasl Technology Company. All Rights Reserved')}}</p>
-        <div class="flex mt-4 gap-1 lg:gap-4 flex-wrap justify-center">
-            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-2 py-1">
-                <svg class="h-2 w-4" width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <p class="text-center  text-h7"> {{__('Copyright @ 2024 Wasl Technology Company. All Rights Reserved')}}</p>
+        <div class="flex mt-4 gap-1  flex-wrap justify-center">
+            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-1 py-1 w-8 lg:w-w-60 h-4 flex items-center justify-center ">
+                <svg class="" width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect y="0.5" width="32" height="21" fill="url(#pattern0_2044_8176)" />
                     <defs>
                         <pattern id="pattern0_2044_8176" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -66,8 +66,8 @@ $showLinkBanner = \App\Models\Setting::find(1,['show_link_banner','googleplay_li
                     </defs>
                 </svg>
             </div>
-            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-2 py-1">
-                <svg class="h-2 w-4" width="48" height="22" viewBox="0 0 48 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-1 py-1 w-8 lg:w-w-60 h-4 flex items-center justify-center ">
+                <svg class="" width="48" height="22" viewBox="0 0 48 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9.07191 3.44508C9.63704 2.73821 10.0205 1.78918 9.91941 0.819336C9.09216 0.860492 8.08266 1.36515 7.49823 2.07249C6.97342 2.6783 6.50898 3.66708 6.6301 4.59623C7.5586 4.67677 8.48644 4.13208 9.07191 3.44508Z" fill="white" />
                     <path d="M9.9088 4.77784C8.56021 4.6975 7.41355 5.54322 6.76949 5.54322C6.12515 5.54322 5.1389 4.81834 4.07222 4.83784C2.68387 4.85828 1.39566 5.64325 0.691128 6.89171C-0.757963 9.3893 0.308723 13.0941 1.71788 15.1282C2.40216 16.1345 3.22697 17.2426 4.31362 17.2028C5.34037 17.1625 5.74284 16.5379 6.99084 16.5379C8.23799 16.5379 8.60052 17.2028 9.68736 17.1826C10.8145 17.1625 11.5191 16.1758 12.2034 15.1684C12.9885 14.0212 13.3099 12.9135 13.33 12.8527C13.3098 12.8325 11.1566 12.0065 11.1366 9.52974C11.1163 7.4559 12.8271 6.46937 12.9077 6.40825C11.9417 4.9795 10.4321 4.81834 9.9088 4.77784Z" fill="white" />
                     <path d="M21.6514 1.97119C24.5826 1.97119 26.6236 3.99169 26.6236 6.93337C26.6236 9.88555 24.5405 11.9165 21.5779 11.9165H18.3326V17.0776H15.9878V1.97119H21.6514ZM18.3325 9.94837H21.0229C23.0644 9.94837 24.2262 8.84924 24.2262 6.94387C24.2262 5.03869 23.0644 3.94988 21.0334 3.94988H18.3325V9.94837Z" fill="white" />
@@ -75,8 +75,8 @@ $showLinkBanner = \App\Models\Setting::find(1,['show_link_banner','googleplay_li
                     <path d="M38.6412 21.129V19.297C38.8084 19.3388 39.1852 19.3388 39.3737 19.3388C40.4205 19.3388 40.986 18.8992 41.3312 17.7686C41.3312 17.7476 41.5304 17.0985 41.5304 17.088L37.5524 6.06445H40.0018L42.7868 15.0257H42.8284L45.6134 6.06445H48L43.875 17.6532C42.9332 20.323 41.8444 21.1813 39.5623 21.1813C39.3737 21.1813 38.8083 21.1603 38.6412 21.129Z" fill="white" />
                 </svg>
             </div>
-            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-2 py-1">
-                <svg class="h-2 w-4" width="52" height="18" viewBox="0 0 52 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-1 py-1 w-8 lg:w-w-60 h-4 flex items-center justify-center ">
+                <svg class="" width="52" height="18" viewBox="0 0 52 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22.0413 10.3145H0.290955V17.5603H22.0413V10.3145Z" fill="#84B740" />
                     <path d="M22.0413 0.427246H0.290955V7.6795H22.0413V0.427246Z" fill="#259BD6" />
                     <path d="M43.7916 16.0879L43.6947 16.1073C43.3589 16.1719 43.2362 16.1977 42.9908 16.1977C42.4224 16.1977 41.7508 15.9071 41.7508 14.538C41.7508 13.834 41.867 12.8977 42.9261 12.8977H42.9326C43.1134 12.9106 43.3201 12.93 43.7075 13.0462L43.7915 13.072L43.7916 16.0879ZM43.966 9.26182L43.7916 9.29415V11.8256L43.6367 11.7804L43.5914 11.7675C43.4171 11.7158 43.0167 11.5996 42.6292 11.5996C40.511 11.5996 40.0654 13.2013 40.0654 14.5444C40.0654 16.385 41.0987 17.4441 42.9005 17.4441C43.6625 17.4441 44.2243 17.3666 44.7927 17.1793C45.3158 17.0115 45.503 16.7724 45.503 16.2622V8.99707C44.9993 9.08745 44.4762 9.17783 43.966 9.26182Z" fill="white" />
@@ -87,16 +87,16 @@ $showLinkBanner = \App\Models\Setting::find(1,['show_link_banner','googleplay_li
                     <path d="M34.2663 7.17556H34.3438C36.1456 7.17556 36.9851 6.58139 36.9851 5.11552C36.9851 4.06281 36.2165 3.22333 34.925 3.22333H33.2654C32.7681 3.22333 32.471 2.93915 32.471 2.46131C32.471 2.1384 32.5937 1.73803 33.4074 1.73803H37.0367C37.1142 1.26658 37.1529 0.969495 37.224 0.498047H33.4525C31.696 0.498047 30.8112 1.23424 30.8112 2.46131C30.8112 3.67535 31.5798 4.30825 32.8713 4.30825H34.5309C35.0282 4.30825 35.3253 4.70223 35.3253 5.11552C35.3253 5.38678 35.2026 5.9486 34.3953 5.9486H34.1176L28.8027 5.93569H27.834C27.0138 5.93569 26.4391 5.47076 26.4391 4.39223V3.64953C26.4391 2.52587 26.8847 1.82841 27.834 1.82841H29.4097C29.4808 1.35056 29.5259 1.04697 29.5906 0.594942H27.6273H27.44C25.832 0.594942 24.7213 1.67347 24.6825 3.55263V3.6237V4.39223C24.7213 6.27151 25.832 7.16916 27.44 7.16916H27.6273H29.0093L31.8895 7.17567H33.6074L34.2663 7.17556Z" fill="white" />
                 </svg>
             </div>
-            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-2 py-1">
-                <svg class="h-2 w-4" width="58" height="18" viewBox="0 0 58 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-1 py-1 w-8 lg:w-w-60 h-4 flex items-center justify-center ">
+                <svg class="" width="58" height="18" viewBox="0 0 58 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M37.3578 12.9454V4.20916H38.8393V4.90966C39.2901 4.34604 39.9585 4.04004 40.7878 4.04004C42.4948 4.04004 43.7186 5.40079 43.7186 7.34929C43.7186 9.29779 42.4868 10.6828 40.7878 10.6828C39.9504 10.6828 39.2901 10.3607 38.8393 9.79704V12.9453L37.3578 12.9454ZM38.8394 6.54429V8.15466C39.1534 8.80691 39.717 9.28191 40.5303 9.28191C41.5126 9.28191 42.1729 8.54916 42.1729 7.34141C42.1729 6.14979 41.5126 5.42504 40.5303 5.42504C39.717 5.43304 39.1534 5.87591 38.8394 6.54429Z" fill="#02AA7C" />
                     <path d="M44.6769 8.70217C44.6769 7.6393 45.3371 6.89855 46.4321 6.76167L48.9524 6.43955V6.12555C48.9524 5.74717 48.7591 5.5458 48.4049 5.5458H45.2405V4.20117H48.4613C49.7415 4.20117 50.442 4.82917 50.442 5.94042V10.4897H48.9444V9.7248C48.5096 10.3368 47.793 10.6829 46.867 10.6829C45.5626 10.6829 44.6769 9.8858 44.6769 8.70217ZM47.2293 9.47505C47.9861 9.47505 48.6866 9.0483 48.9443 8.4203V7.63117L47.0199 7.89692C46.4885 7.96942 46.1905 8.25117 46.1905 8.71017C46.1906 9.2013 46.569 9.47505 47.2293 9.47505Z" fill="#02AA7C" />
                     <path d="M51.5209 11.6009H52.5999C53.0105 11.6009 53.1957 11.4318 53.3326 11.0453L53.5259 10.4897L51.2391 4.20117H52.7851L54.2102 8.58142H54.2425L55.6032 4.20117H57.125L54.6209 11.4237C54.2827 12.414 53.8317 12.9454 52.7287 12.9454H51.521L51.5209 11.6009Z" fill="#02AA7C" />
                     <path d="M6.31 17.2692C8.03313 17.2692 9.45025 16.7297 10.3842 15.828C11.0847 15.1355 11.4954 14.2015 11.4954 13.1226C11.4954 12.1483 11.133 11.2707 10.4648 10.6023C9.7965 9.93396 8.83825 9.44283 7.6305 9.20933L5.64975 8.82283C4.8285 8.66983 4.3615 8.25921 4.3615 7.68758C4.3615 6.93871 5.08612 6.42346 6.24562 6.42346C6.97025 6.42346 7.59025 6.65696 8.00088 7.06758C8.2585 7.34946 8.43562 7.71171 8.492 8.12233L11.3504 7.47821C11.2699 6.65696 10.8834 5.93221 10.2956 5.33646C9.35362 4.41046 7.91225 3.82271 6.21338 3.82271C4.64325 3.82271 3.33087 4.33808 2.421 5.15933C1.648 5.88396 1.21325 6.85821 1.21325 7.94521C1.21325 8.89533 1.51925 9.70046 2.13925 10.3125C2.75925 10.9325 3.661 11.3915 4.84462 11.6812L6.80125 12.1482C7.78363 12.3817 8.21838 12.7441 8.21838 13.3882C8.21838 14.1853 7.49375 14.6523 6.31013 14.6523C5.45663 14.6523 4.76412 14.3705 4.32937 13.9035C4.02337 13.5975 3.83825 13.1788 3.814 12.7198L0.875 13.3641C0.9555 14.2417 1.36612 15.0147 1.98612 15.6347C2.96038 16.6572 4.53863 17.2692 6.31 17.2692ZM28.066 17.2692C29.9743 17.2692 31.4398 16.5767 32.4461 15.5945C33.2433 14.8215 33.7344 13.9197 33.9921 12.9937L30.9808 11.9872C30.8519 12.4542 30.5942 12.9453 30.1836 13.3238C29.6925 13.7908 29.0241 14.121 28.066 14.121C27.1884 14.121 26.3671 13.7828 25.7712 13.195C25.1754 12.575 24.8131 11.6732 24.8131 10.5378C24.8131 9.37833 25.1755 8.50071 25.7712 7.88071C26.359 7.28483 27.1643 6.97896 28.0419 6.97896C28.9679 6.97896 29.612 7.28496 30.079 7.75196C30.4655 8.13846 30.699 8.62958 30.852 9.12071L33.9198 8.09008C33.6862 7.18833 33.1951 6.28646 32.4785 5.53771C31.4479 4.53121 29.9502 3.81458 27.9695 3.81458C26.1418 3.81458 24.4911 4.50708 23.3075 5.69871C22.1239 6.90646 21.3993 8.58933 21.3993 10.546C21.3993 12.5026 22.1481 14.1773 23.3559 15.3932C24.5312 16.5767 26.206 17.2692 28.066 17.2692ZM17.655 17.2692C18.9916 17.2692 19.9497 16.8586 20.3604 16.4962V13.7103C20.0464 13.9438 19.4344 14.2257 18.6292 14.2257C18.0576 14.2257 17.6469 14.0968 17.341 13.8151C17.0834 13.5575 16.9545 13.1146 16.9545 12.5268V0.730957H13.5486V4.20933H20.3524V7.51058H13.5486V13.3642C13.5486 14.5478 13.911 15.506 14.5551 16.1743C15.2797 16.8827 16.3425 17.2692 17.655 17.2692Z" fill="white" />
                 </svg>
             </div>
-            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-2 py-1">
-                <svg class="h-2 w-4" width="58" height="24" viewBox="0 0 58 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-1 py-1 w-8 lg:w-w-60 h-4 flex items-center justify-center ">
+                <svg class="" width="58" height="24" viewBox="0 0 58 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M53.5082 23.5513H4.49184C2.0139 23.5513 0 21.5374 0 19.0534V4.94008C0 2.46214 2.0139 0.448242 4.49184 0.448242H53.5082C55.9922 0.448242 58 2.46214 58 4.94008V19.0541C58 21.5374 55.9861 23.5513 53.5082 23.5513Z" fill="url(#paint0_linear_2044_8221)" />
                     <path d="M50.1944 7.77783L47.0955 19.6227L47.0833 19.6463H49.5041L52.6145 7.77783H50.1944Z" fill="#292929" />
                     <path d="M11.8099 14.5158C11.4906 14.6842 11.0555 14.7825 10.6433 14.7825C9.77309 14.7825 9.27933 14.643 9.22752 13.9412V13.8947C9.22752 13.8658 9.22142 13.8368 9.22142 13.8079V11.765L9.22752 11.5212V10.0765H9.22142V9.46158L9.22752 9.21775V7.8241L7.06884 8.10831C8.53107 7.8241 9.36696 6.66894 9.36696 5.51988V4.81201H6.94083V8.12584L6.80139 8.16622V14.3062C6.88292 16.0298 8.01979 17.0569 9.88282 17.0569C10.5442 17.0569 11.2696 16.9061 11.8266 16.6561L11.838 16.6501V14.4967L11.8099 14.5158Z" fill="#292929" />
@@ -114,13 +114,13 @@ $showLinkBanner = \App\Models\Setting::find(1,['show_link_banner','googleplay_li
                     </defs>
                 </svg>
             </div>
-            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-2 py-1">
-                <svg class="h-2 w-4" width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-1 py-1 w-8 lg:w-w-60 h-4 flex items-center justify-center ">
+                <svg class="" width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M24.8245 5.20554C24.7971 7.36469 26.7487 8.56966 28.2188 9.28601C29.7294 10.0211 30.2367 10.4924 30.231 11.1497C30.2194 12.1557 29.026 12.5997 27.909 12.617C25.9602 12.6473 24.8273 12.0909 23.9265 11.67L23.2246 14.9549C24.1283 15.3714 25.8017 15.7346 27.5371 15.7505C31.6104 15.7505 34.2754 13.7398 34.2898 10.6221C34.3057 6.66563 28.817 6.44654 28.8545 4.678C28.8675 4.14182 29.3791 3.5696 30.5005 3.42402C31.0554 3.35051 32.5876 3.2943 34.3244 4.09425L35.0062 0.916064C34.0722 0.575905 32.8715 0.250158 31.3769 0.250158C27.5428 0.250158 24.8461 2.28823 24.8245 5.20554ZM41.5571 0.524015C40.8134 0.524015 40.1864 0.957864 39.9068 1.62377L34.088 15.517H38.1584L38.9685 13.2786H43.9426L44.4125 15.517H48L44.8694 0.524015H41.5571ZM42.1265 4.57422L43.3012 10.2042H40.0841L42.1265 4.57422ZM19.8893 0.524015L16.6808 15.517H20.5595L23.7665 0.524015H19.8893ZM14.1512 0.524015L10.114 10.7288L8.48093 2.05185C8.28923 1.08326 7.53252 0.524015 6.69221 0.524015H0.0922467L0 0.959305C1.35487 1.25334 2.89424 1.72755 3.8268 2.2349C4.39757 2.5448 4.56045 2.81577 4.74782 3.5523L7.84097 15.517H11.9402L18.2245 0.524015H14.1512Z" fill="white" />
                 </svg>
             </div>
-            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-2 py-1">
-                <svg class="h-2 w-4" width="56" height="24" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div class="bg-light bg-opacity-5 rounded-lg border border-primary_color_o10_1 px-1 lg:px-1 py-1 w-8 lg:w-w-60 h-4 flex items-center justify-center ">
+                <svg class="" width="56" height="24" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g clip-path="url(#clip0_2044_8205)">
                         <mask id="mask0_2044_8205" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-1" y="0" width="57" height="24">
                             <path d="M53.3325 0.958984H2.65704C1.18393 0.958984 -0.0102539 2.15317 -0.0102539 3.62628V20.3951C-0.0102539 21.8682 1.18393 23.0624 2.65704 23.0624H53.3325C54.8056 23.0624 55.9998 21.8682 55.9998 20.3951V3.62628C55.9998 2.15317 54.8056 0.958984 53.3325 0.958984Z" fill="white" />

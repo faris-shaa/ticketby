@@ -10,26 +10,24 @@
 
 
 @php
-if (session('direction') == 'rtl') {
-$lang = 'ar';
-}else{
-$lang = 'en';
-}@endphp
-@php $ticket_amount = 0 ; 
+$lang = session('direction') == 'rtl' ? 'ar' : 'en';
+
+@endphp
+@php $ticket_amount = 0 ;
 @endphp
 @foreach( $data->ticket_details as $ticket)
-@php $ticket_amount = $ticket_amount + ($ticket->price * $ticket->selected_quantity);  @endphp
+@php $ticket_amount = $ticket_amount + ($ticket->price * $ticket->selected_quantity); @endphp
 
 @endforeach
 
 
-<div class="container mt-12 md:mt-32 ">
+<div class="container mt-12 md:mt-16 ">
     <div class="grid grid-cols-12 xl:gap-14">
         <div id="ticketorder"
             class="col-span-12 lg:col-span-7 bg-primary_color_o10_1 bg-opacity-5 rounded-2xl border border-primary_color_o10_1 p-2 md:p-4">
             <div class="mb-4 flex gap-1 flex-wrap">
-                <h3 class="font-bold">{{ __('Payment methods') }}</h3>
-                <p class="h4 text-gray_9"> {{ __('How would you like to pay?') }}</p>
+                <h3 class="font-bold md:text-h3 text-h5">{{ __('Payment methods') }}</h3>
+                <p class="text-h5 xl:text-h4 text-gray_9"> {{ __('How would you like to pay?') }}</p>
             </div>
             <input type="hidden" name="totalAmountTax" id="totalAmountTax" value="{{ $data->totalAmountTax }}">
             <input type="hidden" name="totalPersTax" id="totalPersTax" value="{{ $data->totalPersTax }}">
@@ -113,11 +111,11 @@ $lang = 'en';
                 <div class="edafpay card-pay hidden bg-gray_f  w-full rounded-2xl border border-primary_color_8 p-24-16 mt-2">
                     <form>
                         <div class='cd-holder mb-4'>
-                            <label for='cd-holder-input' class="mb-1 block text-gray_b5">{{ __('Card Holder') }}</label>
+                            <label for='cd-holder-input' class="mb-1 block text-gray_b5 md:text-h5 text-h6 ">{{ __('Card Holder') }}</label>
                             <input class='bg-gray_b12 bg-opacity-30 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1' type='text' id='cd-holder-input' />
                         </div>
                         <div class='cd-numbers mb-4'>
-                            <label class="mb-1 block text-gray_b5">{{ __('Card Number') }}</label>
+                            <label class="mb-1 block text-gray_b5 md:text-h5 text-h6 ">{{ __('Card Number') }}</label>
                             <div id="cd-numbergnate" class='fields flex bg-gray_b12 bg-opacity-30  w-full  outline-0 rounded-lg border border-primary_color_o10_1 focus:border-primary_color_6 outline-0 '>
                                 <input type="text" maxlength="19" class="bg-transparent bg-opacity-30  text-center  w-full p-1 md:p-16-16  outline-0 rounded-lg border border-primary_color_0 m-0">
                                 <input type='hidden' class='' maxlength="4" id="cd-number-1" />
@@ -128,7 +126,7 @@ $lang = 'en';
                         </div>
                         <div class='flex gap-1'>
                             <div class='flex-1 '>
-                                <label class=' mb-1 block text-gray_b5'>{{ __('Expiry date') }}</label>
+                                <label class=' mb-1 block text-gray_b5 md:text-h5 text-h6 '>{{ __('Expiry date') }}</label>
                                 <div class="flex bg-gray_b12 bg-opacity-30  w-full  outline-0 rounded-lg border border-primary_color_o10_1">
                                     <input type="hidden" id='month' value="" maxlength="2">
                                     <input type="hidden" id='year' value="" maxlength="2">
@@ -136,7 +134,7 @@ $lang = 'en';
                                 </div>
                             </div>
                             <div class='flex-1 '>
-                                <label class="mb-1 block text-gray_b5" for='cvc'>{{ __('CCV') }}</label>
+                                <label class="mb-1 block text-gray_b5 md:text-h5 text-h6 " for='cvc'>{{ __('CCV') }}</label>
                                 <input class="bg-gray_b12 bg-opacity-30 p-1 md:p-16-16 w-full focus:border-primary_color_6 outline-0 rounded-lg border border-primary_color_o10_1" type='text' id='cvc' />
                             </div>
                         </div>
@@ -238,7 +236,7 @@ $lang = 'en';
                             </svg>
                         </div>
                         <div class="h6">Tabby</div>
-                        <p class="text-gray_6 text-h6 font-medium">Split in up to 4 payments</p>
+                        <p class="text-gray_6 text-h6 font-medium">{{__('Split in up to 4 payments')}}</p>
                     </div>
                     <div class="relative">
                         <input id="Tabby" type="radio" value="TABBY"
@@ -311,9 +309,9 @@ $lang = 'en';
             @endif
         </div>
         <div
-            class="col-span-12 lg:col-span-5   rounded-2xl  bg-primary_color_o10_1 bg-opacity-5 border border-primary_color_o10_1   p-2 md:p-4 h-fit">
+            class="mt-4 col-span-12 lg:col-span-5   rounded-2xl  bg-primary_color_o10_1 bg-opacity-5 border border-primary_color_o10_1   p-2 md:p-4 h-fit">
             <div class="mb-4">
-                <h3 class="font-bold">{{ __('Order Summary') }}</h3>
+                <h3 class="font-bold text-h5 md:text-h3">{{ __('Order Summary') }}</h3>
             </div>
             <div class="bg-gray_f p-16-16 rounded-lg flex gap-3 items-center border border-primary_color_o10_1">
                 <div class="h-8 w-8">
@@ -343,7 +341,7 @@ $lang = 'en';
             <div class="mt-4">
                 <div
                     class="flex items-center    py-3 px-2 border border-dashed border-primary_color_5 rounded-lg border">
-                    <input type="text" value="" name="coupon_code" id="coupon_id" placeholder="Promo code"
+                    <input type="text" value="" name="coupon_code" id="coupon_id" placeholder="{{__('Promo code')}}"
                         class=" w-full focus:border-primary_color_6 outline-0  bg-transparent  " name="" id="">
                     <button type="button" id="apply" name="apply" class="rounded-lg bg-primary_color_8 py-1 px-4 text-center  h6 ">{{ __('Apply') }}
                     </button>
@@ -351,34 +349,34 @@ $lang = 'en';
                 <div class="couponerror"></div>
             </div>
             <div class="mt-4 bg-gray_f p-16-16 rounded-lg  border border-primary_color_o10_1">
-                <h4 class="mb-2 text-primary_color_6"> Transaction Details</h4>
+                <h4 class="mb-2 text-primary_color_6"> {{__('Transaction Details')}}</h4>
                 <ul class="">
-                     <li class="mb-2 flex justify-between  ">
+                    <li class="mb-2 flex justify-between  ">
                         <span class="h7"> {{ __('Promo code') }}</span>
                         <span class="text-green h6 discount">-0 {{$data->currency}} </span>
                     </li>
                     <li class="mb-2 flex justify-between  ">
                         <span class="h7"> {{ __('Tickets Amount') }}</span>
                         <span class=" h6  ticket-price-amount ">
-                            
+
                             {{$ticket_amount}}
-                         {{$data->currency}} 
+                            {{$data->currency}}
                         </span>
                     </li>
                     <li class="mb-2 flex justify-between  ">
                         <span class="h7"> {{ __('Tax amount') }}</span>
-                        <span  class="h6 totaltax tax_total ">
+                        <span class="h6 totaltax tax_total ">
                             {{ $data->tax_total }} {{ __($currency) }}
                         </span>
                     </li>
-                   
+
                     <li class="mb-2 flex justify-between  ">
                         <span class="h7"> {{ __('Service fee') }}</span>
                         <span class="h6">0 {{$data->currency}}</span>
                     </li>
                     <li class="mb-2 flex justify-between   font-bold  ">
                         <span class="h7"> {{ __('Total') }} </span>
-                        <span class="h6  payment">{{$data->total_amount}} {{$data->currency}}</span>  
+                        <span class="h6  payment">{{$data->total_amount}} {{$data->currency}}</span>
                     </li>
                 </ul>
             </div>

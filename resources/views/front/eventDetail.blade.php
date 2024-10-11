@@ -36,28 +36,25 @@ $error = $response->json();
 // Log the exception message or display an error message
 }
 
-if (session('direction') == 'rtl') {
-$lang = 'ar';
-}else{
-$lang = 'en';
-}
+$lang = session('direction') == 'rtl' ? 'ar' : 'en';
+
 @endphp
 
 <style type="text/css">
-   .error{
-          padding: 20px;
-    color: #df3e3e;
+   .error {
+      padding: 20px;
+      color: #df3e3e;
    }
 </style>
 
-<div class="container mt-12 md:mt-32 ">
+<div class="container mt-12 md:mt-16 ">
    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
       <div class="col-span-12 md:col-span-8  ">
          <h2 class="font-medium text-h3 lg:text-h2">
             {{ $lang == 'ar' ? $event['event']['name_arabic'] :$event['event']['name'] }}
          </h2>
          <div class="">
-            <p class="flex gap-2  mt-4 items-center">
+            <p class="flex gap-2  mt-2 items-center">
                <svg width="12" height="17" viewBox="0 0 12 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                      d="M8.5 6C8.5 7.40625 7.375 8.5 6 8.5C4.59375 8.5 3.5 7.40625 3.5 6C3.5 4.625 4.59375 3.5 6 3.5C7.375 3.5 8.5 4.625 8.5 6ZM6 7.5C6.8125 7.5 7.5 6.84375 7.5 6C7.5 5.1875 6.8125 4.5 6 4.5C5.15625 4.5 4.5 5.1875 4.5 6C4.5 6.84375 5.15625 7.5 6 7.5ZM12 6C12 8.75 8.34375 13.5938 6.71875 15.625C6.34375 16.0938 5.625 16.0938 5.25 15.625C3.625 13.5938 0 8.75 0 6C0 2.6875 2.65625 0 6 0C9.3125 0 12 2.6875 12 6ZM6 1C3.21875 1 1 3.25 1 6C1 6.5 1.15625 7.15625 1.5 8C1.84375 8.8125 2.3125 9.6875 2.875 10.5625C3.9375 12.2812 5.1875 13.9375 6 14.9375C6.78125 13.9375 8.03125 12.2812 9.09375 10.5625C9.65625 9.6875 10.125 8.8125 10.4688 8C10.8125 7.15625 11 6.5 11 6C11 3.25 8.75 1 6 1Z"
@@ -69,7 +66,7 @@ $lang = 'en';
                <a target="_blank" href="@if( $event['event']['address_url']) {{$event['event']['address_url']}} @else # @endif"><span class="h5">{{ $event['event']['address'] }}</span></a>
                @endif
             </p>
-            <p class="flex gap-2  mt-2 lg:mt-4 items-center">
+            <p class="flex gap-2  mt-2 lg:mt-2 items-center">
                <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                      d="M3.5 0C3.75 0 4 0.25 4 0.5V2H10V0.5C10 0.25 10.2188 0 10.5 0C10.75 0 11 0.25 11 0.5V2H12C13.0938 2 14 2.90625 14 4V6.03125C13.8125 6.03125 13.6562 6 13.5 6C13.3125 6 13.1562 6.03125 13 6.03125V6H1V14C1 14.5625 1.4375 15 2 15H9.25C9.5625 15.4062 9.90625 15.7188 10.3125 16H2C0.875 16 0 15.125 0 14V4C0 2.90625 0.875 2 2 2H3V0.5C3 0.25 3.21875 0 3.5 0ZM12 3H2C1.4375 3 1 3.46875 1 4V5H13V4C13 3.46875 12.5312 3 12 3ZM13.4688 9C13.75 9 13.9688 9.25 13.9688 9.5V11H15C15.25 11 15.5 11.25 15.5 11.5C15.5 11.7812 15.25 12 15 12H13.4688C13.2188 12 12.9688 11.7812 12.9688 11.5V9.5C12.9688 9.25 13.2188 9 13.4688 9ZM9 11.5C9 9.03125 11 7 13.5 7C15.9688 7 18 9.03125 18 11.5C18 14 15.9688 16 13.5 16C11 16 9 14 9 11.5ZM13.5 15C15.4062 15 17 13.4375 17 11.5C17 9.59375 15.4062 8 13.5 8C11.5625 8 10 9.59375 10 11.5C10 13.4375 11.5625 15 13.5 15Z"
@@ -123,7 +120,7 @@ $lang = 'en';
             <span class="h4 text-dark font-medium">{{ __(key: $currency) }} {{$minPrice}}</span>
             <a href="#tickets_section" class="mt-4 rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2 cursor-pointer btn-hover-primary">
                <span class="z-20">{{ __('Get Tickets') }}</span>
-               <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <svg class="@if($lang == 'ar') rotate-180 @endif" width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                      d="M9.90625 1.24609L16.0938 7.15234C16.2695 7.32812 16.375 7.53906 16.375 7.78516C16.375 7.99609 16.2695 8.20703 16.0938 8.38281L9.90625 14.2891C9.58984 14.6055 9.02734 14.6055 8.71094 14.2539C8.39453 13.9375 8.39453 13.375 8.74609 13.0586L13.4219 8.62891H1.46875C0.976562 8.62891 0.625 8.24219 0.625 7.78516C0.625 7.29297 0.976562 6.94141 1.46875 6.94141H13.4219L8.74609 2.47656C8.39453 2.16016 8.39453 1.59766 8.71094 1.28125C9.02734 0.929688 9.55469 0.929688 9.90625 1.24609Z"
                      fill="#A986BF" />
@@ -173,7 +170,7 @@ $lang = 'en';
             {{ $lang == 'ar' ?$event['event']['name_arabic'] : $event['event']['name'] }}
          </p>
          <a href="https://maps.google.com/maps?daddr={{ $event['event']['lat']}},{{$event['event']['lang']}}&amp;ll=" class="mt-2 fs-h4 flex items-center gap-1 text-primary_color_3">Go to google maps
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M6.81405 2.73429L11.2444 7.48435C11.379 7.62888 11.4463 7.81444 11.4463 7.99997C11.4463 8.18554 11.379 8.37107 11.2444 8.5156L6.81405 13.2657C6.53328 13.5664 6.06599 13.5791 5.76996 13.295C5.47187 13.0098 5.46131 12.5333 5.7411 12.2344L9.69076 7.99997L5.7411 3.76554C5.46131 3.46672 5.47187 2.9921 5.76996 2.705C6.06599 2.42082 6.53328 2.4335 6.81405 2.73429Z" fill="#E0D3E8" />
             </svg>
          </a>
@@ -191,7 +188,7 @@ $lang = 'en';
             {{ Carbon\Carbon::parse($event['event']['end_time'])->format('d M Y') }}
          </p>
          <a href="" class="mt-2 fs-h4 flex items-center gap-1 text-primary_color_3">Add to calendar
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M6.81405 2.73429L11.2444 7.48435C11.379 7.62888 11.4463 7.81444 11.4463 7.99997C11.4463 8.18554 11.379 8.37107 11.2444 8.5156L6.81405 13.2657C6.53328 13.5664 6.06599 13.5791 5.76996 13.295C5.47187 13.0098 5.46131 12.5333 5.7411 12.2344L9.69076 7.99997L5.7411 3.76554C5.46131 3.46672 5.47187 2.9921 5.76996 2.705C6.06599 2.42082 6.53328 2.4335 6.81405 2.73429Z" fill="#E0D3E8" />
             </svg>
          </a>
@@ -221,7 +218,7 @@ $lang = 'en';
       </span>
    </div>
    <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 mt-4 lg:mt-8">
-      <div class="flex items-center   justify-between cursor-pointer" onclick="toggleAccordion('Terms_conditions')">
+      <div data-accordion="terms_conditions" class="accordion flex items-center   justify-between cursor-pointer">
          <h3 class="text-primary_color_6 font-medium text-h4 lg:text-h3">{{__( 'Terms and conditions')}}</h3>
          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -229,7 +226,7 @@ $lang = 'en';
                fill="#E0D3E8" />
          </svg>
       </div>
-      <div id="Terms_conditions" class="hidden h4 mt-4">
+      <div id="terms_conditions" class="hidden h4 mt-4">
          <p>{{__(key: 'Content for Terms and conditions.')}}</p>
       </div>
    </div>
@@ -249,9 +246,9 @@ $lang = 'en';
    <div class="mb-10 lg:mb-16 grid grid-cols-3 xl:grid-cols-6  gap-1">
       @foreach ($event['event']['paid_ticket'] as $ticket)
       <div id="{{$ticket['id']}}" data-start_time="{{$ticket['start_time']}}" data-end_time="{{$ticket['end_time']}}"
-         class=" slotEvent cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-1 lg:py-2 px-1  text-center inner-hover transition">
+         class=" slotEvent cursor-pointer bg-primary_color_12  hover:bg-primary_color_8   hover:border-primary_color_6  hover:bg-opacity-25 rounded-2xl border border-primary_color_o25_8 py-1 lg:py-4  px-3  text-center inner-hover transition">
          <h3 class="font-bold text-h5 lg:text-h3">{{$ticket['name']}} </h3>
-         <div class="f-bri h5 font-bold my-3">{{ __(key: $currency) }} {{$ticket['price']}}</div>
+         <div class="f-bri h5 font-bold mt-3">{{ __(key: $currency) }} {{$ticket['price']}}</div>
       </div>
       @endforeach
    </div>
@@ -263,9 +260,9 @@ $lang = 'en';
          <p class="text-gray_9 text-h4">{{__( 'Choose your ticket and quantity.')}}</p>
       </div>
       <div class="flex gap-1 mt-3 md:mt-0">
-         <button class=" bg-gray_f   h-12 p-1 px-4 rounded-5xl" id="tomorrow-slot">Tomorrow</button>
-         <div class=" bg-gray_f   h-12 p-1 px-4 rounded-5xl   flex items-center cursor-pointer w-40 ">
-            <input type="text" name="" placeholder="{{__( 'Custom date')}}" id="datepicker" class="slotEventCustome datepicker cursor-pointer placeholder-white w-full  f-bri bg-transparent outline-0  ">
+         <button class=" bg-gray_f   h-12 p-1 px-4 rounded-5xl text-h6" id="tomorrow-slot">{{__('Tomorrow')}}</button>
+         <div id="datepicker-cont" class="datepicker-container event-date relative  bg-gray_f   h-12 p-1 px-4 rounded-5xl   gap-1 flex items-center cursor-pointer w-40 ">
+            <input type="text" name="" placeholder="{{__( 'Custom date')}}" id="datepicker" class="slotEventCustome text-h6 datepicker cursor-pointer placeholder-white w-full  f-bri bg-transparent outline-0  ">
             <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M6.37109 6.87891L1.12109 1.62891C0.765625 1.30078 0.765625 0.726562 1.12109 0.398438C1.44922 0.0429688 2.02344 0.0429688 2.35156 0.398438L7 5.01953L11.6211 0.398438C11.9492 0.0429688 12.5234 0.0429688 12.8516 0.398438C13.207 0.726562 13.207 1.30078 12.8516 1.62891L7.60156 6.87891C7.27344 7.23438 6.69922 7.23438 6.37109 6.87891Z" fill="#666666" />
             </svg>
@@ -279,7 +276,7 @@ $lang = 'en';
    </div>
 </div>
 <div class="container mt-4 lg:mt-16">
-   <div class=" bg-light rounded-2xl p-2 md:px-7 md:py-9 ">
+   <div class=" bg-light rounded-2xl p-1 md:px-p32 md:py-5 ">
       <form id="ticketSlot" class="" method="GET" action="{{ url('/checkout/' . $data->id) }}">
          <input value="" type="hidden" class="slot-event-id" name="time_slot_id[]" id="">
          <input value="" type="hidden" class="ids" name="ids[]" id="">
@@ -313,11 +310,11 @@ $lang = 'en';
                   </div>
                </div>
             </div>
-            <div class="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-5 ">
+            <div class="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-6 ">
                <button id="checkAuthButton"
-                  class="rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2  mr-auto lg:mr-0 ml-auto btn-hover-primary">
+                  class="rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2     m-auto md:m-0  @if($lang == 'ar') md:mr-auto @else md:ml-auto lg:mr-0  @endif btn-hover-primary">
                   <span class="z-10"> {{ __('Buy Tickets') }}</span>
-                  <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="@if($lang == 'ar') rotate-180 @endif" width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path
                         d="M9.90625 1.24609L16.0938 7.15234C16.2695 7.32812 16.375 7.53906 16.375 7.78516C16.375 7.99609 16.2695 8.20703 16.0938 8.38281L9.90625 14.2891C9.58984 14.6055 9.02734 14.6055 8.71094 14.2539C8.39453 13.9375 8.39453 13.375 8.74609 13.0586L13.4219 8.62891H1.46875C0.976562 8.62891 0.625 8.24219 0.625 7.78516C0.625 7.29297 0.976562 6.94141 1.46875 6.94141H13.4219L8.74609 2.47656C8.39453 2.16016 8.39453 1.59766 8.71094 1.28125C9.02734 0.929688 9.55469 0.929688 9.90625 1.24609Z"
                         fill="#A986BF"></path>
@@ -326,9 +323,9 @@ $lang = 'en';
             </div>
          </div>
       </form>
-      <h4 id="tickets-alert" class="text-gray_6 flex items-center justify-center gap-2 text-h5 lg:text-h4">{{__( 'Choose your tickets to continue')}}
+      <h4 id="tickets-alert" class="  text-gray_6 flex items-center justify-center gap-2 text-h5 lg:text-h4 py-3">{{__( 'Choose your tickets to continue')}}
          <span>
-            <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path
                   d="M9.40625 0.746094L15.5938 6.65234C15.7695 6.82812 15.875 7.03906 15.875 7.28516C15.875 7.49609 15.7695 7.70703 15.5938 7.88281L9.40625 13.7891C9.08984 14.1055 8.52734 14.1055 8.21094 13.7539C7.89453 13.4375 7.89453 12.875 8.24609 12.5586L12.9219 8.12891H0.96875C0.476562 8.12891 0.125 7.74219 0.125 7.28516C0.125 6.79297 0.476562 6.44141 0.96875 6.44141H12.9219L8.24609 1.97656C7.89453 1.66016 7.89453 1.09766 8.21094 0.78125C8.52734 0.429688 9.05469 0.429688 9.40625 0.746094Z"
                   fill="#A986BF" />
@@ -341,7 +338,7 @@ $lang = 'en';
 <div class="container mt-20 md:mt-32" id="tickets_section">
    <div class="mb-10 md:mb-16">
       <h2 class="font-medium h3 lg:text-h2">{{__( 'Tickets options')}}</h2>
-      <p class="h5 lg:h4  mt-1 lg:mt-2 text-gray_9">{{__( 'Choose your ticket and quantity.')}}</p>
+      <p class="h5 lg:h4  mt-1 lg:mt-1 text-gray_9">{{__( 'Choose your ticket and quantity.')}}</p>
    </div>
 </div>
 
@@ -356,9 +353,9 @@ $lang = 'en';
             <h3 class="font-bold"> {{ $lang == 'ar' ? $item->name_arabic : $item->name }}
             </h3>
             <div class="text-gray_9 h6 my-4 flex flex-col">
-               <span> {{ \Carbon\Carbon::parse($item->start_time)->diffInDays(\Carbon\Carbon::parse($item->end_time)) }} Days
+               <span> {{ \Carbon\Carbon::parse($item->start_time)->diffInDays(\Carbon\Carbon::parse($item->end_time)) }} {{__('Days')}}
                </span>
-               <span>{{ __('Ticket Sale starts onwards') }}</span>
+               <span class="my-1">{{ __('Ticket Sale starts onwards') }}</span>
                <span>
                   {{ Carbon\Carbon::parse($item->start_time)->format('d M Y') }} {{__('till')}}
                   {{ Carbon\Carbon::parse($item->end_time)->format('d M Y') }}
@@ -390,10 +387,10 @@ $lang = 'en';
    </div>
 
    <div class="container mt-4 lg:mt-16">
-      <div class=" bg-light rounded-2xl p-2 md:px-7 md:py-9 ">
+      <div class=" bg-light rounded-2xl p-1 md:px-p32 md:py-5   ">
          <div id="tickets-info" class="hidden grid  grid-cols-12 gap-4  items-center ">
             <div class="col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-6 ">
-               <div class="grid grid-cols-3  gap-1 md:gap-4">
+               <div class="grid grid-cols-2  gap-1 md:gap-4">
                   <div class="hidden col-span-1 md:col-span-1  border-line">
                      <div class="flex mt-4 items-center justify-center gap-4">
                         <button type="button" class="decrement" data-ticket-price="10" data-ticket-id="88">
@@ -412,25 +409,25 @@ $lang = 'en';
                         </button>
                      </div>
                   </div>
-                  <div class="col-span-1   border-line">
-                     <h4 class="w-fit ">
+                  <div class="col-span-1   border-line text-center md:text-start">
+                     <h4 class="w-full md:w-fit ">
                         <span class="block text-gray_6 font-light mb-1 text-h5 lg:text-h4">{{__( 'Quantity')}}</span>
                         <span class="block text-dark font-medium text-h5 lg:text-h4 "><span class="tickets-quantity">0</span> </span>
                      </h4>
                   </div>
-                  <div class="col-span-1 ">
-                     <h4 class="w-fit ">
+                  <div class="col-span-1 text-center md:text-start ">
+                     <h4 class="w-full md:w-fit ">
                         <span class="block text-gray_6 font-light mb-1 text-h5 lg:text-h4">{{ __('Total') }} </span>
                         <span class="block text-dark font-medium  text-h5 lg:text-h4">{{ __($currency) }} <span class="tickets-price">0</span> </span>
                      </h4>
                   </div>
                </div>
             </div>
-            <div class="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-5 ">
+            <div class="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-6 ">
                <button id="checkAuthButton"
-                  class="rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2  mr-auto lg:mr-0 ml-auto btn-hover-primary">
-                  <span class="z-10"> {{ __('Buy Tickets') }}</span>
-                  <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  class="rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2 m-auto md:m-0  @if($lang == 'ar') md:mr-auto @else md:ml-auto lg:mr-0  @endif  btn-hover-primary">
+                  <span class="z-10 "> {{ __('Buy Tickets') }}</span>
+                  <svg class="@if($lang == 'ar') rotate-180 @endif" width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path
                         d="M9.90625 1.24609L16.0938 7.15234C16.2695 7.32812 16.375 7.53906 16.375 7.78516C16.375 7.99609 16.2695 8.20703 16.0938 8.38281L9.90625 14.2891C9.58984 14.6055 9.02734 14.6055 8.71094 14.2539C8.39453 13.9375 8.39453 13.375 8.74609 13.0586L13.4219 8.62891H1.46875C0.976562 8.62891 0.625 8.24219 0.625 7.78516C0.625 7.29297 0.976562 6.94141 1.46875 6.94141H13.4219L8.74609 2.47656C8.39453 2.16016 8.39453 1.59766 8.71094 1.28125C9.02734 0.929688 9.55469 0.929688 9.90625 1.24609Z"
                         fill="#A986BF"></path>
@@ -438,9 +435,9 @@ $lang = 'en';
                </button>
             </div>
          </div>
-         <h4 id="tickets-alert" class="text-gray_6 flex items-center justify-center gap-2 text-h5 lg:text-h4">{{__( 'Choose your tickets to continue')}}
+         <h4 id="tickets-alert" class="  text-gray_6 flex items-center justify-center gap-2 text-h5 lg:text-h4 py-3 ">{{__( 'Choose your tickets to continue')}}
             <span>
-               <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                      d="M9.40625 0.746094L15.5938 6.65234C15.7695 6.82812 15.875 7.03906 15.875 7.28516C15.875 7.49609 15.7695 7.70703 15.5938 7.88281L9.40625 13.7891C9.08984 14.1055 8.52734 14.1055 8.21094 13.7539C7.89453 13.4375 7.89453 12.875 8.24609 12.5586L12.9219 8.12891H0.96875C0.476562 8.12891 0.125 7.74219 0.125 7.28516C0.125 6.79297 0.476562 6.44141 0.96875 6.44141H12.9219L8.24609 1.97656C7.89453 1.66016 7.89453 1.09766 8.21094 0.78125C8.52734 0.429688 9.05469 0.429688 9.40625 0.746094Z"
                      fill="#A986BF" />
@@ -527,14 +524,14 @@ $lang = 'en';
                   </svg>
                   Google</button>
             </div>
-         </div><span class=" close-modal absolute  right-0 top-0 cursor-pointer">
+         </div><span class=" close-modal absolute    @if($lang == 'ar') left-0 @else right-0 @endif  top-0 cursor-pointer">
             <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M10 20.5C4.45312 20.5 0 16.0469 0 10.5C0 4.99219 4.45312 0.5 10 0.5C15.5078 0.5 20 4.99219 20 10.5C20 16.0469 15.5078 20.5 10 20.5ZM6.83594 7.33594C6.44531 7.72656 6.44531 8.3125 6.83594 8.66406L8.67188 10.5L6.83594 12.3359C6.44531 12.7266 6.44531 13.3125 6.83594 13.6641C7.1875 14.0547 7.77344 14.0547 8.125 13.6641L9.96094 11.8281L11.7969 13.6641C12.1875 14.0547 12.7734 14.0547 13.125 13.6641C13.5156 13.3125 13.5156 12.7266 13.125 12.3359L11.2891 10.5L13.125 8.66406C13.5156 8.3125 13.5156 7.72656 13.125 7.33594C12.7734 6.98438 12.1875 6.98438 11.7969 7.33594L9.96094 9.17188L8.125 7.33594C7.77344 6.98438 7.1875 6.98438 6.83594 7.33594Z" fill="#6C6C6D" />
             </svg>
          </span>
          <div class="  f-bri mt-7 md:mt-7 text-center text-primary_color_6">
-            <span>{{__( 'Already have account')}}</span>
-            <button data-form-user="login-model" class="from-switch text-h5 lg:text-h4 font-bold underline">{{__( 'sign in')}}</button>
+            <span class="text-h5 lg:text-h5 font-bold">{{__( 'Already have account')}}</span>
+            <button data-form-user="login-model" class="from-switch text-h5 lg:text-h5 font-bold underline">{{__( 'sign in')}}</button>
          </div>
       </div>
       <!-- login popup -->
@@ -582,14 +579,14 @@ $lang = 'en';
             <button class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-8 text-center"> {{__( 'Get code')}}
             </button>
          </form>
-         <span class=" close-modal absolute right-0 top-0 cursor-pointer">
+         <span class=" close-modal absolute  @if($lang == 'ar') left-0 @else right-0 @endif  top-0 cursor-pointer">
             <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M10 20.5C4.45312 20.5 0 16.0469 0 10.5C0 4.99219 4.45312 0.5 10 0.5C15.5078 0.5 20 4.99219 20 10.5C20 16.0469 15.5078 20.5 10 20.5ZM6.83594 7.33594C6.44531 7.72656 6.44531 8.3125 6.83594 8.66406L8.67188 10.5L6.83594 12.3359C6.44531 12.7266 6.44531 13.3125 6.83594 13.6641C7.1875 14.0547 7.77344 14.0547 8.125 13.6641L9.96094 11.8281L11.7969 13.6641C12.1875 14.0547 12.7734 14.0547 13.125 13.6641C13.5156 13.3125 13.5156 12.7266 13.125 12.3359L11.2891 10.5L13.125 8.66406C13.5156 8.3125 13.5156 7.72656 13.125 7.33594C12.7734 6.98438 12.1875 6.98438 11.7969 7.33594L9.96094 9.17188L8.125 7.33594C7.77344 6.98438 7.1875 6.98438 6.83594 7.33594Z" fill="#6C6C6D" />
             </svg>
          </span>
          <div class="f-bri mt-7 text-center text-primary_color_6">
             <span class="text-white"> {{__( 'Don’t have account?')}}</span>
-            <button data-form-user="register-model" class="from-switch text-h5 lg:text-h4 font-bold underline">{{__( 'sign up')}}</button>
+            <button data-form-user="register-model" class="from-switch text-h5 lg:text-h5 font-bold underline">{{__( 'sign up')}}</button>
          </div>
       </div>
       <!-- otp -->
@@ -597,7 +594,7 @@ $lang = 'en';
          <div class="bg-dark_4  rounded-2xl   p-2  md:p-32-32 relative w-w-500">
             <div class="mb-6 md:mb-7  pb-2">
                <div class="flex items-center gap-1">
-                  <button>
+                  <button class="@if($lang == 'ar') rotate-180 @endif">
                      <svg width="11" height="19" viewBox="0 0 11 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0.601562 8.64062L8.10156 1.14062C8.57031 0.632812 9.39062 0.632812 9.85938 1.14062C10.3672 1.60938 10.3672 2.42969 9.85938 2.89844L3.25781 9.5L9.85938 16.1406C10.3672 16.6094 10.3672 17.4297 9.85938 17.8984C9.39062 18.4062 8.57031 18.4062 8.10156 17.8984L0.601562 10.3984C0.09375 9.92969 0.09375 9.10938 0.601562 8.64062Z" fill="#C4ACD3" />
                      </svg>
@@ -621,18 +618,18 @@ $lang = 'en';
                </button>
             </form> -->
             <form id="verificationForm" class="verification">
-    @csrf
-    <input type="hidden" name="otp" required id="otpField">
-    <input type="hidden" name='id' id="user_id" value="">
-    <div id="verification" class="grid grid-cols-4">
-        <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 1)" data-val="p-1">
-        <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 2)" data-val="p-2">
-        <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 3)" data-val="p-3">
-        <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 4)" data-val="p-4">
-    </div>
-    <p class="error" id="login-error"></p>
-    <button type="button" id="confirmButton" class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-7 text-center">Confirm</button>
-</form>
+               @csrf
+               <input type="hidden" name="otp" required id="otpField">
+               <input type="hidden" name='id' id="user_id" value="">
+               <div id="verification" class="grid grid-cols-4">
+                  <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 1)" data-val="p-1">
+                  <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 2)" data-val="p-2">
+                  <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 3)" data-val="p-3">
+                  <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 4)" data-val="p-4">
+               </div>
+               <p class="error" id="login-error"></p>
+               <button type="button" id="confirmButton" class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-7 text-center">{{__('Confirm')}}</button>
+            </form>
          </div>
       </div>
       <!--  password popup -->
@@ -677,6 +674,8 @@ $lang = 'en';
 
 
 
+<div class="spinner" id="spinner"></div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script script>
@@ -705,72 +704,72 @@ $lang = 'en';
 
    // });
 
-     function moveToNext(currentInput, index) {
-        if (currentInput.value.length >= 1) {
-            const nextInput = document.querySelector(`input[data-val='p-${index + 1}']`);
-            if (nextInput) {
-                nextInput.focus();
+   function moveToNext(currentInput, index) {
+      if (currentInput.value.length >= 1) {
+         const nextInput = document.querySelector(`input[data-val='p-${index + 1}']`);
+         if (nextInput) {
+            nextInput.focus();
+         }
+      }
+   }
+
+   function setOtpValue() {
+      const otpField = document.getElementById('otpField');
+      const inputs = document.querySelectorAll('.verification-pass');
+      let otp = '';
+      inputs.forEach(input => {
+         otp += input.value;
+      });
+      otpField.value = otp;
+      return true; // Allow form submission
+   }
+   $('#confirmButton').on('click', function() {
+      setOtpValue();
+
+      // Perform AJAX call
+      $.ajax({
+         url: "{{ url('user/login/verify/otp') }}",
+         type: 'POST',
+         data: $('#verificationForm').serialize(),
+         headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         success: function(response) {
+
+            // Handle success (e.g., show a message, redirect, etc.)
+            console.log('OTP verified successfully:', response);
+            if (response.success == false) {
+               console.log("aa");
+               $("#login-error").html(response.msg);
+            } else {
+               console.log("kk");
+               setTimeout(function() {
+                  $('#otp-model').addClass('hidden');
+               }, 1000);
+               $('#tickets').submit();
+               $('#ticketSlot').submit();
             }
-        }
-    }
-
-    function setOtpValue() {
-        const otpField = document.getElementById('otpField');
-        const inputs = document.querySelectorAll('.verification-pass');
-        let otp = '';
-        inputs.forEach(input => {
-            otp += input.value;
-        });
-        otpField.value = otp;
-        return true; // Allow form submission
-    }
-     $('#confirmButton').on('click', function() {
-        setOtpValue();
-
-        // Perform AJAX call
-        $.ajax({
-            url: '{{ url('user/login/verify/otp') }}',
-            type: 'POST',
-            data: $('#verificationForm').serialize(),
-            success: function(response) {
-
-                // Handle success (e.g., show a message, redirect, etc.)
-                console.log('OTP verified successfully:', response);
-                  if(response.success == false)
-                  {
-                      console.log("aa");
-                     $("#login-error").html(response.msg);
-                  }
-                  else
-                  {
-                      console.log("kk");
-                     setTimeout(function() {
-                     $('#otp-model').addClass('hidden');
-                     }, 1000);
-                     $('#tickets').submit();
-                     $('#ticketSlot').submit();
-                  }
-            },
-            error: function(xhr) {
-                // Handle error (e.g., show an error message)
-                console.error('Error verifying OTP:', xhr.responseText);
-            }
-        });
-    });
-
-  /* $("#verfication input").each(function(i, ele) {
-      $(this).on("input", function() {
-         let curent = $(this).attr('data-val');
-         let next_ele = +curent.split("-")[1] + 1
-         if ($(this).val() !== "") {
-            $(`[data-val=p-${next_ele}]`).removeAttr("disabled");
-            $(`[data-val=p-${next_ele}]`).focus()
-            if (i === 3) {
-                $("#verfication").submit();
-            }
+         },
+         error: function(xhr) {
+            // Handle error (e.g., show an error message)
+            console.error('Error verifying OTP:', xhr.responseText);
          }
       });
-   });*/
+   });
+
+   /* $("#verfication input").each(function(i, ele) {
+       $(this).on("input", function() {
+          let curent = $(this).attr('data-val');
+          let next_ele = +curent.split("-")[1] + 1
+          if ($(this).val() !== "") {
+             $(`[data-val=p-${next_ele}]`).removeAttr("disabled");
+             $(`[data-val=p-${next_ele}]`).focus()
+             if (i === 3) {
+                 $("#verfication").submit();
+             }
+          }
+       });
+    });*/
    $(document).ready(function() {
       const urlParams = new URLSearchParams(window.location.search);
       const scrollTo = urlParams.get('scroll');
@@ -817,7 +816,13 @@ $lang = 'en';
       });
 
       $(function() {
+
          $("#datepicker").datepicker({
+            beforeShow: function(input, inst) {
+               setTimeout(function() {
+                  inst.dpDiv.appendTo('.datepicker-container');
+               }, 0);
+            },
             onSelect: function(dateText) {
                let selectedDate = new Date(dateText);
                let formattedDate = selectedDate.toISOString().split('T')[0];
@@ -826,8 +831,9 @@ $lang = 'en';
             }
          });
       });
-
-
+      $("#datpiceker-cont").on('click', function() {
+         $(this).addClass('border-primary_color_6 border-1 transition-all duration-300 ease-in-out');
+      })
 
       function slot_events(id, dates) {
          $.ajax({
@@ -890,7 +896,7 @@ $lang = 'en';
       $('#login_form').on('submit', function(e) {
          e.preventDefault();
          $.ajax({
-            url: '{{ url('api/web/login') }}',
+            url: "{{ url('api/web/login') }}",
             type: 'POST',
             data: $(this).serialize(),
             headers: {
@@ -983,6 +989,9 @@ $lang = 'en';
             data: formData,
             headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function() {
+               $('#spinner').show();
             },
             success: function(response) {
                if (response.success) {
@@ -1163,10 +1172,15 @@ $lang = 'en';
          $('.showMore .less').toggleClass('hidden')
       });
    });
+   $('.accordion').on('click', function() {
+      toggleAccordion($(this).data('accordion'));
+   });
 
    function toggleAccordion(id) {
       var element = document.getElementById(id);
-      element.classList.toggle('hidden');
+      if (element) {
+         element.classList.toggle('hidden');
+      }
    }
 
 

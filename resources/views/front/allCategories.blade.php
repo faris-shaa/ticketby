@@ -2,11 +2,8 @@
 @section('title', __('All categories'))
 @section('content')
 @php
-if (session('direction') == 'rtl') {
-$lang = 'ar';
-}else{
-$lang = 'en';
-}
+$lang = session('direction') == 'rtl' ? 'ar' : 'en';
+
 @endphp
 
 <div class="container mt-12 md:mt-32">
