@@ -163,14 +163,15 @@ $user = Auth::guard('appuser')->user();
                     </div>
                     <div class="tab-content2 ">
                         <div id="tab8" class="tab-pane2  hidden active">
+                            @forelse ($ticket['upcoming'] as $item)
                             <div class="grid grid-col-1 md:grid-cols-2  xl:grid-cols-3 gap-4 mt-4">
                                 <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1 overflow-hidden">
                                     <div class="h-60 md:h-32 overlay-tiket">
-                                        <img class="w-full h-full object-cover" src="https://ticketby.pixicard.com/images/upload/66bb5429d352c.png" alt="">
+                                        <img class="w-full h-full object-cover" src="{{ url('images/upload/' . $item->event->image) }}" alt="">
                                     </div>
                                     <div class="px-1">
                                         <h5 class="font-medium">
-                                            SOUNDSTORM 24 Show Ticket Package - Jeddah
+                                        {{ $item->event->name }}
                                         </h5>
                                         <div class="mt-2  mb-7 flex items-center justify-between">
                                             <div class="">
@@ -185,7 +186,7 @@ $user = Auth::guard('appuser')->user();
                                                         <path d="M3.1 0.8C3.3 0.8 3.5 1 3.5 1.2V2.4H8.3V1.2C8.3 1 8.475 0.8 8.7 0.8C8.9 0.8 9.1 1 9.1 1.2V2.4H9.9C10.775 2.4 11.5 3.125 11.5 4V5.625C11.35 5.625 11.225 5.6 11.1 5.6C10.95 5.6 10.825 5.625 10.7 5.625V5.6H1.1V12C1.1 12.45 1.45 12.8 1.9 12.8H7.7C7.95 13.125 8.225 13.375 8.55 13.6H1.9C1 13.6 0.3 12.9 0.3 12V4C0.3 3.125 1 2.4 1.9 2.4H2.7V1.2C2.7 1 2.875 0.8 3.1 0.8ZM9.9 3.2H1.9C1.45 3.2 1.1 3.575 1.1 4V4.8H10.7V4C10.7 3.575 10.325 3.2 9.9 3.2ZM11.075 8C11.3 8 11.475 8.2 11.475 8.4V9.6H12.3C12.5 9.6 12.7 9.8 12.7 10C12.7 10.225 12.5 10.4 12.3 10.4H11.075C10.875 10.4 10.675 10.225 10.675 10V8.4C10.675 8.2 10.875 8 11.075 8ZM7.5 10C7.5 8.025 9.1 6.4 11.1 6.4C13.075 6.4 14.7 8.025 14.7 10C14.7 12 13.075 13.6 11.1 13.6C9.1 13.6 7.5 12 7.5 10ZM11.1 12.8C12.625 12.8 13.9 11.55 13.9 10C13.9 8.475 12.625 7.2 11.1 7.2C9.55 7.2 8.3 8.475 8.3 10C8.3 11.55 9.55 12.8 11.1 12.8Z" fill="#A986BF" />
                                                     </svg>
                                                     <span class="text-h8 ">
-                                                        September 22, 2024 · 10AM
+                                                    {{ Carbon\Carbon::parse($item->ticket_date)->format('d M Y') }}
                                                     </span>
                                                 </p>
                                             </div>
@@ -205,6 +206,7 @@ $user = Auth::guard('appuser')->user();
                                     </div>
                                 </div>
                             </div>
+                            @empty
                             <div
                                 class=" text-center">
                                 <svg class="mx-auto" width="128" height="120" viewBox="0 0 128 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -215,6 +217,8 @@ $user = Auth::guard('appuser')->user();
                                 </p>
                                 <p class="text-h7 text-gray_6">{{__("It seems you haven't purchased any tickets yet. Once you do, your tickets will be displayed here.")}}</p>
                             </div>
+                            @endforelse
+
                         </div>
                         <div id="tab9" class="tab-pane2  hidden ">
                             <div

@@ -254,7 +254,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
    </div>
 
    <!-- ticket slot -->
-   <div class="mb-10 lg:mb-16  flex justify-between flex-wrap">
+   <div class="mb-10 lg:mb-16  hidden justify-between flex-wrap " id="slot-slider">
       <div>
          <h2 class="font-medium h3 lg:text-h2"> {{__(key: 'Select your desirable tickets')}}</h2>
          <p class="text-gray_9 text-h4">{{__( 'Choose your ticket and quantity.')}}</p>
@@ -263,8 +263,11 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
          <button class=" bg-gray_f   h-12 p-1 px-4 rounded-5xl text-h6" id="tomorrow-slot">{{__('Tomorrow')}}</button>
          <div id="datepicker-cont" class="datepicker-container event-date relative  bg-gray_f   h-12 p-1 px-4 rounded-5xl   gap-1 flex items-center cursor-pointer w-40 ">
             <input type="text" name="" placeholder="{{__( 'Custom date')}}" id="datepicker" class="slotEventCustome text-h6 datepicker cursor-pointer placeholder-white w-full  f-bri bg-transparent outline-0  ">
-            <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg id="slot-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M6.37109 6.87891L1.12109 1.62891C0.765625 1.30078 0.765625 0.726562 1.12109 0.398438C1.44922 0.0429688 2.02344 0.0429688 2.35156 0.398438L7 5.01953L11.6211 0.398438C11.9492 0.0429688 12.5234 0.0429688 12.8516 0.398438C13.207 0.726562 13.207 1.30078 12.8516 1.62891L7.60156 6.87891C7.27344 7.23438 6.69922 7.23438 6.37109 6.87891Z" fill="#666666" />
+            </svg>
+            <svg class="hidden" id="clear-slot" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M8 16C3.5625 16 0 12.4375 0 8C0 3.59375 3.5625 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4375 12.4062 16 8 16ZM5.46875 5.46875C5.15625 5.78125 5.15625 6.25 5.46875 6.53125L6.9375 8L5.46875 9.46875C5.15625 9.78125 5.15625 10.25 5.46875 10.5312C5.75 10.8438 6.21875 10.8438 6.5 10.5312L7.96875 9.0625L9.4375 10.5312C9.75 10.8438 10.2188 10.8438 10.5 10.5312C10.8125 10.25 10.8125 9.78125 10.5 9.46875L9.03125 8L10.5 6.53125C10.8125 6.25 10.8125 5.78125 10.5 5.46875C10.2188 5.1875 9.75 5.1875 9.4375 5.46875L7.96875 6.9375L6.5 5.46875C6.21875 5.1875 5.75 5.1875 5.46875 5.46875Z" fill="#999999" />
             </svg>
          </div>
       </div>
@@ -280,6 +283,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
       <form id="ticketSlot" class="" method="GET" action="{{ url('/checkout/' . $data->id) }}">
          <input value="" type="hidden" class="slot-event-id" name="time_slot_id[]" id="">
          <input value="" type="hidden" class="ids" name="ids[]" id="">
+         <input value="" type="hidden" class="slot-event-date" name="slot-event-date" id="">
          <input type="hidden" class="slot-event-quantities" name="quantities[52]" value="0" id="quantity-52">
          <div id="tickets-info" class="hidden grid  grid-cols-12 gap-4  items-center ">
             <div class="col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-6 ">
@@ -797,16 +801,9 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
       let slot_id = '';
       $('.slotEvent').on('click', function() {
          slot_id = $(this).attr('id')
-         let start_time = $(this).attr('data-start_time')
-         let start_time_for = new Date(start_time);
-         let start_time_for_la = start_time_for.toISOString().split('T')[0];
 
-         let end_time = $(this).attr('data-end_time')
-         let end_time_for = new Date(end_time);
-         let end_time_for_la = end_time_for.toISOString().split('T')[0];
-
-
-         slot_events(slot_id, [start_time_for_la, end_time_for_la])
+         $('#slot-slider').removeClass("hidden").addClass("flex");
+         slot_events(slot_id, [todayFormatted, tomorrowFormatted])
          $(this).addClass('activeSlotEvent')
       });
 
@@ -816,7 +813,6 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
       });
 
       $(function() {
-
          $("#datepicker").datepicker({
             beforeShow: function(input, inst) {
                setTimeout(function() {
@@ -824,13 +820,26 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                }, 0);
             },
             onSelect: function(dateText) {
-               let selectedDate = new Date(dateText);
+               let parts = dateText.split('/');
+               let selectedDate = new Date(parts[2], parts[0] - 1, parts[1]);
+               selectedDate.setMinutes(selectedDate.getMinutes() - selectedDate.getTimezoneOffset());
                let formattedDate = selectedDate.toISOString().split('T')[0];
+
                $('.slotEvent-container').html('');
-               slot_events(slot_id, [todayFormatted, formattedDate])
+               $("#slot-arrow").addClass('hidden')
+               $("#clear-slot").removeClass('hidden');
+
+               slot_events(slot_id, [formattedDate]);
             }
          });
       });
+      $('#clear-slot').on('click', function() {
+         $("#datepicker").datepicker("setDate", null);
+         $("#slot-arrow").removeClass('hidden');
+         $("#clear-slot").addClass('hidden');
+         slot_events(slot_id, [todayFormatted, tomorrowFormatted])
+
+      })
       $("#datpiceker-cont").on('click', function() {
          $(this).addClass('border-primary_color_6 border-1 transition-all duration-300 ease-in-out');
       })
@@ -847,16 +856,16 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
+
                $('.slotEvent-container').html('');
-               console.log(response.data);
                response.data.forEach(item => {
                   let slotEventHtml = `
-                    <div data-ticket-price="${item.price}" data-time-slot-id="${item.time_slot_id}" data-ticket-id="${item.ticket_id}" class="slot-slickt swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
-                  <h3 class="font-bold text-h5 lg:text-h3">12 Sep date </h3>
+                    <div data-ticket-date="${item.date}"  data-ticket-available="${item.available_quanity}" data-ticket-price="${item.price}" data-time-slot-id="${item.time_slot_id}" data-ticket-id="${item.ticket_id}" class="slot-slickt swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
+                  <h3 class="font-bold text-h5 lg:text-h3">${item.date} </h3>
                   <div class="f-bri h5 font-medium my-3"  >{{ __(key: $currency) }} ${item.price}</div>
                   <div class="f-bri text-gray_9 h5 font-medium">${item.start_time}</div>
                    </div>`;
-
+                  initializeSwiperSlot()
                   $('.slotEvent-container').append(slotEventHtml);
                })
 
@@ -872,6 +881,8 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
       $('.slot-slickt').removeClass('activeSlotEvent');
       $(this).addClass('activeSlotEvent')
       let ticketId = $(this).data('ticket-id');
+      let ticketDate = $(this).data('ticket-date');
+      let ticketAvailable = $(this).data('ticket-available');
       let time_slot_id = $(this).data('time-slot-id');
       let ticketPrice = $(this).data('ticket-price');
       let count = 1;
@@ -880,6 +891,8 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
       $("#decrement-slot").attr("data-ticket-price", ticketPrice).attr("data-ticket-id", ticketId)
       $(".slot-event-id").attr("id", `id-${time_slot_id}`).val(`${time_slot_id}`);
       $(".ids").attr("id", `id-${ticketId}`).val(`${ticketId}`);
+      $(".slot-event-date").val(`${ticketDate}`);
+      $(".increment").attr("ticketAvailable", `${ticketAvailable}`);
       $(".slot-event-quantities").attr("name", `quantities[${ticketId}]`).attr("id", `quantity-${ticketId}`).val(`${count}`);
 
       $(".slot-event-quantities").val(`${count}`);
@@ -1099,6 +1112,14 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
          $(this).siblings('.count').removeClass("opacity-25");
          let countElement = $(this).siblings('.count');
          let count = parseInt(countElement.text());
+         if ($(this).attr('ticketAvailable')) {
+            console.log($(this).attr('ticketAvailable'));
+            if ($(this).attr('ticketAvailable') <= count + 1) {
+               $(this).addClass('opacity-25');
+               $(this).addClass('disable');
+            }
+
+         }
          countElement.text(count + 1);
 
          $(".slot-event-quantities").val(`${count + 1}`);
@@ -1110,6 +1131,9 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
       $('.decrement').click(function() {
          let countElement = $(this).siblings('.count');
+         $(this).siblings('.increment').removeClass("disable");
+         $(this).siblings('.increment').removeClass("opacity-25");
+
          let count = parseInt(countElement.text());
          if (count > 0) {
             countElement.text(count - 1);
