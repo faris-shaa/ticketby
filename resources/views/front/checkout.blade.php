@@ -16,7 +16,9 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 @php $ticket_amount = 0 ;
 @endphp
 @foreach( $data->ticket_details as $ticket)
-@php $ticket_amount = $ticket_amount + ($ticket->price * $ticket->selected_quantity); @endphp
+@php $ticket_amount = $ticket_amount + ($ticket->price * $ticket->selected_quantity);
+@endphp
+
 
 @endforeach
 
@@ -91,7 +93,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                                 <path d="M4.59375 8.9375C4.94922 8.9375 5.25 9.23828 5.25 9.59375C5.25 9.97656 4.94922 10.25 4.59375 10.25H3.28125C2.89844 10.25 2.625 9.97656 2.625 9.59375C2.625 9.23828 2.89844 8.9375 3.28125 8.9375H4.59375ZM9.84375 8.9375C10.1992 8.9375 10.5 9.23828 10.5 9.59375C10.5 9.97656 10.1992 10.25 9.84375 10.25H6.78125C6.39844 10.25 6.125 9.97656 6.125 9.59375C6.125 9.23828 6.39844 8.9375 6.78125 8.9375H9.84375ZM14 0.625C14.957 0.625 15.75 1.41797 15.75 2.375V11.125C15.75 12.1094 14.957 12.875 14 12.875H1.75C0.765625 12.875 0 12.1094 0 11.125V2.375C0 1.41797 0.765625 0.625 1.75 0.625H14ZM14 1.9375H1.75C1.50391 1.9375 1.3125 2.15625 1.3125 2.375V3.25H14.4375V2.375C14.4375 2.15625 14.2188 1.9375 14 1.9375ZM14.4375 5.875H1.3125V11.125C1.3125 11.3711 1.50391 11.5625 1.75 11.5625H14C14.2188 11.5625 14.4375 11.3711 14.4375 11.125V5.875Z" fill="#FBF9FD" />
                             </svg>
                         </div>
-                        <div class="h6">Cards</div>
+                        <div class="h6">{{__('Cards')}}</div>
                     </div>
                     <div class="relative">
                         <input id="Edafpay" type="radio" value="EDAFPAY"
@@ -327,14 +329,19 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             <div class="mt-4  bg-gray_f   rounded-lg  border border-primary_color_o10_1 p-16-16 ">
                 <h4 class="mb-2 text-primary_color_6"> {{ __('Tickets') }}</h4>
                 @foreach( $data->ticket_details as $ticket)
-                <div
-                    class="pb-1 f-bri gap-3   w-full  flex justify-between items-center flex-wrap  border-b-1 border-primary_color_o10_1">
-                    <div class="font-medium"> {{$ticket->name}}</div>
+                <div class="border-b-1 border-primary_color_o10_1 pb-1">
                     <div
-                        class=" f-bri   me-auto font-medium">
-                        X {{$ticket->selected_quantity}}
+                        class=" f-bri gap-3   w-full  flex justify-between items-center flex-wrap  ">
+                        <div class="font-medium"> {{$ticket->name}}</div>
+                        <div
+                            class=" f-bri   me-auto font-medium">
+                            X {{$ticket->selected_quantity}}
+                        </div>
+                        <div class="f-bri font-medium">{{ $ticket->price }} {{$data->currency}}</div>
                     </div>
-                    <div class="f-bri font-medium">{{ $ticket->price }} {{$data->currency}}</div>
+                    <div>
+                        <div class="font-medium text-gray_b text-h7"> {{request('slot-event-date')}}</div>
+                    </div>
                 </div>
                 @endforeach
             </div>
@@ -351,6 +358,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             <div class="mt-4 bg-gray_f p-16-16 rounded-lg  border border-primary_color_o10_1">
                 <h4 class="mb-2 text-primary_color_6"> {{__('Transaction Details')}}</h4>
                 <ul class="">
+
                     <li class="mb-2 flex justify-between  ">
                         <span class="h7"> {{ __('Promo code') }}</span>
                         <span class="text-green h6 discount">-0 {{$data->currency}} </span>
