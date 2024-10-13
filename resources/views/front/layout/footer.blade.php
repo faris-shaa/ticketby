@@ -11,8 +11,7 @@ $showLinkBanner = \App\Models\Setting::find(1,['show_link_banner','googleplay_li
         @if($url=='/')
         <div class="text-center">
             <h3 class="text-h5 lg:text-h3 font-medium">{{__('We are here to know all of your opinion')}}</h3>
-            <p class="text-gray_6 mt-1 lg:mt-1  h6 lg:text-h5  lg:w-9/12 m-auto">{{__('Subscribe to our newsletter to stay updated with the latest features
-                and improvements in Ticketby.')}}</p>
+            <p class="text-gray_6 mt-1 lg:mt-1  h6 lg:text-h5  lg:w-9/12 m-auto">{{__('Subscribe to our newsletter to stay updated with the latest features and improvements in Ticketby.')}}</p>
         </div>
         <div
             class="flex items-center bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1 xl:w-w-480  max-w-full	 mt-m-32 mb-7 lg:mb-16 mx-auto ">
