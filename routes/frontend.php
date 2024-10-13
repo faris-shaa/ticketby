@@ -107,7 +107,7 @@ Route::group(['middleware' => ['mode', 'XSS']], function () {
 
             Route::any('/createOrder', [FrontendController::class, 'createOrder'])->name('createOrderUser');
             Route::get('/user/profile', [FrontendController::class, 'userTickets']);
-            Route::get('/user/profile2', [FrontendController::class, 'update_profile']);
+            //Route::get('/user/profile2', [FrontendController::class, 'update_profile']);
             Route::get('/add-favorite/{id}/{type}', [FrontendController::class, 'addFavorite']);
             Route::get('/add-followList/{id}', [FrontendController::class, 'addFollow']);
             Route::post('/add-bio', [FrontendController::class, 'addBio']);

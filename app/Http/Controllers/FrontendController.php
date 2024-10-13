@@ -921,6 +921,8 @@ class FrontendController extends Controller
             $chip['category'] = Category::find($request->category)->name;
             $events = $events->where('category_id', $request->category);
         }
+
+
         if ($request->has('duration') && $request->duration != null) {
             $chip['date'] = $request->duration;
             if ($request->duration == 'Today') {
@@ -940,6 +942,10 @@ class FrontendController extends Controller
                     $events = $events->where('start_time', '<=', $temp)->where('end_time', '>=', $temp);
                 }
             }
+        }
+        if ($request->has('category_id') && $request->category_id != null) {
+            
+            $events = $events->where('category_id', $request->category_id);
         }
         $events = $events->orderBy('start_time', 'ASC')->get();
         foreach ($events as $value) {
@@ -1359,6 +1365,32 @@ class FrontendController extends Controller
             $data->totalPersTax = Tax::where([['allow_all_bill', 1], ['status', 1], ['amount_type', 'percentage']])->sum('price');
             $data->totalAmountTax = Tax::where([['allow_all_bill', 1], ['status', 1], ['amount_type', 'price']])->sum('price');
         }
+
+
+        /*if($data->event_id == 121 )
+        {
+            if($request->quantity > 1)
+            {
+                $data->price = 200 ;     
+            }
+            
+        }*/
+     
+        
+        /*if($data->event_id == 121 || $data->event_id == 149 )
+        {
+            $data->tax_total = 0;
+            $data->totalAmountTax = null ;
+            $data->totalPersTax  = null ;
+            $data->tax = array() ;
+        
+        }
+        else
+        {
+            $data->tax_total = round($data->tax_total, 2);    
+            $data->totalAmountTax = Tax::where([['allow_all_bill', 1], ['status', 1], ['amount_type', 'price']])->sum('price');
+             $data->totalPersTax = Tax::where([['allow_all_bill', 1], ['status', 1], ['amount_type', 'percentage']])->sum('price');
+        }*/
 
 
         // dd($data);
@@ -2813,7 +2845,7 @@ class FrontendController extends Controller
         $ordertax = array();
         $tax = array();
 
-        $ticket['upcoming'] = Order::with(['event:id,name,image,start_time,type,end_time,address', 'ticket:id,ticket_number,start_time,name,price,type', 'organization:id,first_name,last_name,image'])
+        $ticket['upcoming'] = Order::with(['orderchild','event:id,name,image,start_time,type,end_time,address', 'ticket:id,ticket_number,start_time,name,price,type', 'organization:id,first_name,last_name,image'])
             ->where([['customer_id', Auth::guard('appuser')->user()->id], ['order_status', 'Pending']])
             ->orWhere([['customer_id', Auth::guard('appuser')->user()->id], ['order_status', 'Complete']])
             ->orderBy('id', 'DESC')->paginate(10);
@@ -2821,10 +2853,20 @@ class FrontendController extends Controller
 
         if (count($ticket['upcoming']) > 0) {
             foreach ($ticket['upcoming'] as $events) {
+
                 if ($events->event->start_time <= Carbon::now() && $events->event->end_time >= Carbon::now()) {
+                    $ticket_qr_code =  OrderChild::where('order_id',$events->id)->get();
+                    $qrs = array();
+                    foreach ($ticket_qr_code as  $qr_code) {
+                        $qrs[] = url('qrcodes/qr-').$qr_code->id.".png";
+                    }
+                     $events->ticket_qr_code = $qrs;
                     $event[] = $events;
                 }
             }
+           
+
+            
             $ticket['upcoming']->event = $event;
         }
 
@@ -2871,7 +2913,7 @@ class FrontendController extends Controller
         $likedBlogs = Blog::whereIn('id', array_filter(explode(',', $user->favorite_blog)))->where([['status', 1]])->orderBy('id', 'DESC')->get();
         $userFollowing = User::whereIn('id', array_filter(explode(',', $user->following)))->where([['status', 1]])->orderBy('id', 'DESC')->get();
         $wallet = PaymentSetting::first()->wallet;
-
+        
         return view('front.userProfile', compact('likedEvents', 'ticket', 'likedBlogs', 'userFollowing', 'wallet'));
     }
     public function userOrderTicket($id)

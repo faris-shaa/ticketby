@@ -192,7 +192,7 @@ $error = $response->json();
          @foreach ($categorys['data'] as $cat)
          <div class="swiper-slide text-center flex items-center flex-col ">
             <a href="/all-events">
-               <a href="/all-events/{{$cat['id']}}">
+               <a href="/all-events?category_id={{$cat['id']}}">
                   <div
                      class=" mx-auto flex items-center justify-center w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-light bg-opacity-5  border border-primary_color_o10_1   ">
                      <img class="w-9 lg:w-w-32" src="{{ url('images/upload/' .$cat['app_icon']) }}" alt="{{ $cat['name']}}">
@@ -231,7 +231,7 @@ $error = $response->json();
          <div class="swiper-wrapper">
             @foreach ($citys['city'] as $city)
             <div class="swiper-slide text-center flex items-center flex-col">
-               <a href="/all-events">
+               <a href="/all-events?city_id={{$city['id']}}">
                   <div class="lg:w-24 w-32 h-20 lg:h-28  md:h-52 md:w-48  xl:h-h-256  xl:w-w-256 rounded-lg rounded-2xl overflow-hidden">
                      <img class="w-full h-full object-cover"
                         src="{{ url('images/upload/' .$city['image']) }}"

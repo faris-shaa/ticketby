@@ -1765,7 +1765,10 @@ class ApiController extends Controller
             
             $data = $data->where([['category_id', $request->category_id]]);
         }
-
+        if (isset($request->city_id)) {
+            
+            $data = $data->where([['city_id', $request->city_id]]);
+        }
         if (isset($request->date) && $request->date != "All") {
           
 
@@ -1796,7 +1799,7 @@ class ApiController extends Controller
         {
             $data = $data->orderBy('lowest_price',$request->sort);
         }
-        $data = $data->get();
+        $data = $data->orderBy('created_at',"desc")->get();
         foreach ($data as $value) {
             $value->description =  str_replace("&nbsp;", " ", strip_tags($value->description));
             $value->time = $value->start_time->format('d F Y h:i a');

@@ -30,6 +30,8 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 
 
+<input type="hidden" value="{{request('categoty_id')}}" id="category_id_input">
+<input type="hidden" value="{{request('city_id')}}" id="city_id_input">
 
 <div class="container mt-32">
     <div class="col-span-12 md:col-span-8 xl:col-span-9">
@@ -113,8 +115,9 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             $('#SearchEventName').on('blur', function() {
                 $(this).css('width', '3.5rem');
             });
-        });
-
+        }); 
+        var SearchEventCat = $("#category_id_input").val();
+        var SearchEventCity = $("#city_id_input").val();
         let limit = -1;
         $("#load_more").click(function() {
             limit += 3
@@ -136,7 +139,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
 
         })
-        var SearchEventCity = ''
+       
         $('#SearchEventCity').on('change', function() {
             SearchEventCity = $(this).val();
             console.log(SearchEventCity);
@@ -149,7 +152,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
 
         });
-        var SearchEventCat = ''
+     
         $('#SearchEventCat').on('change', function() {
             SearchEventCat = $(this).val();
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
