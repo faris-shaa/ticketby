@@ -46,7 +46,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                 <div class="flex items-center bg-gray_f   h-12 p-1 px-1 md:px-4 rounded-5xl flex-1  @if($lang == 'ar')  text-right @endif">
                     <select name="" id="SearchEventDate" style="width: 100%;" data-minimum-results-for-search="Infinity"
                         class=" select2 h-12 w-full focus:border-primary_color_6 outline-0 bg-transparent   ">
-                        <option value="All"> {{__('all')}}</option>
+                        <option value=""> {{__('all')}}</option>
                         <option value="Today"> {{__('Today')}}</option>
                         <option value="Tommorow"> {{__('Tommorow')}}</option>
                         <option value="This Week"> {{__('This Week')}}</option>
@@ -56,7 +56,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                 <div class="flex items-center bg-gray_f   h-12 p-1 px-1 md:px-4 rounded-5xl flex-1  @if($lang == 'ar')  text-right @endif">
                     <select name="" id="SearchEventCity" style="width: 100%;" data-minimum-results-for-search="Infinity"
                         class=" select2 h-12 w-full focus:border-primary_color_6 outline-0 bg-transparent   ">
-                        <option value="all"> {{__('Any place')}}</option>
+                        <option value=""> {{__('Any place')}}</option>
                         @foreach ($citys['city'] as $city)
                         <option value="{{$city['id']}}">{{ $lang == 'ar' ? $city['arabic_name'] : $city['name'] }}</option>
                         @endforeach
@@ -68,9 +68,14 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                     <path d="M11.375 6.4375C11.375 7.69531 10.9648 8.87109 10.2812 9.80078L13.7266 13.2734C14.082 13.6016 14.082 14.1758 13.7266 14.5039C13.3984 14.8594 12.8242 14.8594 12.4961 14.5039L9.02344 11.0312C8.09375 11.7422 6.91797 12.125 5.6875 12.125C2.54297 12.125 0 9.58203 0 6.4375C0 3.32031 2.54297 0.75 5.6875 0.75C8.80469 0.75 11.375 3.32031 11.375 6.4375ZM5.6875 10.375C7.84766 10.375 9.625 8.625 9.625 6.4375C9.625 4.27734 7.84766 2.5 5.6875 2.5C3.5 2.5 1.75 4.27734 1.75 6.4375C1.75 8.625 3.5 10.375 5.6875 10.375Z" fill="#666666" />
                 </svg>
                 <input type="text" name="" id="SearchEventName" placeholder="{{__('Search')}}" class=" w-14 focus:border-primary_color_6 outline-0 bg-transparent">
-                <div class="ms-auto hidden absolute @if($lang == 'ar') left-2 @else right-0 @endif  bottom-1/2 transform translate-y-1/2 " id="Searchbtn">
+                <div class="ms-auto hidden absolute @if($lang == 'ar') left-2 @else right-2 @endif  bottom-1/2 transform translate-y-1/2 " id="Searchbtn">
                     <svg class="@if($lang == 'ar') rotate-180 @endif" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8.25 1.21875L13.75 6.46875C13.9062 6.625 14 6.8125 14 7.03125C14 7.21875 13.9062 7.40625 13.75 7.5625L8.25 12.8125C7.96875 13.0938 7.46875 13.0938 7.1875 12.7812C6.90625 12.5 6.90625 12 7.21875 11.7188L11.375 7.78125H0.75C0.3125 7.78125 0 7.4375 0 7.03125C0 6.59375 0.3125 6.28125 0.75 6.28125H11.375L7.21875 2.3125C6.90625 2.03125 6.90625 1.53125 7.1875 1.25C7.46875 0.9375 7.9375 0.9375 8.25 1.21875Z" fill="#A986BF" />
+                    </svg>
+                </div>
+                <div class="ms-auto hidden absolute @if($lang == 'ar') left-2 @else right-2 @endif  bottom-1/2 transform translate-y-1/2 " id="clear_search">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 16C3.5625 16 0 12.4375 0 8C0 3.59375 3.5625 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4375 12.4062 16 8 16ZM5.46875 5.46875C5.15625 5.78125 5.15625 6.25 5.46875 6.53125L6.9375 8L5.46875 9.46875C5.15625 9.78125 5.15625 10.25 5.46875 10.5312C5.75 10.8438 6.21875 10.8438 6.5 10.5312L7.96875 9.0625L9.4375 10.5312C9.75 10.8438 10.2188 10.8438 10.5 10.5312C10.8125 10.25 10.8125 9.78125 10.5 9.46875L9.03125 8L10.5 6.53125C10.8125 6.25 10.8125 5.78125 10.5 5.46875C10.2188 5.1875 9.75 5.1875 9.4375 5.46875L7.96875 6.9375L6.5 5.46875C6.21875 5.1875 5.75 5.1875 5.46875 5.46875Z" fill="#999999" />
                     </svg>
                 </div>
             </div>
@@ -115,10 +120,10 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             $('#SearchEventName').on('blur', function() {
                 $(this).css('width', '3.5rem');
             });
-        }); 
+        });
         var SearchEventCat = $("#category_id_input").val();
         var SearchEventCity = $("#city_id_input").val();
-        let limit = -1;
+        let limit = 6;
         $("#load_more").click(function() {
             limit += 3
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
@@ -136,10 +141,18 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             }
         });
         $("#Searchbtn").on("click", function() {
+            $("#clear_search").removeClass('hidden');
+            $("#Searchbtn").addClass('hidden');
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
 
         })
-       
+        $("#clear_search").on("click", function() {
+            $("#clear_search").addClass('hidden');
+            $("#Searchbtn").addClass('hidden');
+            $('#SearchEventName').val('')
+            fetchEvents('', SearchEventDate, SearchEventCity, SearchEventCat, limit);
+        })
+
         $('#SearchEventCity').on('change', function() {
             SearchEventCity = $(this).val();
             console.log(SearchEventCity);
@@ -152,7 +165,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
 
         });
-     
+
         $('#SearchEventCat').on('change', function() {
             SearchEventCat = $(this).val();
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
