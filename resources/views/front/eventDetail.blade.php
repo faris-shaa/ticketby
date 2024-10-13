@@ -169,7 +169,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
          <p class="text-h5 lg:h4 mt-4 font-light">
             {{ $lang == 'ar' ?$event['event']['name_arabic'] : $event['event']['name'] }}
          </p>
-         <a href="https://maps.google.com/maps?daddr={{ $event['event']['lat']}},{{$event['event']['lang']}}&amp;ll=" class="mt-2 fs-h4 flex items-center gap-1 text-primary_color_3">Go to google maps
+         <a href="https://maps.google.com/maps?daddr={{ $event['event']['lat']}},{{$event['event']['lang']}}&amp;ll=" class="mt-2 fs-h4 flex items-center gap-1 text-primary_color_3">{{__('Go to google maps')}}
             <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M6.81405 2.73429L11.2444 7.48435C11.379 7.62888 11.4463 7.81444 11.4463 7.99997C11.4463 8.18554 11.379 8.37107 11.2444 8.5156L6.81405 13.2657C6.53328 13.5664 6.06599 13.5791 5.76996 13.295C5.47187 13.0098 5.46131 12.5333 5.7411 12.2344L9.69076 7.99997L5.7411 3.76554C5.46131 3.46672 5.47187 2.9921 5.76996 2.705C6.06599 2.42082 6.53328 2.4335 6.81405 2.73429Z" fill="#E0D3E8" />
             </svg>
@@ -187,7 +187,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             {{__('till')}}
             {{ Carbon\Carbon::parse($event['event']['end_time'])->format('d M Y') }}
          </p>
-         <a href="" class="mt-2 fs-h4 flex items-center gap-1 text-primary_color_3">Add to calendar
+         <a href="" class="mt-2 fs-h4 flex items-center gap-1 text-primary_color_3">{{__('Add to calendar')}}
             <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M6.81405 2.73429L11.2444 7.48435C11.379 7.62888 11.4463 7.81444 11.4463 7.99997C11.4463 8.18554 11.379 8.37107 11.2444 8.5156L6.81405 13.2657C6.53328 13.5664 6.06599 13.5791 5.76996 13.295C5.47187 13.0098 5.46131 12.5333 5.7411 12.2344L9.69076 7.99997L5.7411 3.76554C5.46131 3.46672 5.47187 2.9921 5.76996 2.705C6.06599 2.42082 6.53328 2.4335 6.81405 2.73429Z" fill="#E0D3E8" />
             </svg>

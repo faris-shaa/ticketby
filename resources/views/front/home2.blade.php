@@ -57,7 +57,7 @@ $error = $response->json();
                <div class="hidden md:flex gap-4 mt-7 overflow-hidden relative z-10">
                   <a href="{{ url('event/' . $item->event->id . '/' . Str::slug($item->event->name) . '?scroll=tickets_section') }}"
                      class="rounded-5xl bg-primary_color_8 text-center py-2 px-4 lg:px-12 w-full lg:w-48 f-bri l leading-5 block">
-                     {{ __('Get Ticket') }}
+                     {{ __('Get Tickets') }}
                   </a> <a href="{{ url('event/' . $item->event->id . '/' . Str::slug($item->event->name)) }}"
                      class=" rounded-5xl border border-primary_color_8   text-center    py-2 px-4 lg:px-12  w-full lg:w-48 f-bri l leading-5  block">
                      {{__('Learn More')}}
@@ -102,7 +102,7 @@ $error = $response->json();
                   <path d="M8 16C3.5625 16 0 12.4375 0 8C0 3.59375 3.5625 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4375 12.4062 16 8 16ZM5.46875 5.46875C5.15625 5.78125 5.15625 6.25 5.46875 6.53125L6.9375 8L5.46875 9.46875C5.15625 9.78125 5.15625 10.25 5.46875 10.5312C5.75 10.8438 6.21875 10.8438 6.5 10.5312L7.96875 9.0625L9.4375 10.5312C9.75 10.8438 10.2188 10.8438 10.5 10.5312C10.8125 10.25 10.8125 9.78125 10.5 9.46875L9.03125 8L10.5 6.53125C10.8125 6.25 10.8125 5.78125 10.5 5.46875C10.2188 5.1875 9.75 5.1875 9.4375 5.46875L7.96875 6.9375L6.5 5.46875C6.21875 5.1875 5.75 5.1875 5.46875 5.46875Z" fill="#999999" />
                </svg>
             </div>
-            <input type="text" name="" id="SearchEventName" value="" placeholder="Search by event name"
+            <input type="text" name="" id="SearchEventName" value="" placeholder="{{__('Search by event name')}}"
                class="text-h4 placeholder-primary_color_6 w-full min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border   outline-0">
          </div>
       </div>
@@ -160,7 +160,7 @@ $error = $response->json();
                   fill="#666666" />
             </svg>
             <select name="" id="SearchEventCat" style="width: 100%;" class=" select2 placeholder-primary_color_6 outline-0" data-minimum-results-for-search="Infinity">
-               <option value="">category</option>
+               <option value="">{{__('category')}}</option>
                @foreach ($categorys['data'] as $cat)
                <option value="{{ $cat['id']}}">{{ $lang == 'ar' ? $cat['ar_name'] : $cat['name'] }}</option>
                @endforeach
