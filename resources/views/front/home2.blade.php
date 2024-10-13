@@ -457,8 +457,8 @@ $error = $response->json();
                         return `<div class="swiper-slide h-32 md:h-48"> <img class='w-full h-full object-cover' src="${item.imagePath}${image}" alt="${item.name}"> </div>`;
                      }).join('');
                   }
-                  let day = dateFormat(item.time).day;
-                  let month = dateFormat(item.time).shortMonth;
+                  let day = dateFormat(item.start_time).day;
+                  let month = dateFormat(item.start_time).shortMonth;
                   let eventHtml = `
                         <a href="/event/${item.id}/${item.slug}" class="swiper-slide">
                             <div class="ticket-wahlist h-full bg-light hover:bg-primary_color_o25_9 bg-opacity-5 rounded-2xl border border-primary_color_o10_1 hover:border-gray_9 overflow-hidden">
