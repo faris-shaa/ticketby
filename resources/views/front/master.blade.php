@@ -160,7 +160,9 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ asset('frontAssets/js/script-custome.js') }}"></script>
+
         <script src="{{ asset('frontAssets/lib/jq/datepicker-ar.js') }}"></script>
+
 
         <!-- <script src="{{ asset('frontend/js/jquery.min.js') }}"></script> -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script> -->
