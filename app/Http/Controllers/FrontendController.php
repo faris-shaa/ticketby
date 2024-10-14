@@ -3641,13 +3641,15 @@ class FrontendController extends Controller
             'response_type' => 'code',
             'scope' => 'email profile openid',
             'access_type' => 'offline',
+            'prompt' => 'select_account', 
         ]);
-
+        $url = 'https://accounts.google.com/o/oauth2/auth?' . $query;
+  
         return redirect('https://accounts.google.com/o/oauth2/auth?' . $query);
     }
     public function handleGoogleCallback(Request $request)
     {
-        dd("jj");
+    
         try {
             $http = new ClientGuzzel;
 
@@ -3662,14 +3664,15 @@ class FrontendController extends Controller
             ]);
 
             $tokenData = json_decode((string) $response->getBody(), true);
-
+      
             $response = $http->get('https://www.googleapis.com/oauth2/v1/userinfo?access_token=' . $tokenData['access_token']);
 
             $userData = json_decode((string) $response->getBody(), true);
 
             $user = User::where('email', $userData['email'])->first();
-            dd($user,  $userData);
+            
             if ($user) {
+                Auth::guard('appuser')->login($user);
                 Auth::login($user);
             } else {
                 $user = User::create([
@@ -3677,7 +3680,7 @@ class FrontendController extends Controller
                     'email' => $userData['email'],
                     'password' => Hash::make(uniqid()),
                 ]);
-
+                Auth::guard('appuser')->login($user);
                 Auth::login($user);
             }
 
