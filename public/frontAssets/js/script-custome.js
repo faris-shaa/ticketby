@@ -41,19 +41,19 @@ const sidebar = document.getElementById('sidebar');
 const closeBtn = document.getElementById('close-btn');
 var language = document.getElementById('lang').value;
 menuBtn.addEventListener('click', () => {
-  language != 'English' ? sidebar.classList.toggle('translate-x-0') : sidebar.classList.toggle('-translate-x-full')
+  language != 'English' ? sidebar.classList.toggle('translate-x-full') : sidebar.classList.toggle('-translate-x-full')
 
 });
 
 closeBtn.addEventListener('click', (e) => {
-  language != 'English' ? sidebar.classList.toggle('translate-x-0') : sidebar.classList.toggle('-translate-x-full')
+  language != 'English' ? sidebar.classList.toggle('translate-x-full') : sidebar.classList.toggle('-translate-x-full')
 
 });
 
 document.addEventListener('click', (e) => {
 
   if (e.target.id === 'sidebar') {
-    language != 'English' ? sidebar.classList.toggle('translate-x-0') : sidebar.classList.toggle('-translate-x-full')
+    language != 'English' ? sidebar.classList.toggle('translate-x-full') : sidebar.classList.toggle('-translate-x-full')
   }
 });
 
@@ -137,37 +137,6 @@ $(document).ready(function () {
 });
 
 
-var swiper = new Swiper(".ticket_avail", {
-  slidesPerView: 2,
-  spaceBetween: 10,
-  loop: true,
-  autoplay: {
-    delay: 2000,
-    disableOnInteraction: false,
-  },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  breakpoints: {
-    640: {
-      slidesPerView: 4,
-      spaceBetween: 10
-    },
-    768: {
-      slidesPerView: 4,
-      spaceBetween: 10
-    },
-    991: {
-      slidesPerView: 5,
-      spaceBetween: 10
-    },
-    1200: {
-      slidesPerView: 6,
-      spaceBetween: 10
-    }
-  }
-});
 
 $('.close-modal').click(function () {
   $('.pop-modal').addClass('hidden');
@@ -287,6 +256,7 @@ function initializeSwiper() {
 document.addEventListener('DOMContentLoaded', function () {
   initializeSwiper2();
   initializeSwiper();
+  initializeSwiperSlot();
 });
 
 function initializeSwiper2() {
@@ -305,6 +275,8 @@ function initializeSwiper2() {
     },
   });
 
+
+
   // Commenting out the destroy call for testing purposes
   // if (swiperEvent2) {
   //   swiperEvent2.destroy(true, true);
@@ -312,6 +284,39 @@ function initializeSwiper2() {
 }
 
 
+function initializeSwiperSlot() {
+  var swiperslot = new Swiper(".ticket_avail", {
+    slidesPerView: 2,
+    spaceBetween: 10,
+    loop: true,
+    autoplay: {
+      delay: 2000,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 4,
+        spaceBetween: 10
+      },
+      768: {
+        slidesPerView: 4,
+        spaceBetween: 10
+      },
+      991: {
+        slidesPerView: 5,
+        spaceBetween: 10
+      },
+      1200: {
+        slidesPerView: 6,
+        spaceBetween: 10
+      }
+    }
+  });
+}
 
 
 var swiper_city = new Swiper(".swiper-city", {

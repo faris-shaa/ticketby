@@ -63,8 +63,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                                     @endphp
                                     @if (isset($category))
                                     @foreach ($category as $item)
-                                    <!-- <a href="{{ url('/all-events/' . $item->id . '/' . $item->name) }}" -->
-                                    <a href="{{ url('/all-events') }}"
+                                    <a href="/all-events?category_id={{$item['id']}}"
                                         class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md"
                                         id="menu-item-0">
                                         @if($lang == 'ar')
@@ -128,23 +127,25 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                             </div>
                             <div class="relative inline-block text-left z-30">
                                 <div id="dropdownMenu-user" class=" hidden absolute left-1/2 transform -translate-x-1/2   z-10  w-64  border border-primary_color_11 rounded-2xl bg-dark_3  transition ease-out duration-100 transform ">
-                                    <div class="flex  p-5 gap-1 items-center @if($lang == 'ar') flex-row-reverse @endif">
-                                        <div class="w-9 h-9 shrink-0">
-                                            <img src="{{ asset('images/upload/' . $user->image) }}"
-                                                class=" object-cover  rounded-full w-full h-full"
-                                                alt="">
+                                    <a href="{{ url('/user/profile2?tab=profile') }}">
+                                        <div class="flex  p-5 gap-1 items-center @if($lang == 'ar') flex-row-reverse @endif">
+                                            <div class="w-9 h-9 shrink-0">
+                                                <img src="{{ asset('images/upload/' . $user->image) }}"
+                                                    class=" object-cover  rounded-full w-full h-full"
+                                                    alt="">
+                                            </div>
+                                            <div class="text-h6">
+                                                <p class="">
+                                                    {{ $user->name ?? ' ' }}
+                                                </p>
+                                                <p class="text-h8 mt-1 text-gray_b5">
+                                                    {{ $user->email ?? ' ' }}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="text-h6">
-                                            <p class="">
-                                                {{ $user->name ?? ' ' }}
-                                            </p>
-                                            <p class="text-h8 mt-1 text-gray_b5">
-                                                {{ $user->email ?? ' ' }}
-                                            </p>
-                                        </div>
-                                    </div>
+                                    </a>
                                     <div class="p-1 border border-primary_color_11 ">
-                                        <a href="{{ url('/user/profile2') }}"
+                                        <a href="{{ url('/user/profile2?tab=profile') }}"
                                             class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                                             id="">
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -159,7 +160,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                                             </svg>
                                             {{ __('Profile settings') }}
                                         </a>
-                                        <a href="{{ url('/user/profile2') }}"
+                                        <a href="{{ url('user/profile2?tab=my-tickets') }}"
                                             class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                                             id="">
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -174,7 +175,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                                             </svg>
                                             {{ __('My Tickets') }}
                                         </a>
-                                        <a href="{{ url('/my-tickets') }}"
+                                        <a href="{{ url('user/profile2?tab=Past_events') }}"
                                             class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                                             id="">
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -182,7 +183,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                                             </svg>
                                             {{ __('Past events') }}
                                         </a>
-                                        <a href="{{ url('/my-tickets') }}"
+                                        <a href="{{ url('user/profile2?tab=Favorites') }}"
                                             class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                                             id="">
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -190,7 +191,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                                             </svg>
                                             {{ __('Favorites') }}
                                         </a>
-                                        <a href="{{ url('/my-tickets') }}"
+                                        <a href="{{ url('user/profile2?tab=Change_password') }}"
                                             class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                                             id="">
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -240,7 +241,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 
 <div id="sidebar"
-    class=" fixed inset-0 bg-dark bg-opacity-75 z-50     @if($lang == 'ar') translate-x-full @else -translate-x-full @endif  transition-transform duration-300">
+    class=" fixed inset-0 bg-dark bg-opacity-75 z-50     @if($lang == 'ar')   translate-x-full @else -translate-x-full @endif  transition-transform duration-300">
     <div class="w-64 bg-primary_color_15 p-24-16 h-full shadow-md p-4 overflow-auto">
         <button id="close-btn" class="text-light hover:text-primary_color_9 focus:outline-none">
             <i class="fa-regular fa-circle-xmark fa-2xl my-6"></i>
@@ -265,8 +266,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                     @endphp
                     @if (isset($category))
                     @foreach ($category as $item)
-                    <!-- <a href="{{ url('/events-category/' . $item->id . '/' . $item->name) }}" -->
-                    <a href="{{ url('/all-events') }}"
+                    <a href="/all-events?category_id={{$item['id']}}"
                         class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md"
                         role="menuitem" tabindex="-1" id="menu-item-0">
                         @if (session('direction') == 'rtl')
@@ -310,7 +310,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             </div>
             <ul id="userList" class="hidden  p-1 flex-col mt-2 gap-2 mt-3  rounded-md bg-dark_3 transition ease-out duration-100  ">
                 <div class=" ">
-                    <a href="{{ url('/user/profile2') }}"
+                    <a href="{{ url('/user/profile2?tab=profile') }}"
                         class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                         id="">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -325,7 +325,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                         </svg>
                         {{ __('Profile settings') }}
                     </a>
-                    <a href="{{ url('/my-tickets') }}"
+                    <a href="{{ url('user/profile2?tab=my-tickets') }}"
                         class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                         id="">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -340,7 +340,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                         </svg>
                         {{ __('My Tickets') }}
                     </a>
-                    <a href="{{ url('/my-tickets') }}"
+                    <a href="{{ url('user/profile2?tab=Past_events') }}"
                         class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                         id="">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -348,7 +348,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                         </svg>
                         {{ __('Past events') }}
                     </a>
-                    <a href="{{ url('/my-tickets') }}"
+                    <a href="{{ url('user/profile2?tab=Favorites') }}"
                         class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                         id="">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -356,7 +356,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                         </svg>
                         {{ __('Favorites') }}
                     </a>
-                    <a href="{{ url('/my-tickets') }}"
+                    <a href="{{ url('user/profile2?tab=Change_password') }}"
                         class="block px-1 py-3 text-sm text-gray_b5 hover:bg-primary_color_o10_2 rounded-md gap-3 flex items-center flex-row"
                         id="">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">

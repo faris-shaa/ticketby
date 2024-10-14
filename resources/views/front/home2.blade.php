@@ -97,7 +97,12 @@ $error = $response->json();
                   <path d="M8.25 1.21875L13.75 6.46875C13.9062 6.625 14 6.8125 14 7.03125C14 7.21875 13.9062 7.40625 13.75 7.5625L8.25 12.8125C7.96875 13.0938 7.46875 13.0938 7.1875 12.7812C6.90625 12.5 6.90625 12 7.21875 11.7188L11.375 7.78125H0.75C0.3125 7.78125 0 7.4375 0 7.03125C0 6.59375 0.3125 6.28125 0.75 6.28125H11.375L7.21875 2.3125C6.90625 2.03125 6.90625 1.53125 7.1875 1.25C7.46875 0.9375 7.9375 0.9375 8.25 1.21875Z" fill="#A986BF" />
                </svg>
             </div>
-            <input type="text" name="" id="SearchEventName" value="" placeholder="Search by event name"
+            <div class="ms-auto hidden absolute @if($lang == 'ar') left-0 @else right-0 @endif  bottom-1/2 transform translate-y-1/2 " id="clear_search">
+               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 16C3.5625 16 0 12.4375 0 8C0 3.59375 3.5625 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4375 12.4062 16 8 16ZM5.46875 5.46875C5.15625 5.78125 5.15625 6.25 5.46875 6.53125L6.9375 8L5.46875 9.46875C5.15625 9.78125 5.15625 10.25 5.46875 10.5312C5.75 10.8438 6.21875 10.8438 6.5 10.5312L7.96875 9.0625L9.4375 10.5312C9.75 10.8438 10.2188 10.8438 10.5 10.5312C10.8125 10.25 10.8125 9.78125 10.5 9.46875L9.03125 8L10.5 6.53125C10.8125 6.25 10.8125 5.78125 10.5 5.46875C10.2188 5.1875 9.75 5.1875 9.4375 5.46875L7.96875 6.9375L6.5 5.46875C6.21875 5.1875 5.75 5.1875 5.46875 5.46875Z" fill="#999999" />
+               </svg>
+            </div>
+            <input type="text" name="" id="SearchEventName" value="" placeholder="{{__('Search by event name')}}"
                class="text-h4 placeholder-primary_color_6 w-full min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border   outline-0">
          </div>
       </div>
@@ -110,7 +115,7 @@ $error = $response->json();
          </span>
          <div class="min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border">
             <select name="" id="SearchEventCity" placeholder="Search by event place" class="text-h4 select2 placeholder-primary_color_6 w-full min-w-60 f-bri  text-primary_color_6    outline-0" style="width: 100%;" data-minimum-results-for-search="Infinity">
-               <option value="all">{{__('Any place')}}</option>
+               <option value="">{{__('Any place')}}</option>
                @foreach ($citys['city'] as $city)
                <option value="{{$city['id']}}">{{ $lang == 'ar' ? $city['arabic_name'] : $city['name'] }}</option>
                @endforeach
@@ -129,7 +134,7 @@ $error = $response->json();
          </span>
          <div id="event_date" class=" min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border">
             <select name="" id="SearchEventDate" placeholder="Search by event date" class="text-h4 select2 placeholder-primary_color_6 w-full    outline-0" style="width: 100%;" data-minimum-results-for-search="Infinity">
-               <option value="All">{{__('all')}}</option>
+               <option value="">{{__('all')}}</option>
                <option value="Today">{{__('Today')}}</option>
                <option value="Tommorow">{{__('Tommorow')}}</option>
                <option value="This Week">{{__('This Week')}}</option>
@@ -355,13 +360,13 @@ $error = $response->json();
 <script script>
    $(document).ready(function() {
 
-      let limit = 3;
+      let limit = 6;
 
       function updateLimitBasedOnScreenSize() {
          if (window.innerWidth <= 768) { // 1024px is the breakpoint for 'lg' in Tailwind CSS
             limit = -1;
          } else {
-            limit = 3;
+            limit = 6;
          }
       }
 
@@ -395,8 +400,17 @@ $error = $response->json();
       });
 
       $("#Searchbtn").on("click", function() {
+         $("#clear_search").removeClass('hidden');
+         $("#Searchbtn").addClass('hidden');
+
          fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
          scroll()
+      })
+      $("#clear_search").on("click", function() {
+         $("#clear_search").addClass('hidden');
+         $("#Searchbtn").addClass('hidden');
+         $('#SearchEventName').val('')
+         fetchEvents('', SearchEventDate, SearchEventCity, SearchEventCat, limit);
       })
       var SearchEventCity = ''
       $('#SearchEventCity').on('change', function() {
