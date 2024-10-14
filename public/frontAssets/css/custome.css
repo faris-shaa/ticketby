@@ -19,6 +19,18 @@
     position: relative;
 }
 
+/* Hide the spinners for Chrome, Safari, Edge, and Opera */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide the spinners for Firefox */
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
 .event_details_swiper::after {
     content: '';
     position: absolute;
@@ -760,7 +772,7 @@ input::-webkit-outer-spin-button {
 
 @media only screen and (max-height: 700px) {
     #register-model {
-        max-height: 70vh;
+        max-height: 80vh;
         overflow: scroll;
     }
 }

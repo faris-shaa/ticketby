@@ -41,23 +41,23 @@ $error = $response->json();
 
 @endphp
 <div class="lg:bg-primary_color_15 hero rounded-b-3xl">
-   <div class="container mt-16 pb-0 lg:pb-32 overflow-hidden">
+   <div class="container mt-10 xl:mt-16 pb-0 lg:pb-32 overflow-hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
-         <div class=" tiket-info order-2 lg:order-1 mt-7 md:mt-0">
+         <div class=" tiket-info order-2 lg:order-1  mt-4 md:mt-0">
             @foreach ( $banner as $item )
             <div class="lg:w-w-400 xl:w-w-500 hidden " data-tiket-id="{{ $item['id']}}">
                <div class="lg:min-h-40">
                   <div class="overflow-hidden">
-                     <h1 class="text-h4 lg:text-h2  xl:text-h9 font-medium anim-tiket-h text-center lg:text-left">{{ $lang == 'ar' ? $item->event->name_arabic : $item->event->name }}</h1>
+                     <h1 class="text-h4 lg:text-h2  xl:text-h9 font-medium anim-tiket-h text-center lg:text-left text-primary_color_6 md:text-white">{{ $lang == 'ar' ? $item->event->name_arabic : $item->event->name }}</h1>
                   </div>
                   <div class="overflow-hidden text-center lg:text-left">
-                     <p class="mt-1 lg:mt-4 text-primary_color_4 anim-tiket-p text-h18 lg:text-h5 ">{{ $lang == 'ar' ? $item->event->name_arabic : $item->event->name }}</p>
+                     <p class="mt-1 lg:mt-4 text-primary_color_4 anim-tiket-p text-h18 lg:text-h5 text-gray_9 md:text-primary_color_4 ">{{ $lang == 'ar' ? $item->event->name_arabic : $item->event->name }}</p>
                   </div>
                </div>
                <div class="hidden md:flex gap-4 mt-7 overflow-hidden relative z-10">
                   <a href="{{ url('event/' . $item->event->id . '/' . Str::slug($item->event->name) . '?scroll=tickets_section') }}"
-                     class="rounded-5xl bg-primary_color_8 text-center py-2 px-4 lg:px-12 w-full lg:w-48 f-bri l leading-5 block">
-                     {{ __('Get Ticket') }}
+                     class="rounded-5xl bg-primary_color_8 text-center py-2 px-4 lg:px-11 w-full lg:w-48 f-bri l leading-5 block">
+                     {{ __('Get Tickets') }}
                   </a> <a href="{{ url('event/' . $item->event->id . '/' . Str::slug($item->event->name)) }}"
                      class=" rounded-5xl border border-primary_color_8   text-center    py-2 px-4 lg:px-12  w-full lg:w-48 f-bri l leading-5  block">
                      {{__('Learn More')}}
@@ -134,7 +134,7 @@ $error = $response->json();
          </span>
          <div id="event_date" class=" min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border">
             <select name="" id="SearchEventDate" placeholder="Search by event date" class="text-h4 select2 placeholder-primary_color_6 w-full    outline-0" style="width: 100%;" data-minimum-results-for-search="Infinity">
-               <option value="">{{__('all')}}</option>
+               <option value="All">{{__('all')}}</option>
                <option value="Today">{{__('Today')}}</option>
                <option value="Tommorow">{{__('Tommorow')}}</option>
                <option value="This Week">{{__('This Week')}}</option>
@@ -148,9 +148,9 @@ $error = $response->json();
 </div>
 
 
-<div class="container mt-9 md:mt-40 xl:mt-32 hidden lg:block" id="UpcomingEventsSection">
+<div class="container mt-m-32 md:mt-40 xl:mt-32 hidden lg:block" id="UpcomingEventsSection">
    <div class="flex justify-between flex-wrap gap-y-4">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium">{{__('Upcoming Events')}}</h2>
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-normal">{{__('Upcoming Events')}}</h2>
       <div class="flex gap-2 flex-wrap gap-y-4">
          <div
             class=" text-h6 rounded-full  bg-gray_f bg-opacity-5 gap-x-1  py-2 px-6 flex items-center  justify-between   h-8">
@@ -160,7 +160,7 @@ $error = $response->json();
                   fill="#666666" />
             </svg>
             <select name="" id="SearchEventCat" style="width: 100%;" class=" select2 placeholder-primary_color_6 outline-0" data-minimum-results-for-search="Infinity">
-               <option value="">category</option>
+               <option value="">{{__('category')}}</option>
                @foreach ($categorys['data'] as $cat)
                <option value="{{ $cat['id']}}">{{ $lang == 'ar' ? $cat['ar_name'] : $cat['name'] }}</option>
                @endforeach
@@ -183,12 +183,12 @@ $error = $response->json();
    </div>
 </div>
 
-<div class="container mt-9 md:mt-40 xl:mt-32">
-   <div class=" lg:text-center mb-4 lg:mb-8">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium text-primary_color_6 lg:text-white">
-         <span class="hidden md:inline-block">{{__('Discover the lovely ')}}</span> {{__('categories')}}
+<div class="container mt-m-32 md:mt-40 xl:mt-32">
+   <div class=" lg:text-center mb-3 lg:mb-8">
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-normal text-primary_color_6 lg:text-white font-normal">
+         <span class="hidden md:inline-block">{{__('Discover the lovely')}}</span> {{__('Categories')}}
       </h2>
-      <p class="text-gray_6 mt-1">{{__('Discover the lovely categories')}}</p>
+      <p class="text-gray_6 mt-1 hidden md:block">{{__('Discover the lovely categories')}}</p>
    </div>
 </div>
 <div class="xl:px-p423 m-auto">
@@ -214,8 +214,25 @@ $error = $response->json();
 
 <div class="container mt-9 md:mt-40 xl:mt-32 block lg:hidden overflow-hidden" id="">
    <div class="flex justify-between flex-wrap gap-y-4">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium">{{__('Upcoming Events')}}</h2>
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-normal">{{__('Upcoming Events')}}</h2>
+      <div class="flex gap-2 flex-wrap gap-y-4 md:hidden">
+         <div class=" text-h6 rounded-full  bg-gray_f bg-opacity-5 gap-x-1  py-2 px-6 flex items-center  justify-between   h-8">
+            <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M8.61328 1.1875L11.2383 5.5625C11.4023 5.83594 11.4023 6.16406 11.2383 6.4375C11.1016 6.71094 10.8008 6.875 10.5 6.875H5.25C4.92188 6.875 4.62109 6.71094 4.48438 6.4375C4.32031 6.16406 4.32031 5.83594 4.48438 5.5625L7.10938 1.1875C7.27344 0.914062 7.54688 0.75 7.875 0.75C8.17578 0.75 8.44922 0.914062 8.61328 1.1875ZM7.875 9.28125C7.875 8.67969 8.33984 8.1875 8.96875 8.1875H12.9062C13.5078 8.1875 14 8.67969 14 9.28125V13.2188C14 13.8477 13.5078 14.3125 12.9062 14.3125H8.96875C8.33984 14.3125 7.875 13.8477 7.875 13.2188V9.28125ZM3.5 14.75C1.55859 14.75 0 13.1914 0 11.25C0 9.33594 1.55859 7.75 3.5 7.75C5.41406 7.75 7 9.33594 7 11.25C7 13.1914 5.41406 14.75 3.5 14.75Z" fill="#666666"></path>
+            </svg>
+            <select name="" id="SearchEventCat" style="width: 100%;" class="select2 placeholder-primary_color_6 outline-0 select2-hidden-accessible" data-minimum-results-for-search="Infinity" data-select2-id="SearchEventCat" tabindex="-1" aria-hidden="true">
+               <option value="" data-select2-id="6">category</option>
+               <option value="42">Museum</option>
+               <option value="14">Sports</option>
+               <option value="13">Concert</option>
+               <option value="12">Entertainment</option>
+               <option value="11">Tourism</option>
+               <option value="7">Exhibitions</option>
+            </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="5" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-SearchEventCat-container"><span class="select2-selection__rendered" id="select2-SearchEventCat-container" role="textbox" aria-readonly="true" title="category">category</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+         </div>
+      </div>
    </div>
+
 
    <div class="upcomingEventsConswiper">
       <div class="mt-4 lg:mt-16  swiper-wrapper upcomingEventsCon" id=""></div>
@@ -254,7 +271,7 @@ $error = $response->json();
 
 <div class="container mt-9 md:mt-40 xl:mt-32 hidden lg:block">
    <div class="">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium">{{__('Previous Events')}}</h2>
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-normal">{{__('Previous Events')}}</h2>
    </div>
    <div class="mt-16 grid grid-cols-2 lg:grid-cols-3 gap-4 ">
       @foreach ($pervious_events as $item)
@@ -278,7 +295,7 @@ $error = $response->json();
                   <h5 class="text-h6 md:text-h5 font-medium  md:mb-2">
                      {{ $lang == 'ar' ? $item->name_arabic : $item->name }}
                   </h5>
-                  <p class="pline2 f-bri text-gray_6 text-h6">
+                  <p class="pline2 f-bri text-gray_6 text-h7 md:text-h6">
                      {{ $lang == 'ar' ? $item->description_arabic : $item->description }}
                   </p>
                </div>
@@ -296,7 +313,7 @@ $error = $response->json();
 
 <div class="container mt-9 md:mt-40 xl:mt-32 block lg:hidden overflow-hidden">
    <div class="">
-      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-medium">{{__('Previous Events')}}</h2>
+      <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-normal">{{__('Previous Events')}}</h2>
    </div>
    <div class="upcomingPreviousEvents">
       <div class="mt-4 lg:mt-16 swiper-wrapper ">
@@ -475,7 +492,7 @@ $error = $response->json();
                   let month = dateFormat(item.start_time).shortMonth;
                   let eventHtml = `
                         <a href="/event/${item.id}/${item.slug}" class="swiper-slide">
-                            <div class="ticket-wahlist h-full bg-light hover:bg-primary_color_o25_9 bg-opacity-5 rounded-2xl border border-primary_color_o10_1 hover:border-gray_9 overflow-hidden">
+                            <div class="ticket-wahlist h-full bg-light hover:bg-primary_color_o25_9 bg-opacity-5 rounded-lg  md:rounded-2xl border border-primary_color_o10_1 hover:border-gray_9 overflow-hidden">
                             <div class="h-32 md:h-48">
                                  ${item.gallery && item.gallery.length > 0 ? 
                                     `<div class="swiper-event">
@@ -487,9 +504,9 @@ $error = $response->json();
                                     `<img class="w-full h-full object-cover" src="${item.imagePath}${item.image}" alt="${item.name}">`
                                  }
                               </div>
-                                <div class="relative flex gap-1 md:gap-4 p-1 md:p-4 flex-wrap md:flex-nowrap flex-col lg:flex-row">
+                                <div class="relative flex gap-1 md:gap-4 p-1 px-4 md:p-4 flex-wrap md:flex-nowrap flex-col lg:flex-row">
                                     <div class="text-center flex  items-baseline gap-1 md:gap-0 md:flex-col">
-                                        <span class="text-primary_color_7 text-h7 font-bold uppercase f-bri">${month}
+                                        <span class=" text-primary_color_6 md:text-primary_color_7 text-h6 md:text-h7 font-bold uppercase f-bri">${month}
                                         </span>
                                         <span class="font-bold text-h7 lg:text-h3 f-bri text-primary_color_7 lg:text-white">${day}
                                         </span>
@@ -498,7 +515,7 @@ $error = $response->json();
                                         <h5 class="text-h6 md:text-h5 font-medium  md:mb-2">
                                     ${ lang == 'ar' ? item.name_arabic : item.name }
                                         </h5>
-                                        <p class="pline2 f-bri text-gray_6 text-h6">
+                                        <p class="pline2 f-bri text-gray_9 text-h6">
                                         ${ lang == 'ar' ? item.short_description : item.short_description }
                                         </p>
                                     </div>
