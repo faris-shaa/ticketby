@@ -41,19 +41,19 @@ const sidebar = document.getElementById('sidebar');
 const closeBtn = document.getElementById('close-btn');
 var language = document.getElementById('lang').value;
 menuBtn.addEventListener('click', () => {
-  language != 'English' ? sidebar.classList.toggle('translate-x-0') : sidebar.classList.toggle('-translate-x-full')
+  language != 'English' ? sidebar.classList.toggle('translate-x-full') : sidebar.classList.toggle('-translate-x-full')
 
 });
 
 closeBtn.addEventListener('click', (e) => {
-  language != 'English' ? sidebar.classList.toggle('translate-x-0') : sidebar.classList.toggle('-translate-x-full')
+  language != 'English' ? sidebar.classList.toggle('translate-x-full') : sidebar.classList.toggle('-translate-x-full')
 
 });
 
 document.addEventListener('click', (e) => {
 
   if (e.target.id === 'sidebar') {
-    language != 'English' ? sidebar.classList.toggle('translate-x-0') : sidebar.classList.toggle('-translate-x-full')
+    language != 'English' ? sidebar.classList.toggle('translate-x-full') : sidebar.classList.toggle('-translate-x-full')
   }
 });
 

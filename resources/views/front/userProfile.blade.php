@@ -163,6 +163,8 @@ $user = Auth::guard('appuser')->user();
                     </div>
                     <div class="tab-content2 ">
                         <div id="tab8" class="tab-pane2  hidden active">
+                        @if(isset($ticket['upcoming']->event))
+
                             @forelse ($ticket['upcoming']->event as $item)
                             <div class="grid grid-col-1 md:grid-cols-2  xl:grid-cols-3 gap-4 mt-4">
                                 <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1 overflow-hidden">
@@ -220,6 +222,7 @@ $user = Auth::guard('appuser')->user();
                                 <p class="text-h7 text-gray_6">{{__("It seems you haven't purchased any tickets yet. Once you do, your tickets will be displayed here.")}}</p>
                             </div>
                             @endforelse
+                            @endif
                         </div>
                         <div id="tab9" class="tab-pane2  hidden ">
                             <div
