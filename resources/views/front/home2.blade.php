@@ -57,7 +57,7 @@ $error = $response->json();
                <div class="hidden md:flex gap-4 mt-7 overflow-hidden relative z-10">
                   <a href="{{ url('event/' . $item->event->id . '/' . Str::slug($item->event->name) . '?scroll=tickets_section') }}"
                      class="rounded-5xl bg-primary_color_8 text-center py-2 px-4 lg:px-12 w-full lg:w-48 f-bri l leading-5 block">
-                     {{ __('Get Tickets') }}
+                     {{ __('Get Ticket') }}
                   </a> <a href="{{ url('event/' . $item->event->id . '/' . Str::slug($item->event->name)) }}"
                      class=" rounded-5xl border border-primary_color_8   text-center    py-2 px-4 lg:px-12  w-full lg:w-48 f-bri l leading-5  block">
                      {{__('Learn More')}}
@@ -134,7 +134,7 @@ $error = $response->json();
          </span>
          <div id="event_date" class=" min-w-60 f-bri bg-transparent text-primary_color_6 border-0 border-b border-primary_color_6 py-3 border">
             <select name="" id="SearchEventDate" placeholder="Search by event date" class="text-h4 select2 placeholder-primary_color_6 w-full    outline-0" style="width: 100%;" data-minimum-results-for-search="Infinity">
-               <option value="All">{{__('all')}}</option>
+               <option value="">{{__('all')}}</option>
                <option value="Today">{{__('Today')}}</option>
                <option value="Tommorow">{{__('Tommorow')}}</option>
                <option value="This Week">{{__('This Week')}}</option>
@@ -160,7 +160,7 @@ $error = $response->json();
                   fill="#666666" />
             </svg>
             <select name="" id="SearchEventCat" style="width: 100%;" class=" select2 placeholder-primary_color_6 outline-0" data-minimum-results-for-search="Infinity">
-               <option value="">{{__('category')}}</option>
+               <option value="">category</option>
                @foreach ($categorys['data'] as $cat)
                <option value="{{ $cat['id']}}">{{ $lang == 'ar' ? $cat['ar_name'] : $cat['name'] }}</option>
                @endforeach

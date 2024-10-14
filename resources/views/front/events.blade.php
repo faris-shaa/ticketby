@@ -120,8 +120,9 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             $('#SearchEventName').on('blur', function() {
                 $(this).css('width', '3.5rem');
             });
-        });
-
+        }); 
+        var SearchEventCat = $("#category_id_input").val();
+        var SearchEventCity = $("#city_id_input").val();
         let limit = -1;
         $("#load_more").click(function() {
             limit += 3
@@ -145,7 +146,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
 
         })
-        var SearchEventCity = ''
+       
         $('#SearchEventCity').on('change', function() {
             SearchEventCity = $(this).val();
             console.log(SearchEventCity);
