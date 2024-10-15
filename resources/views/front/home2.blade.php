@@ -216,19 +216,19 @@ $error = $response->json();
    <div class="flex justify-between flex-wrap gap-y-4">
       <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-normal">{{__('Upcoming Events')}}</h2>
       <div class="flex gap-2 flex-wrap gap-y-4 md:hidden">
-         <div class=" text-h6 rounded-full  bg-gray_f bg-opacity-5 gap-x-1  py-2 px-6 flex items-center  justify-between   h-8">
-            <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M8.61328 1.1875L11.2383 5.5625C11.4023 5.83594 11.4023 6.16406 11.2383 6.4375C11.1016 6.71094 10.8008 6.875 10.5 6.875H5.25C4.92188 6.875 4.62109 6.71094 4.48438 6.4375C4.32031 6.16406 4.32031 5.83594 4.48438 5.5625L7.10938 1.1875C7.27344 0.914062 7.54688 0.75 7.875 0.75C8.17578 0.75 8.44922 0.914062 8.61328 1.1875ZM7.875 9.28125C7.875 8.67969 8.33984 8.1875 8.96875 8.1875H12.9062C13.5078 8.1875 14 8.67969 14 9.28125V13.2188C14 13.8477 13.5078 14.3125 12.9062 14.3125H8.96875C8.33984 14.3125 7.875 13.8477 7.875 13.2188V9.28125ZM3.5 14.75C1.55859 14.75 0 13.1914 0 11.25C0 9.33594 1.55859 7.75 3.5 7.75C5.41406 7.75 7 9.33594 7 11.25C7 13.1914 5.41406 14.75 3.5 14.75Z" fill="#666666"></path>
-            </svg>
-            <select name="" id="SearchEventCat" style="width: 100%;" class="select2 placeholder-primary_color_6 outline-0 select2-hidden-accessible" data-minimum-results-for-search="Infinity" data-select2-id="SearchEventCat" tabindex="-1" aria-hidden="true">
-               <option value="" data-select2-id="6">category</option>
-               <option value="42">Museum</option>
-               <option value="14">Sports</option>
-               <option value="13">Concert</option>
-               <option value="12">Entertainment</option>
-               <option value="11">Tourism</option>
-               <option value="7">Exhibitions</option>
-            </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="5" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-SearchEventCat-container"><span class="select2-selection__rendered" id="select2-SearchEventCat-container" role="textbox" aria-readonly="true" title="category">category</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+         <div class=" text-h6 rounded-full  bg-gray_f bg-opacity-5 gap-x-1  py-1 px-3 flex items-center  justify-between   h-8">
+            <div>
+               <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0.75 0.75C0.75 0.351562 1.07812 0 1.5 0H10.5C10.8984 0 11.25 0.351562 11.25 0.75C11.25 1.17188 10.8984 1.5 10.5 1.5H1.5C1.07812 1.5 0.75 1.17188 0.75 0.75ZM2.25 4.5C2.25 4.10156 2.57812 3.75 3 3.75H9C9.39844 3.75 9.75 4.10156 9.75 4.5C9.75 4.92188 9.39844 5.25 9 5.25H3C2.57812 5.25 2.25 4.92188 2.25 4.5ZM7.5 8.25C7.5 8.67188 7.14844 9 6.75 9H5.25C4.82812 9 4.5 8.67188 4.5 8.25C4.5 7.85156 4.82812 7.5 5.25 7.5H6.75C7.14844 7.5 7.5 7.85156 7.5 8.25Z" fill="#666666" />
+               </svg>
+            </div>
+            <select name="" id="SearchEventCatMob" style="width: 100%;" class=" select2 placeholder-primary_color_6 outline-0" data-minimum-results-for-search="Infinity">
+               <option value="">{{__('category')}}</option>
+               @foreach ($categorys['data'] as $cat)
+               <option value="{{ $cat['id']}}">{{ $lang == 'ar' ? $cat['ar_name'] : $cat['name'] }}</option>
+               @endforeach
+            </select>
+            <div class="select-container relative "></div>
          </div>
       </div>
    </div>
@@ -446,6 +446,11 @@ $error = $response->json();
       $('#SearchEventCat').on('change', function() {
          SearchEventCat = $(this).val();
          fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
+      });
+      $('#SearchEventCatMob').on('change', function() {
+         SearchEventCat = $(this).val();
+         fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
+         setTimeout(initializeswiper_upcoming, 1000);
       });
 
       fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);

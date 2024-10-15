@@ -739,6 +739,14 @@ input[type="checkbox"].custome::after {
     font-size: 14px;
 }
 
+@media (max-width: 576px) {
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        font-size: 12px;
+    }
+
+}
+
 .wahlist {
     position: absolute;
     right: 7px;
@@ -920,4 +928,30 @@ input::-webkit-outer-spin-button {
     100% {
         transform: rotate(360deg);
     }
+}
+
+.select-container .select2-container {
+    top: 30px !important;
+    right: 50% !important;
+    transform: translatex(-50%);
+    z-index: 111111;
+    min-width: 140px;
+}
+
+.rtl .select-container .select2-container {
+    left: 50% !important;
+    right: initial !important;
+    transform: initial !important
+}
+
+.disabled {
+    user-select: none;
+    pointer-events: none;
+}
+
+.focus {
+    border: 1px solid #A986BF;
+}
+.hidden-imp{
+    display: none !important;
 }
