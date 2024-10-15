@@ -22,7 +22,7 @@ $event = null;
 
 try {
 // Use environment variable for the base URL
-$baseUrl = env('API_BASE_URL', 'https://ticketby.pixicard.com');
+$baseUrl = env('API_BASE_URL', 'https://ticketby.co');
 $response = Http::withOptions(['verify' => false])->get("{$baseUrl}/event/details/{$data->id}/{$event_name}");
 
 if ($response->successful()) {
@@ -354,6 +354,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
          <div class="bg-primary_color_12  hover:border-primary_color_7 transition-all rounded-2xl border border-primary_color_o25_8  p-2  md:p-32-24 text-center">
             <input value="{{ $item->id }}" type="hidden" name="ids[]" id="id-{{ $item->id }}">
             <input type="hidden" name="quantities[{{ $item->id }}]" value="0" id="quantity-{{ $item->id }}">
+            <input value="0" type="hidden" name="google_login" id="google_login" class="google_login"> 
             <h3 class="font-bold"> {{ $lang == 'ar' ? $item->name_arabic : $item->name }}
             </h3>
             <div class="text-gray_9 h6 my-4 flex flex-col">
@@ -522,7 +523,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
          <div>
             <p class="text-light text-center mb-7 mt-7 line-thr ">or login with</p>
             <div class="flex gap-7">
-               <a href="{{url('/auth/google/callback')}}" id="Google-login" class="bg-gray_35 rounded-2xl flex items-center gap-1 px-2 py-3 flex-1 justify-center">
+               <a href="javascript:void(0)" id="Google-login" class="bg-gray_35 rounded-2xl flex items-center gap-1 px-2 py-3 flex-1 justify-center">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path d="M15.25 8.1875C15.25 12.625 12.2188 15.75 7.75 15.75C3.4375 15.75 0 12.3125 0 8C0 3.71875 3.4375 0.25 7.75 0.25C9.8125 0.25 11.5938 1.03125 12.9375 2.28125L10.8125 4.3125C8.0625 1.65625 2.9375 3.65625 2.9375 8C2.9375 10.7188 5.09375 12.9062 7.75 12.9062C10.8125 12.9062 11.9688 10.7188 12.125 9.5625H7.75V6.90625H15.125C15.1875 7.3125 15.25 7.6875 15.25 8.1875Z" fill="#FBF9FD" />
                   </svg>
@@ -683,6 +684,11 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script script>
+   $('#Google-login').on('click', function(e) {
+      $('.google_login').val(1);
+       $('#tickets').submit();
+            
+   });
    // $('#Google-login').on('click', function(e) {
    //    $.ajax({
    //       url: 'https://ticketby.co/api/social-login',
@@ -846,7 +852,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
       function slot_events(id, dates) {
          $.ajax({
-            url: 'https://ticketby.pixicard.com/api/time/slots',
+            url: 'https://ticketby.co/api/time/slots',
             type: 'POST',
             data: {
                ticket_id: id,

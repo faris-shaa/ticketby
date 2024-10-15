@@ -1447,11 +1447,11 @@ class OrderController extends Controller
             return response()->json("invalid user_name");
         }
         
-        if($user)
+         if($user)
         {
             $otp = rand(1000, 9999);
-
-            $to = str_replace('+', '', $user->phone);
+            
+            $to = str_replace('+966', '', $user->phone);
             $message = "Your phone verification code is $otp for $setting->app_name.";
             $user = AppUser::find($user->id);
             $dataemail['name'] = $user->name;
@@ -1461,62 +1461,63 @@ class OrderController extends Controller
            
             if (true) {
 
-                $user = AppUser::find($user->id);
+                
                 $dataemail['name'] = $user->name;
                 $dataemail['email'] = $user->email;
                 $dataemail['otp'] = $otp;
+                try {
+            $otp = rand(1000, 9999);
+
+         
+            $message = "Your phone verification code is $otp for $setting->app_name.";
+                $curl = curl_init();
+                            
+                curl_setopt_array($curl, array(
+                  CURLOPT_URL => 'https://api.taqnyat.sa/v1/messages',
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => '',
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 0,
+                  CURLOPT_FOLLOWLOCATION => true,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => 'POST',
+                  CURLOPT_POSTFIELDS =>'{
+                    "recipients": [
+                        '.$to.'
+                    ],
+                    "body":"'.$message.'",
+                    "sender":"TICKETBY"
+                }',
+                  CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Authorization: Bearer 17bcd048f6bad60a6812030bd1c1c5c2'
+                  ),
+                ));
+                
+                $response = curl_exec($curl);
+                
+                curl_close($curl);
+                $responseData = json_decode($response, true);
+                 //  var_dump($responseData);
+                } catch (\Throwable $th) {
+                    Log::info("thaqniyat error");
+                    Log::info($th->getMessage());
+                }
 
                  $data = array('name' => "TicketBy", 'email' => $user->email, "otp" => $otp);
                 Mail::send(['html' => 'frontend.email.otp'], $data, function ($message) use ($data) {
                     $message->to($data['email'])->subject('OTP Verification');
                     $message->from('ticketbyksa@gmail.com', 'TicketBy');
                 });
-                AppUser::where('id',$user->id)->update(['otp'=>$otp]);
-                 $user = AppUser::find($user->id);
-                
-                /*$user->otp = $otp;
-                $user->save();*/
-                try {
-                    $curl = curl_init();
-
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => 'https://api.taqnyat.sa/v1/messages',
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'POST',
-                        CURLOPT_POSTFIELDS => '{
-                    "recipients": [
-                       ' . $to . '
-                    ],
-                    "body":' . $message . ',
-                    "sender":"TICKETBY"
-                }',
-                        CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/json',
-                            'Authorization: Bearer 17bcd048f6bad60a6812030bd1c1c5c2'
-                        ),
-                    ));
-
-                    $response = curl_exec($curl);
-
-                    curl_close($curl);
-                    $responseData = json_decode($response, true);
-                } catch (\Throwable $th) {
-                    Log::info("thaqniyat error");
-                    Log::info($th->getMessage());
-                }
-
-                
+                $user->otp = $otp;
+                $user->update();
+       
             }    
         }
 
          return response()->json(['msg' => 'Otp sent', 'data' => $user, 'success' => true], 200);
     }
-     public function webUserApp ( Request $request )
+      public function webUserApp ( Request $request )
     {
         $username = $request->user_name ; 
          $setting = Setting::first();
@@ -1538,8 +1539,8 @@ class OrderController extends Controller
         if($user)
         {
             $otp = rand(1000, 9999);
-
-            $to = str_replace('+', '', $user->phone);
+            
+            $to = str_replace('+966', '', $user->phone);
             $message = "Your phone verification code is $otp for $setting->app_name.";
             $user = AppUser::find($user->id);
             $dataemail['name'] = $user->name;
@@ -1549,10 +1550,48 @@ class OrderController extends Controller
            
             if (true) {
 
-                $user = AppUser::find($user->id);
+                
                 $dataemail['name'] = $user->name;
                 $dataemail['email'] = $user->email;
                 $dataemail['otp'] = $otp;
+                try {
+            $otp = rand(1000, 9999);
+
+         
+            $message = "Your phone verification code is $otp for $setting->app_name.";
+                $curl = curl_init();
+                            
+                curl_setopt_array($curl, array(
+                  CURLOPT_URL => 'https://api.taqnyat.sa/v1/messages',
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => '',
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 0,
+                  CURLOPT_FOLLOWLOCATION => true,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => 'POST',
+                  CURLOPT_POSTFIELDS =>'{
+                    "recipients": [
+                        '.$to.'
+                    ],
+                    "body":"'.$message.'",
+                    "sender":"TICKETBY"
+                }',
+                  CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Authorization: Bearer 17bcd048f6bad60a6812030bd1c1c5c2'
+                  ),
+                ));
+                
+                $response = curl_exec($curl);
+                
+                curl_close($curl);
+                $responseData = json_decode($response, true);
+                   
+                } catch (\Throwable $th) {
+                    Log::info("thaqniyat error");
+                    Log::info($th->getMessage());
+                }
 
                  $data = array('name' => "TicketBy", 'email' => $user->email, "otp" => $otp);
                 Mail::send(['html' => 'frontend.email.otp'], $data, function ($message) use ($data) {
@@ -1561,44 +1600,10 @@ class OrderController extends Controller
                 });
                 $user->otp = $otp;
                 $user->update();
-                try {
-                    $curl = curl_init();
-
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => 'https://api.taqnyat.sa/v1/messages',
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'POST',
-                        CURLOPT_POSTFIELDS => '{
-                    "recipients": [
-                       ' . $to . '
-                    ],
-                    "body":' . $message . ',
-                    "sender":"TICKETBY"
-                }',
-                        CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/json',
-                            'Authorization: Bearer 17bcd048f6bad60a6812030bd1c1c5c2'
-                        ),
-                    ));
-
-                    $response = curl_exec($curl);
-
-                    curl_close($curl);
-                    $responseData = json_decode($response, true);
-                } catch (\Throwable $th) {
-                    Log::info("thaqniyat error");
-                    Log::info($th->getMessage());
-                }
-
-                
+       
             }    
         }
+
         return response()->json(['msg' => 'OTP sent', 'data' =>$user , 'success' => true], 200);
-        
     }
 }
