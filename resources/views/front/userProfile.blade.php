@@ -5,6 +5,8 @@
 $user = Auth::guard('appuser')->user();
 @endphp
 
+<input type="hidden" value="{{request('tab')}}" id="tab-route">
+
 
 
 <div class="container mt-12 md:mt-16">
@@ -50,7 +52,7 @@ $user = Auth::guard('appuser')->user();
                         </svg>{{__('My Favorites')}}</button>
                 </div>
                 <div class="flex flex-col mt-4">
-                    <button class="tab-button flex items-center justify-center gap-1 text-white px-2 py-3 rounded-md focus:outline-none  text-h6 bg-primary_color_a9" data-tab="tab1">
+                    <button class="tab-button flex items-center justify-center gap-1 text-white px-2 py-3 rounded-md focus:outline-none  text-h6 bg-primary_color_a9 @if (request('tab') == 'profile'|| request('tab') == 'Change_password') active @endif" data-tab="tab1">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 0.5625C4.34007 0.5625 0.5625 4.34007 0.5625 9C0.5625 13.6599 4.34007 17.4375 9 17.4375C13.6599 17.4375 17.4375 13.6599 17.4375 9C17.4375 4.34007 13.6599 0.5625 9 0.5625ZM9 16.3125C7.18952 16.3125 5.53409 15.6473 4.25563 14.5536C4.82593 13.2718 6.10935 12.375 7.60053 12.375H10.3995C11.8907 12.375 13.1741 13.2718 13.7444 14.5536C12.4659 15.6473 10.8105 16.3125 9 16.3125ZM14.5741 13.7219C13.7583 12.2509 12.201 11.25 10.3995 11.25H7.60053C5.79913 11.25 4.24188 12.251 3.42594 13.7219C2.34394 12.4466 1.6875 10.7996 1.6875 9C1.6875 4.96789 4.96789 1.6875 9 1.6875C13.0321 1.6875 16.3125 4.96789 16.3125 9C16.3125 10.7996 15.6561 12.4465 14.5741 13.7219ZM9 4.5C7.44666 4.5 6.1875 5.75916 6.1875 7.3125C6.1875 8.86577 7.44666 10.125 9 10.125C10.5533 10.125 11.8125 8.86577 11.8125 7.3125C11.8125 5.75916 10.5533 4.5 9 4.5ZM9 9C8.06952 9 7.3125 8.24298 7.3125 7.3125C7.3125 6.38202 8.06952 5.625 9 5.625C9.93048 5.625 10.6875 6.38202 10.6875 7.3125C10.6875 8.24298 9.93048 9 9 9Z" fill="white" />
                         </svg>
@@ -63,16 +65,16 @@ $user = Auth::guard('appuser')->user();
         </div>
         <div class="col-span-8 bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1 p-2 md:p-32-32 ">
             <div class="tab-content ">
-                <div id="tab1" class="tab-pane hidden  ">
+                <div id="tab1" class="tab-pane hidden @if (request('tab') == 'profile'|| request('tab') == 'Change_password') active @endif">
                     <p class="text-h5 lg:text-h3 mb-4"> {{__('Profile settings')}}</p>
                     <div class="mb-4 flex border rounded-5xl border-primary_color_a11 justify-center md:w-fit mx-auto md:p-1 gap-1 w-full">
-                        <button class="tab-button2 flex items-center justify-center gap-1 text-white px-3 md:px-2 py-3 rounded-5xl focus:outline-none  md:text-h6 text-h7 active flex-1 md:flex-none" data-tab="tab6">
+                        <button class="tab-button2 flex items-center justify-center gap-1 text-white px-3 md:px-2 py-3 rounded-5xl focus:outline-none  md:text-h6 text-h7 @if (request('tab') == 'profile') active @endif flex-1 md:flex-none" data-tab="tab6">
                             {{__('Profile settings')}}</button>
-                        <button class="tab-button2 flex items-center justify-center gap-1 text-white px-3 md:px-2 py-3 rounded-5xl focus:outline-none  md:text-h6 text-h7  flex-1 md:flex-none" data-tab="tab7">
+                        <button class="tab-button2 flex items-center justify-center gap-1 text-white px-3 md:px-2 py-3 rounded-5xl focus:outline-none  md:text-h6 text-h7  flex-1 md:flex-none @if (request('tab') == 'Change_password') active @endif" data-tab="tab7">
                             {{__('Change password')}} </button>
                     </div>
                     <div class="tab-content2 ">
-                        <div id="tab6" class="tab-pane2  hidden ">
+                        <div id="tab6" class="tab-pane2  hidden @if (request('tab') == 'profile') active @endif">
                             <form action="{{ url('update_user_profile') }}" method="post">
                                 @csrf
                                 <div class="flex gap-2 flex-col md:flex-row mb-4">
@@ -129,42 +131,52 @@ $user = Auth::guard('appuser')->user();
                                 </div>
                             </form>
                         </div>
-                        <div id="tab7" class="tab-pane2 hidden text-center">
-                            <h3 class=" text-h5 lg:text-h3 text-primary_color_5 mt-2"> {{__('Change password?')}} </h3>
-                            <p class=" mt-1 mb-8 text-h6 lg:text-h5"> {{__('Click down to change your password.')}}</p>
-                            <button class=" text-white px-2 py-3 rounded-5xl focus:outline-none text-h5 rounded-5xl bg-primary_color_8  ">{{__('Reset password now')}}</button>
-                            <div class="mt-4 p-2 respo border border-yelow rounded-lg flex items-center gap-2">
-                                <div>
-                                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="0.3" d="M13.9535 30.0759L7.45102 24.7634C6.89499 24.3143 6.44621 23.7468 6.1374 23.1022C5.82859 22.4576 5.66755 21.7522 5.66602 21.0375V10.625C5.66654 9.7 5.9342 8.7948 6.43683 8.01825C6.93946 7.24169 7.65566 6.62681 8.49935 6.24752L15.016 3.27252C15.6429 2.9858 16.3242 2.8374 17.0135 2.8374C17.7029 2.8374 18.3841 2.9858 19.011 3.27252L25.4993 6.24752C26.343 6.62681 27.0592 7.24169 27.5619 8.01825C28.0645 8.7948 28.3322 9.7 28.3327 10.625V21.0375C28.3329 21.7511 28.174 22.4558 27.8677 23.1003C27.5614 23.7448 27.1153 24.3129 26.5618 24.7634L20.0594 30.0759C19.2007 30.7865 18.121 31.1753 17.0064 31.1753C15.8918 31.1753 14.8122 30.7865 13.9535 30.0759Z" fill="#C59A00" />
-                                        <path d="M16.0209 20.6255L21.7074 15.0886C21.8984 14.8973 22.0058 14.638 22.0058 14.3676C22.0058 14.0972 21.8984 13.8379 21.7074 13.6466C21.5161 13.4555 21.2567 13.3482 20.9864 13.3482C20.716 13.3482 20.4566 13.4555 20.2653 13.6466L15.3271 18.4896L13.9667 17.1292C13.8875 17.001 13.781 16.8919 13.6547 16.8098C13.5284 16.7277 13.3855 16.6745 13.2362 16.6542C13.0869 16.6338 12.935 16.6468 12.7913 16.6921C12.6476 16.7375 12.5158 16.8141 12.4052 16.9165C12.2947 17.0188 12.2082 17.1444 12.1519 17.2842C12.0957 17.4239 12.0711 17.5744 12.0799 17.7248C12.0887 17.8752 12.1307 18.0218 12.2029 18.154C12.2751 18.2863 12.3757 18.4009 12.4974 18.4896L14.5788 20.6255C14.6744 20.7237 14.7886 20.802 14.9147 20.8557C15.0408 20.9094 15.1764 20.9375 15.3135 20.9384C15.4462 20.9354 15.577 20.9063 15.6984 20.8526C15.8198 20.7989 15.9294 20.7217 16.0209 20.6255Z" fill="#C59A00" />
-                                    </svg>
+                        <div id="tab7" class="relative tab-pane2 hidden text-center @if (request('tab') == 'Change_password') active @endif">
+                            <form id="resetPasswordForm">
+                                @csrf
+                                <input type="hidden" name="">
+                                <input type="hidden" value="user" name="type">
+                                <input type="hidden" name="email" value="{{$user->email}}">
+                                <div id="resetPassdone">
+                                    <h3 class=" text-h5 lg:text-h3 text-primary_color_5 mt-2"> {{__('Change password?')}} </h3>
+                                    <p class=" mt-1 mb-8 text-h6 lg:text-h5"> {{__('Click down to change your password.')}}</p>
+                                    <button id="submitResetForm" class="submitResetForm text-white px-2 py-3 rounded-5xl focus:outline-none text-h5 rounded-5xl bg-primary_color_8  ">{{__('Reset password now')}}</button>
                                 </div>
-                                <div class="text-start">
-                                    <h5 class="text-gray_b5 font-bold  text-h6 md:text-h5"> {{__('Check your email')}}
-                                    </h5>
-                                    <p class="text-h6 text-gray_b5 mt-1">{{__('An email has been sent to you with detailed instructions on how to reset your password.')}}</p>
+                                <div id="resetPasssuc" class="hidden">
+                                    <div class="mt-4 p-2   respo border border-yelow rounded-lg flex items-center gap-2">
+                                        <div>
+                                            <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path opacity="0.3" d="M13.9535 30.0759L7.45102 24.7634C6.89499 24.3143 6.44621 23.7468 6.1374 23.1022C5.82859 22.4576 5.66755 21.7522 5.66602 21.0375V10.625C5.66654 9.7 5.9342 8.7948 6.43683 8.01825C6.93946 7.24169 7.65566 6.62681 8.49935 6.24752L15.016 3.27252C15.6429 2.9858 16.3242 2.8374 17.0135 2.8374C17.7029 2.8374 18.3841 2.9858 19.011 3.27252L25.4993 6.24752C26.343 6.62681 27.0592 7.24169 27.5619 8.01825C28.0645 8.7948 28.3322 9.7 28.3327 10.625V21.0375C28.3329 21.7511 28.174 22.4558 27.8677 23.1003C27.5614 23.7448 27.1153 24.3129 26.5618 24.7634L20.0594 30.0759C19.2007 30.7865 18.121 31.1753 17.0064 31.1753C15.8918 31.1753 14.8122 30.7865 13.9535 30.0759Z" fill="#C59A00" />
+                                                <path d="M16.0209 20.6255L21.7074 15.0886C21.8984 14.8973 22.0058 14.638 22.0058 14.3676C22.0058 14.0972 21.8984 13.8379 21.7074 13.6466C21.5161 13.4555 21.2567 13.3482 20.9864 13.3482C20.716 13.3482 20.4566 13.4555 20.2653 13.6466L15.3271 18.4896L13.9667 17.1292C13.8875 17.001 13.781 16.8919 13.6547 16.8098C13.5284 16.7277 13.3855 16.6745 13.2362 16.6542C13.0869 16.6338 12.935 16.6468 12.7913 16.6921C12.6476 16.7375 12.5158 16.8141 12.4052 16.9165C12.2947 17.0188 12.2082 17.1444 12.1519 17.2842C12.0957 17.4239 12.0711 17.5744 12.0799 17.7248C12.0887 17.8752 12.1307 18.0218 12.2029 18.154C12.2751 18.2863 12.3757 18.4009 12.4974 18.4896L14.5788 20.6255C14.6744 20.7237 14.7886 20.802 14.9147 20.8557C15.0408 20.9094 15.1764 20.9375 15.3135 20.9384C15.4462 20.9354 15.577 20.9063 15.6984 20.8526C15.8198 20.7989 15.9294 20.7217 16.0209 20.6255Z" fill="#C59A00" />
+                                            </svg>
+                                        </div>
+                                        <div class="text-start">
+                                            <h5 class="text-gray_b5 font-bold  text-h6 md:text-h5"> {{__('Check your email')}}
+                                            </h5>
+                                            <p class="text-h6 text-gray_b5 mt-1">{{__('An email has been sent to you with detailed instructions on how to reset your password.')}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="md:text-h4 text-h5 mt-4"> <button class="submitResetForm" >{{__('Resend code')}}</button> <span class="text-primary_color_6">00:45</span></div>
                                 </div>
-                            </div>
-                            <div class="md:text-h4 text-h5 mt-4"> <a href="">{{__('Resend code')}}</a> <span class="text-primary_color_6">00:45</span></div>
+                            </form>
+                            <div class="spinner mt-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" id="spinner"></div>
                         </div>
                     </div>
                 </div>
                 <div id="tab2" class="tab-pane hidden  ">
                     <p class="text-h5 lg:text-h3  mb-4"> {{__('Password')}}</p>
                 </div>
-                <div id="tab3" class="tab-pane hidden  ">
+                <div id="tab3" class="tab-pane hidden @if (request('tab') == 'my-tickets' || request('tab') == 'Past_events') active @endif">
                     <p class="text-h5 lg:text-h3  mb-4"> {{__('My tickets')}}</p>
                     <div class="mb-4 flex border rounded-5xl border-primary_color_a11 justify-center w-fit mx-auto p-1 gap-1">
-                        <button class="tab-button2 flex items-center justify-center gap-1 text-white px-2 py-3 rounded-5xl focus:outline-none  text-h6 active" data-tab="tab8">
+                        <button class="tab-button2 flex items-center justify-center gap-1 text-white px-2 py-3 rounded-5xl focus:outline-none  text-h6 @if (request('tab') == 'my-tickets') active @endif" data-tab="tab8">
                             {{__('Upcoming Event')}}</button>
-                        <button class="tab-button2 flex items-center justify-center gap-1 text-white px-2 py-3 rounded-5xl focus:outline-none  text-h6 " data-tab="tab9">
+                        <button class="tab-button2 flex items-center justify-center gap-1 text-white px-2 py-3 rounded-5xl focus:outline-none  text-h6 @if (request('tab') == 'Past_events') active @endif" data-tab="tab9">
                             {{__('Past Events')}}</button>
                     </div>
                     <div class="tab-content2 ">
                         <div id="tab8" class="tab-pane2  hidden active">
-                        @if(isset($ticket['upcoming']->event))
-
+                            @if(isset($ticket['upcoming']->event))
                             @forelse ($ticket['upcoming']->event as $item)
                             <div class="grid grid-col-1 md:grid-cols-2  xl:grid-cols-3 gap-4 mt-4">
                                 <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1 overflow-hidden">
@@ -211,6 +223,9 @@ $user = Auth::guard('appuser')->user();
                                 </div>
                             </div>
                             @empty
+
+                            @endforelse
+                            @else
                             <div
                                 class=" text-center">
                                 <svg class="mx-auto" width="128" height="120" viewBox="0 0 128 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -221,10 +236,9 @@ $user = Auth::guard('appuser')->user();
                                 </p>
                                 <p class="text-h7 text-gray_6">{{__("It seems you haven't purchased any tickets yet. Once you do, your tickets will be displayed here.")}}</p>
                             </div>
-                            @endforelse
                             @endif
                         </div>
-                        <div id="tab9" class="tab-pane2  hidden ">
+                        <div id="tab9" class="tab-pane2  hidden @if (request('tab') == 'Past_events') active @endif ">
                             <div
                                 class=" text-center">
                                 <svg class="mx-auto" width="128" height="120" viewBox="0 0 128 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -238,7 +252,7 @@ $user = Auth::guard('appuser')->user();
                         </div>
                     </div>
                 </div>
-                <div id="tab5" class="tab-pane hidden  ">
+                <div id="tab5" class="tab-pane hidden  @if (request('tab') == 'Favorites') active @endif ">
                     <p class="text-h5 lg:text-h3  mb-4"> {{__('Favorites')}}</p>
                     <div
                         class=" text-center">
@@ -260,6 +274,38 @@ $user = Auth::guard('appuser')->user();
 
 
 <script script>
+    $(document).ready(function() {
+        $('.submitResetForm').on('click', function(e) {
+            e.preventDefault();
+            var formData = $('#resetPasswordForm').serialize();
+            $.ajax({
+                url: "https://ticketby.com.sa/api/user/forget-password",
+                type: "POST",
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function() {
+                    $('#spinner').show();
+                },
+                success: function(response) {
+                    $("#resetPasssuc").removeClass('hidden')
+                    $("#resetPassdone").addClass('hidden')
+                },
+                error: function(xhr) {
+                    let errors = xhr.responseJSON.errors;
+                    console.log(errors);
+                },
+                complete: function() {
+                    $('#spinner').hide();
+                }
+            })
+        })
+    })
+    var tab_route = $("#tab-route").val();
+
+    console.log(tab_route);
+
     document.addEventListener('DOMContentLoaded', function() {
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabPanes = document.querySelectorAll('.tab-pane');
@@ -276,8 +322,8 @@ $user = Auth::guard('appuser')->user();
         });
 
         // Activate the first tab by default
-        tabButtons[3].classList.add('active');
-        tabPanes[0].classList.add('active');
+        // tabButtons[3].classList.add('active');
+        // tabPanes[0].classList.add('active');
     });
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -295,7 +341,7 @@ $user = Auth::guard('appuser')->user();
             });
         });
         // tabButtons2[3].classList.add('active');
-        tabPanes2[0].classList.add('active');
+        //tabPanes2[0].classList.add('active');
 
     });
 </script>

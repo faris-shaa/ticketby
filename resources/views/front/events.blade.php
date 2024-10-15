@@ -120,10 +120,10 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             $('#SearchEventName').on('blur', function() {
                 $(this).css('width', '3.5rem');
             });
-        }); 
+        });
         var SearchEventCat = $("#category_id_input").val();
         var SearchEventCity = $("#city_id_input").val();
-        let limit = -1;
+        let limit = 6;
         $("#load_more").click(function() {
             limit += 3
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
@@ -146,7 +146,13 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
 
         })
-       
+        $("#clear_search").on("click", function() {
+            $("#clear_search").addClass('hidden');
+            $("#Searchbtn").addClass('hidden');
+            $('#SearchEventName').val('')
+            fetchEvents('', SearchEventDate, SearchEventCity, SearchEventCat, limit);
+        })
+
         $('#SearchEventCity').on('change', function() {
             SearchEventCity = $(this).val();
             console.log(SearchEventCity);
@@ -159,7 +165,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
 
         });
-     
+
         $('#SearchEventCat').on('change', function() {
             SearchEventCat = $(this).val();
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);

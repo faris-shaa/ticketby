@@ -257,6 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initializeSwiper2();
   initializeSwiper();
   initializeSwiperSlot();
+  initializeswiper_upcoming();
 });
 
 function initializeSwiper2() {
@@ -284,6 +285,29 @@ function initializeSwiper2() {
 }
 
 
+function initializeswiper_upcoming() {
+  var swiper_upcoming = new Swiper(".upcomingEventsConswiper", {
+    slidesPerView: 1.2,
+    spaceBetween: 24,
+
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    mousewheel: {
+      thresholdDelta: 70
+    },
+    breakpoints: {
+      425: {
+        slidesPerView: 2.5,
+        spaceBetween: 14,
+      }
+    },
+  });
+
+}
+initializeswiper_upcoming()
 function initializeSwiperSlot() {
   var swiperslot = new Swiper(".ticket_avail", {
     slidesPerView: 2,
@@ -348,26 +372,7 @@ var swiper_city = new Swiper(".swiper-city", {
 });
 
 
-var swiper_upcoming = new Swiper(".upcomingEventsConswiper", {
-  slidesPerView: 1.2,
-  spaceBetween: 24,
 
-  loop: true,
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-  mousewheel: {
-    thresholdDelta: 70
-  },
-  breakpoints: {
-    425: {
-      slidesPerView: 2.5,
-      spaceBetween: 14,
-    }
-  },
-
-});
 var swiper_upcoming = new Swiper(".upcomingPreviousEvents", {
   slidesPerView: 1.2,
   spaceBetween: 24,

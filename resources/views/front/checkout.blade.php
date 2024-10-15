@@ -43,7 +43,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 
 <div class="container mt-12 md:mt-16 ">
-    <div class="grid grid-cols-12 xl:gap-14">
+    <div class="grid grid-cols-12 md:gap-14">
         <div id="ticketorder"
             class="col-span-12 lg:col-span-7 bg-primary_color_o10_1 bg-opacity-5 rounded-2xl border border-primary_color_o10_1 p-2 md:p-4">
             <div class="mb-4 flex gap-1 flex-wrap">
@@ -330,7 +330,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             @endif
         </div>
         <div
-            class="mt-4 col-span-12 lg:col-span-5   rounded-2xl  bg-primary_color_o10_1 bg-opacity-5 border border-primary_color_o10_1   p-2 md:p-4 h-fit">
+            class="mt-4 md:mt-0 col-span-12 lg:col-span-5   rounded-2xl  bg-primary_color_o10_1 bg-opacity-5 border border-primary_color_o10_1   p-2 md:p-4 h-fit">
             <div class="mb-4">
                 <h3 class="font-bold text-h5 md:text-h3">{{ __('Order Summary') }}</h3>
             </div>
