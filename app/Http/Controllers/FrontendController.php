@@ -1141,6 +1141,23 @@ class FrontendController extends Controller
 
     public function checkout(Request $request, $id)
     {
+
+         if(isset($request->google_login) && $request->google_login == 1)
+        {
+                $request->google_login = 0 ;
+                $queryParams = request()->query();
+                $queryParams['google_login'] = '0' ;
+                
+            Session::put('google_var',$queryParams );
+            /*$queryParams = Session::get("google_var");
+            dd($queryParams);
+            unset($queryParams['google_login']);
+            
+            Session::put("google_var",$queryParams);*/
+            Session::put('event_id',$id);
+
+            return redirect('auth/google');
+        }
         $user_id_session = Session::get("user_id");
         
         if($user_id_session)
@@ -1272,7 +1289,17 @@ class FrontendController extends Controller
             $data = new \stdClass(); // or use an appropriate class if you have one
             $data->ticket_amount = $ticket_amount;
             $data->tax_total = $tax_total;
-            $data->total_amount = $ticket_amount + $tax_total;
+            if($id == 121 || $id == 149 )
+            {
+                
+                $data->total_amount = $ticket_amount ;
+            
+            }
+            else
+            {
+                $data->total_amount = $ticket_amount + $tax_total;    
+            }
+            
             $data->currency = $setting->currency;
             $data->currency_code = $setting->currency_sybmol;
             $data->totalPersTax = $totalPersTax;
@@ -1365,20 +1392,21 @@ class FrontendController extends Controller
             $data->totalPersTax = Tax::where([['allow_all_bill', 1], ['status', 1], ['amount_type', 'percentage']])->sum('price');
             $data->totalAmountTax = Tax::where([['allow_all_bill', 1], ['status', 1], ['amount_type', 'price']])->sum('price');
         }
+        
 
-
-        /*if($data->event_id == 121 )
+        if($data->id == 121 )
         {
             if($request->quantity > 1)
             {
                 $data->price = 200 ;     
             }
             
-        }*/
-     
+        }
+      
         
-        /*if($data->event_id == 121 || $data->event_id == 149 )
+        if($id == 121 || $id == 149 )
         {
+            
             $data->tax_total = 0;
             $data->totalAmountTax = null ;
             $data->totalPersTax  = null ;
@@ -1390,7 +1418,7 @@ class FrontendController extends Controller
             $data->tax_total = round($data->tax_total, 2);    
             $data->totalAmountTax = Tax::where([['allow_all_bill', 1], ['status', 1], ['amount_type', 'price']])->sum('price');
              $data->totalPersTax = Tax::where([['allow_all_bill', 1], ['status', 1], ['amount_type', 'percentage']])->sum('price');
-        }*/
+        }
 
 
         // dd($data);
@@ -2609,6 +2637,7 @@ class FrontendController extends Controller
     public function update_profile()
     {
         $user =  Auth::guard('appuser')->user();
+
         $phone = Country::get();
         $languages = Language::where('status', 1)->get();
         // return view('frontend.user_profile', compact('user', 'languages', 'phone'));
@@ -3446,7 +3475,7 @@ class FrontendController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array('client_key' => 'd857c073-c58c-49dc-906b-24fa667dc306', 'order_id' => $order->order_id, 'hash' => $hash, 'order_description' => 'Description', 'order_currency' => 'SAR', 'order_amount' => $request->payment, 'card_number' => $request->card_input, 'card_exp_month' => $request->month, 'card_exp_year' => '20' . $request->year, 'card_cvv2' => $request->cvv, 'payer_phone' => $phone, 'payer_country' => 'SA', 'payer_address' => $email, 'action' => 'SALE', 'payer_zip' => '623524', 'payer_ip' => '176.44.76.100', 'payer_first_name' => $email, 'payer_city' => 'Riyadh', 'auth' => 'N', 'payer_last_name' => $l_name, 'payer_email' => $email, 'term_url_3ds' => 'https://ticketby.pixicard.com/thankyou', 'recurring_init' => 'N', 'req_token' => 'N', 'merchant_origin' => 'http://pay.edfapay.com', 'card_scheme' => 'VISA'),
+            CURLOPT_POSTFIELDS => array('client_key' => 'd857c073-c58c-49dc-906b-24fa667dc306', 'order_id' => $order->order_id, 'hash' => $hash, 'order_description' => 'Description', 'order_currency' => 'SAR', 'order_amount' => $request->payment, 'card_number' => $request->card_input, 'card_exp_month' => $request->month, 'card_exp_year' => '20' . $request->year, 'card_cvv2' => $request->cvv, 'payer_phone' => $phone, 'payer_country' => 'SA', 'payer_address' => $email, 'action' => 'SALE', 'payer_zip' => '623524', 'payer_ip' => '176.44.76.100', 'payer_first_name' => $email, 'payer_city' => 'Riyadh', 'auth' => 'N', 'payer_last_name' => $l_name, 'payer_email' => $email, 'term_url_3ds' => 'https://ticketby.co/thankyou', 'recurring_init' => 'N', 'req_token' => 'N', 'merchant_origin' => 'http://pay.edfapay.com', 'card_scheme' => 'VISA'),
         ));
         $response = curl_exec($curl);
         $responseData = json_decode($response, true);
@@ -3635,6 +3664,7 @@ class FrontendController extends Controller
 
     public function redirectToGoogle()
     {
+
         $query = http_build_query([
             'client_id' => env('GOOGLE_CLIENT_ID'),
             'redirect_uri' => env('GOOGLE_REDIRECT_URI'),
@@ -3644,11 +3674,14 @@ class FrontendController extends Controller
             'prompt' => 'select_account', 
         ]);
         $url = 'https://accounts.google.com/o/oauth2/auth?' . $query;
-  
+
+
+          
         return redirect('https://accounts.google.com/o/oauth2/auth?' . $query);
     }
     public function handleGoogleCallback(Request $request)
     {
+        
     
         try {
             $http = new ClientGuzzel;
@@ -3669,13 +3702,13 @@ class FrontendController extends Controller
 
             $userData = json_decode((string) $response->getBody(), true);
 
-            $user = User::where('email', $userData['email'])->first();
+            $user = AppUser::where('email', $userData['email'])->first();
             
             if ($user) {
                 Auth::guard('appuser')->login($user);
                 Auth::login($user);
             } else {
-                $user = User::create([
+                $user = AppUser::create([
                     'name' => $userData['name'],
                     'email' => $userData['email'],
                     'password' => Hash::make(uniqid()),
@@ -3683,8 +3716,13 @@ class FrontendController extends Controller
                 Auth::guard('appuser')->login($user);
                 Auth::login($user);
             }
+            
+            $event_id = Session::get('event_id');
+            $queryParams = Session::get("google_var");
+            unset($queryParams['google_login']);
 
-            return redirect()->intended('/');
+            
+            return redirect()->intended('/checkout/'.$event_id.'?'.http_build_query($queryParams));
         } catch (Exception $e) {
             return redirect('auth/google');
         }
@@ -3944,5 +3982,19 @@ class FrontendController extends Controller
         } else {
             return response()->json(['msg' => 'Wrong OTP. Please try again.', 'success' => false]);
         }
+   }
+    public function subscribe (Request $request)
+   {
+        $user = AppUser::where('email',$request->email)->first();
+                   /* $dataemail['name'] = $user->name;
+                    $dataemail['email'] = $user->email;
+                    $dataemail['otp'] = $otp;
+
+                    $data = array('name' => "TicketBy", 'email' => 'hivasavada@gmail.com', "otp" => $otp);
+                    Mail::send(['html' => 'frontend.email.otp'], $dataemail, function ($message) use ($dataemail) {
+                        $message->to($dataemail['email'])->subject('OTP Verification');
+                        $message->from('ticketbyksa@gmail.com', 'TicketBy');
+                    });*/
+        return response()->json(['msg' => 'Subscribe', 'success' => true]);
    }
 }

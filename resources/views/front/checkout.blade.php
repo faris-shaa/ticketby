@@ -7,7 +7,26 @@
     src="https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js"></script>
 
 
-
+<script async crossorigin
+        src="https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js"
+        ></script><style>
+apple-pay-button {
+  --apple-pay-button-width: 150px;
+  --apple-pay-button-height: 30px;
+  --apple-pay-button-border-radius: 3px;
+  --apple-pay-button-padding: 0px 0px;
+  --apple-pay-button-box-sizing: border-box;
+}
+.apple-pay-button {
+    display: inline-block;
+    -webkit-appearance: -apple-pay-button;
+    appearance: -apple-pay-button;
+    apple-pay-button-type: buy;
+    apple-pay-button-style: black;
+    height: 44px;
+    width: 100%;
+}
+</style>
 
 @php
 $lang = session('direction') == 'rtl' ? 'ar' : 'en';
@@ -560,4 +579,92 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
         });
     });
 </script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check for Apple Pay availability
+            if (window.ApplePaySession && ApplePaySession.canMakePayments()) { 
+                // Event listener for the Apple Pay button
+                document.getElementById('applePayButton').addEventListener('click', function () { 
+
+
+                  if ($("#is-login").val() == 0) { 
+                     $("#login-error-payment").css("display", "block");
+
+                     var event_id = $("#event-id").val();
+                     var event_quantity = $("#event-quantity").val(); 
+
+                     setTimeout(function() {
+                        $("#registrationModal").modal("show"); 
+                        return false;
+                     }, 3000);
+                     return false;
+                  } else { 
+                     $("#login-error-payment").css("display", "none"); 
+                  }
+
+                    const paymentRequest = {
+                        countryCode: 'SA',
+                        currencyCode: 'SAR',
+                        supportedNetworks: ['visa', 'masterCard', 'amex','mada'],
+                        merchantCapabilities: ['supports3DS'],
+                        total: {
+                            label: 'Darlana',
+                            amount: $('#payment').val()
+                        }
+                    };
+
+                    const session = new ApplePaySession(3, paymentRequest);
+
+                    // Merchant validation
+                    session.onvalidatemerchant = function (event) {
+                        const validationURL = event.validationURL;
+                        fetch('/validate-merchant', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ validationURL: validationURL })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            session.completeMerchantValidation(data);
+                        })
+                        .catch(error => console.error('Error during merchant validation:'));
+                    };
+
+                    // Payment authorization
+                    session.onpaymentauthorized = function (event) {
+                        const payment = event.payment;
+                        fetch('{{route("createOrderUser")}}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }, 
+                            body: JSON.stringify({ token: payment.token,payment_type:'ApplePay',amount:$('#payment').val(),event_id:$('#event-id').val(),ticket_id:$('#ticket_id').val(),payment:$('#payment').val(),tax:$('#tax').val(),coupon_id:$('#coupon_id').val(),selectedSeatsId:$('#selectedSeatsId').val(),selectedSeats:$('#selectedSeats').val(),quantity:$('#event-quantity').val(),email:$('#email').val(),name:$('#name').val(),phone:$('#phone').val() })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Server response:', data);  
+                            if (data.success == true) {
+                                session.completePayment(ApplePaySession.STATUS_SUCCESS);
+                                window.location.replace('/thankyou');
+
+                            } else {
+                                session.completePayment(ApplePaySession.STATUS_FAILURE); 
+                            }
+                        })
+                        .catch(error => {
+                            session.completePayment(ApplePaySession.STATUS_FAILURE);
+                            console.error('Error processing payment:', error);
+                        });
+                    };
+
+                    session.begin();
+                });
+            } else {
+                console.log('Apple Pay is not available on this device/browser.');
+            }
+        });
+    </script>
 @endsection
