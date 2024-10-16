@@ -399,6 +399,7 @@ $length_description = strlen($description);
                      </svg>
                   </button>
                </div>
+
             </div>
             @endforeach
          </div>
@@ -714,6 +715,7 @@ $length_description = strlen($description);
       $('.google_login').val(1);
       $('#tickets').submit();
 
+
    });
    // $('#Google-login').on('click', function(e) {
    //    $.ajax({
@@ -735,6 +737,17 @@ $length_description = strlen($description);
    //       },
    //       error: function(xhr, status, error) {
    //          console.error('Error:', error);
+
+   // $(document).ready(function() {
+   //    $('[aria-labelledby="select2-countriescode-container"]').addClass("hidden-imp");
+   //    $('input[name="user_name"]').on('input', function() {
+   //       if ($(this).val().match(/^\d+$/)) {
+   //          $('#countries').removeClass('hidden-imp');
+   //          $('[aria-labelledby="select2-countriescode-container"]').removeClass("hidden-imp");
+   //       } else {
+   //          $('#countries').addClass('hidden-imp');
+   //          $('[aria-labelledby="select2-countriescode-container"]').addClass("hidden-imp");
+
    //       }
    //    });
    // });
@@ -880,6 +893,7 @@ $length_description = strlen($description);
          console.log(dates);
          $.ajax({
             url: 'https://ticketby.com.sa/api/time/slots',
+
             type: 'POST',
             data: {
                ticket_id: id,
