@@ -192,6 +192,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
         <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> -->
         <script src="https://checkout.flutterwave.com/v3.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2" async defer></script>
 
 
 
