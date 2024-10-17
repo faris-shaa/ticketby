@@ -564,9 +564,23 @@ input[type="checkbox"].custome::after {
     left: 50% !important;
 }
 
-.event-date #ui-datepicker-div {
-    top: 40px !important;
-    z-index: 9999 !important;
+@media (max-width: 576px) {
+    #ui-datepicker-div {
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    .event-date #ui-datepicker-div {
+        top: 15px !important;
+        z-index: 9999 !important;
+    }
+}
+
+@media (min-width: 577px) {
+    .event-date #ui-datepicker-div {
+        top: 40px !important;
+        z-index: 9999 !important;
+    }
 }
 
 
@@ -952,6 +966,15 @@ input::-webkit-outer-spin-button {
 .focus {
     border: 1px solid #A986BF;
 }
-.hidden-imp{
+
+.hidden-imp {
     display: none !important;
+}
+
+#countrycontainr .select2-container {
+    display: none;
+}
+
+#map {
+    height: 100%;
 }

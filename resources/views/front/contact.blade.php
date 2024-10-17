@@ -85,40 +85,40 @@ $admin = \App\Models\User::find(1);
 </div>
 
 
-<script>
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: {
-                    {
-                        $data - > lat ?? ''
-                    }
-                },
-                lng: {
-                    {
-                        $data - > long ?? ''
-                    }
-                }
-            },
-            zoom: 13
-        });
-        let marker = new google.maps.Marker({
-            position: {
-                lat: {
-                    {
-                        $data - > lat ?? ''
-                    }
-                },
-                lng: {
-                    {
-                        $data - > long ?? ''
-                    }
-                }
-            },
-            map: map
-        });
-    }
-</script>
+<!-- <script>
+    // function initMap() {
+    //     var map = new google.maps.Map(document.getElementById('map'), {
+    //         center: {
+    //             lat: {
+    //                 {
+    //                     $data - > lat ?? ''
+    //                 }
+    //             },
+    //             lng: {
+    //                 {
+    //                     $data - > long ?? ''
+    //                 }
+    //             }
+    //         },
+    //         zoom: 13
+    //     });
+    //     let marker = new google.maps.Marker({
+    //         position: {
+    //             lat: {
+    //                 {
+    //                     $data - > lat ?? ''
+    //                 }
+    //             },
+    //             lng: {
+    //                 {
+    //                     $data - > long ?? ''
+    //                 }
+    //             }
+    //         },
+    //         map: map
+    //     });
+    // }
+</script> -->
 
 @php
 $gmapkey = \App\Models\Setting::find(1)->map_key;

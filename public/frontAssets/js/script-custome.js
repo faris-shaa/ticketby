@@ -1,9 +1,9 @@
 var swiper = new Swiper(".event_details_swiper", {
   slidesPerView: 2.3,
   spaceBetween: 10,
-  mousewheel: {
-    thresholdDelta: 70
-  },
+  // mousewheel: {
+  //   thresholdDelta: 70
+  // },
   loop: true,
   // autoplay: {
   //   delay: 2000,
@@ -147,9 +147,9 @@ $('.close-modal').click(function () {
 
 var swiper_hero = new Swiper(".swiper-hero", {
   effect: "coverflow",
-  mousewheel: {
-    thresholdDelta: 70
-  },
+  // mousewheel: {
+  //   thresholdDelta: 70
+  // },
   grabCursor: true,
   centeredSlides: true,
   slidesPerView: "auto",
@@ -217,9 +217,9 @@ function updateActiveSlideInfo(swiper) {
 var swiper_Cat = new Swiper(".swiper-cat", {
   slidesPerView: 3.5,
   loop: true,
-  mousewheel: {
-    thresholdDelta: 70
-  },
+  // mousewheel: {
+  //   thresholdDelta: 70
+  // },
   breakpoints: {
     640: {
       slidesPerView: 2,
@@ -310,13 +310,13 @@ function initializeswiper_upcoming() {
 initializeswiper_upcoming()
 function initializeSwiperSlot() {
   var swiperslot = new Swiper(".ticket_avail", {
-    slidesPerView: 2,
+    slidesPerView: 3.2,
     spaceBetween: 10,
     loop: true,
-    autoplay: {
-      delay: 2000,
-      disableOnInteraction: false,
-    },
+    // autoplay: {
+    //   delay: 2000,
+    //   disableOnInteraction: false,
+    // },
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
@@ -343,6 +343,63 @@ function initializeSwiperSlot() {
 }
 
 
+var swiperslotType = new Swiper(".swiperslotType", {
+  slidesPerView: 2.5,
+  spaceBetween: 10,
+  loop: true,
+  // autoplay: {
+  //   delay: 2000,
+  //   disableOnInteraction: false,
+  // },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+  breakpoints: {
+    640: {
+      slidesPerView: 4,
+      spaceBetween: 10
+    },
+    768: {
+      slidesPerView: 4,
+      spaceBetween: 10
+    },
+    991: {
+      slidesPerView: 5,
+      spaceBetween: 10
+    },
+    1200: {
+      slidesPerView: 6,
+      spaceBetween: 10
+    }
+  }
+});
+
+var swiper_ticket = new Swiper(".swiper-ticket", {
+  slidesPerView: 1.8,
+  spaceBetween: 12,
+
+  loop: false,
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  // mousewheel: {
+  //   thresholdDelta: 70
+  // },
+  breakpoints: {
+    768: {
+      slidesPerView: 2.5,
+      spaceBetween: 24,
+    },
+    1200: {
+      slidesPerView: 3,
+      spaceBetween: 64,
+    }
+  },
+});
+
+
 var swiper_city = new Swiper(".swiper-city", {
   slidesPerView: 2.5,
   spaceBetween: 8,
@@ -352,9 +409,9 @@ var swiper_city = new Swiper(".swiper-city", {
     el: ".swiper-pagination",
     clickable: true,
   },
-  mousewheel: {
-    thresholdDelta: 70
-  },
+  // mousewheel: {
+  //   thresholdDelta: 70
+  // },
   breakpoints: {
     640: {
       slidesPerView: 2,
@@ -382,9 +439,9 @@ var swiper_upcoming = new Swiper(".upcomingPreviousEvents", {
     el: ".swiper-pagination",
     clickable: true,
   },
-  mousewheel: {
-    thresholdDelta: 70
-  },
+  // mousewheel: {
+  //   thresholdDelta: 70
+  // },
   breakpoints: {
     425: {
       slidesPerView: 2.5,

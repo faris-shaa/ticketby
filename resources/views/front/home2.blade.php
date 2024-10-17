@@ -216,20 +216,14 @@ $error = $response->json();
    <div class="flex justify-between flex-wrap gap-y-4">
       <h2 class="text-h5 lg:text-h2 text-primary_color_6 lg:text-white font-normal">{{__('Upcoming Events')}}</h2>
       <div class="flex gap-2 flex-wrap gap-y-4 md:hidden">
-         <div class=" text-h6 rounded-full  bg-gray_f bg-opacity-5 gap-x-1  py-1 px-3 flex items-center  justify-between   h-8">
+         <a href="/all-events" class="gap-x-1 flex items-center justify-between  ">
+            <span class="text-gray_b  text-h7 font-medium">{{__('View All')}}</span>
             <div>
-               <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0.75 0.75C0.75 0.351562 1.07812 0 1.5 0H10.5C10.8984 0 11.25 0.351562 11.25 0.75C11.25 1.17188 10.8984 1.5 10.5 1.5H1.5C1.07812 1.5 0.75 1.17188 0.75 0.75ZM2.25 4.5C2.25 4.10156 2.57812 3.75 3 3.75H9C9.39844 3.75 9.75 4.10156 9.75 4.5C9.75 4.92188 9.39844 5.25 9 5.25H3C2.57812 5.25 2.25 4.92188 2.25 4.5ZM7.5 8.25C7.5 8.67188 7.14844 9 6.75 9H5.25C4.82812 9 4.5 8.67188 4.5 8.25C4.5 7.85156 4.82812 7.5 5.25 7.5H6.75C7.14844 7.5 7.5 7.85156 7.5 8.25Z" fill="#666666" />
+               <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.92969 4.82031C5.18359 5.05469 5.18359 5.46484 4.92969 5.69922L1.17969 9.44922C0.945312 9.70312 0.535156 9.70312 0.300781 9.44922C0.046875 9.21484 0.046875 8.80469 0.300781 8.57031L3.60156 5.25L0.300781 1.94922C0.046875 1.71484 0.046875 1.30469 0.300781 1.07031C0.535156 0.816406 0.945312 0.816406 1.17969 1.07031L4.92969 4.82031Z" fill="#FBF9FD" fill-opacity="0.64" />
                </svg>
             </div>
-            <select name="" id="SearchEventCatMob" style="width: 100%;" class=" select2 placeholder-primary_color_6 outline-0" data-minimum-results-for-search="Infinity">
-               <option value="">{{__('category')}}</option>
-               @foreach ($categorys['data'] as $cat)
-               <option value="{{ $cat['id']}}">{{ $lang == 'ar' ? $cat['ar_name'] : $cat['name'] }}</option>
-               @endforeach
-            </select>
-            <div class="select-container relative "></div>
-         </div>
+         </a>
       </div>
    </div>
 
@@ -296,7 +290,7 @@ $error = $response->json();
                      {{ $lang == 'ar' ? $item->name_arabic : $item->name }}
                   </h5>
                   <p class="pline2 f-bri text-gray_6 text-h7 md:text-h6">
-                     {{ $lang == 'ar' ? $item->description_arabic : $item->description }}
+                     {!! $lang == 'ar' ? $item->description_arabic : $item->description !!}
                   </p>
                </div>
             </div>
@@ -340,7 +334,7 @@ $error = $response->json();
                            {{ $lang == 'ar' ? $item->name_arabic : $item->name }}
                         </h5>
                         <p class="pline2 f-bri text-gray_6 text-h6">
-                           {{ $lang == 'ar' ? $item->description_arabic : $item->description }}
+                           {!! $lang == 'ar' ? $item->description_arabic : $item->description !!}
                         </p>
                      </div>
                   </div>
@@ -446,11 +440,6 @@ $error = $response->json();
       $('#SearchEventCat').on('change', function() {
          SearchEventCat = $(this).val();
          fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
-      });
-      $('#SearchEventCatMob').on('change', function() {
-         SearchEventCat = $(this).val();
-         fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
-         setTimeout(initializeswiper_upcoming, 1000);
       });
 
       fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
