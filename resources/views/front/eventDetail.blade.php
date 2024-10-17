@@ -8,6 +8,7 @@ $gmapkey = \App\Models\Setting::find(1)->map_key;
 
 @php
 
+
 $minPrice = $data->paid_ticket->min('price');
 $phone = \App\Models\Country::get();
 
@@ -38,6 +39,9 @@ $error = $response->json();
 
 $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
+
+$description = $lang == 'ar' ?strip_tags($event['event']['description_arabic']): strip_tags($event['event']['description'] );
+$length_description = strlen($description);
 @endphp
 
 <style type="text/css">
@@ -146,7 +150,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
          @endforeach
       </div>
       @else
-      <div class=" rounded-2xl  w-full h-full lg:w-96 lg:h-96 xl:w-w-500 xl:h-h-500 mx-auto">
+      <div class=" rounded-2xl  w-full h-h-327 lg:w-96 lg:h-96 xl:w-w-512 xl:h-h-512 mx-auto">
          <img class="rounded-2xl h-full w-full object-cover" src="{{ url('images/upload/' . $data->image) }}" alt="Default Image">
       </div>
       @endif
@@ -155,46 +159,52 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 </div>
 
 
-<div class="container mt-12 md:mt-32">
-   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-      <div class=" bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 ">
+<div class="container mt-2 md:mt-32">
+   <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 ">
+      <div class=" bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-3  md:p-32-24 ">
          <div class="flex gap-2 items-center">
-            <svg width="16" height="21" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="h-h-18 md:h-5" width="16" height="21" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path
                   d="M11.125 8C11.125 9.75781 9.71875 11.125 8 11.125C6.24219 11.125 4.875 9.75781 4.875 8C4.875 6.28125 6.24219 4.875 8 4.875C9.71875 4.875 11.125 6.28125 11.125 8ZM8 9.875C9.01562 9.875 9.875 9.05469 9.875 8C9.875 6.98438 9.01562 6.125 8 6.125C6.94531 6.125 6.125 6.98438 6.125 8C6.125 9.05469 6.94531 9.875 8 9.875ZM15.5 8C15.5 11.4375 10.9297 17.4922 8.89844 20.0312C8.42969 20.6172 7.53125 20.6172 7.0625 20.0312C5.03125 17.4922 0.5 11.4375 0.5 8C0.5 3.85938 3.82031 0.5 8 0.5C12.1406 0.5 15.5 3.85938 15.5 8ZM8 1.75C4.52344 1.75 1.75 4.5625 1.75 8C1.75 8.625 1.94531 9.44531 2.375 10.5C2.80469 11.5156 3.39062 12.6094 4.09375 13.7031C5.42188 15.8516 6.98438 17.9219 8 19.1719C8.97656 17.9219 10.5391 15.8516 11.8672 13.7031C12.5703 12.6094 13.1562 11.5156 13.5859 10.5C14.0156 9.44531 14.25 8.625 14.25 8C14.25 4.5625 11.4375 1.75 8 1.75Z"
                   fill="#A986BF" />
             </svg>
-            <h3 class="text-primary_color_6 font-medium text-h4 lg:text-h3">{{ __('Location') }}</h3>
+            <h3 class="text-primary_color_6 font-medium text-h6 lg:text-h3">{{ __('Location') }}</h3>
          </div>
-         <p class="text-h5 lg:h4 mt-4 font-light">
+         <p class="text-h6 lg:h4 mt-1 md:mt-2 font-normal">
             {{ $lang == 'ar' ?$event['event']['name_arabic'] : $event['event']['name'] }}
          </p>
-         <a href="https://maps.google.com/maps?daddr={{ $event['event']['lat']}},{{$event['event']['lang']}}&amp;ll=" class="mt-2 fs-h4 flex items-center gap-1 text-primary_color_3">{{__('Go to google maps')}}
+         <a href="https://maps.google.com/maps?daddr={{ $event['event']['lat']}},{{$event['event']['lang']}}&amp;ll=" class="mt-2 md:text-h4 text-h6 flex items-center gap-1 font-medium text-primary_color_3">{{__('Go to google maps')}}
             <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M6.81405 2.73429L11.2444 7.48435C11.379 7.62888 11.4463 7.81444 11.4463 7.99997C11.4463 8.18554 11.379 8.37107 11.2444 8.5156L6.81405 13.2657C6.53328 13.5664 6.06599 13.5791 5.76996 13.295C5.47187 13.0098 5.46131 12.5333 5.7411 12.2344L9.69076 7.99997L5.7411 3.76554C5.46131 3.46672 5.47187 2.9921 5.76996 2.705C6.06599 2.42082 6.53328 2.4335 6.81405 2.73429Z" fill="#E0D3E8" />
             </svg>
          </a>
       </div>
-      <div class=" bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 ">
+      <div class=" bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-3  md:p-32-24 ">
          <div class="flex gap-2 items-center">
-            <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="h-h-18 md:h-5" width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M5.125 0.5C5.4375 0.5 5.75 0.8125 5.75 1.125V3H13.25V1.125C13.25 0.8125 13.5234 0.5 13.875 0.5C14.1875 0.5 14.5 0.8125 14.5 1.125V3H15.75C17.1172 3 18.25 4.13281 18.25 5.5V8.03906C18.0156 8.03906 17.8203 8 17.625 8C17.3906 8 17.1953 8.03906 17 8.03906V8H2V18C2 18.7031 2.54688 19.25 3.25 19.25H12.3125C12.7031 19.7578 13.1328 20.1484 13.6406 20.5H3.25C1.84375 20.5 0.75 19.4062 0.75 18V5.5C0.75 4.13281 1.84375 3 3.25 3H4.5V1.125C4.5 0.8125 4.77344 0.5 5.125 0.5ZM15.75 4.25H3.25C2.54688 4.25 2 4.83594 2 5.5V6.75H17V5.5C17 4.83594 16.4141 4.25 15.75 4.25ZM17.5859 11.75C17.9375 11.75 18.2109 12.0625 18.2109 12.375V14.25H19.5C19.8125 14.25 20.125 14.5625 20.125 14.875C20.125 15.2266 19.8125 15.5 19.5 15.5H17.5859C17.2734 15.5 16.9609 15.2266 16.9609 14.875V12.375C16.9609 12.0625 17.2734 11.75 17.5859 11.75ZM12 14.875C12 11.7891 14.5 9.25 17.625 9.25C20.7109 9.25 23.25 11.7891 23.25 14.875C23.25 18 20.7109 20.5 17.625 20.5C14.5 20.5 12 18 12 14.875ZM17.625 19.25C20.0078 19.25 22 17.2969 22 14.875C22 12.4922 20.0078 10.5 17.625 10.5C15.2031 10.5 13.25 12.4922 13.25 14.875C13.25 17.2969 15.2031 19.25 17.625 19.25Z" fill="#A986BF" />
             </svg>
-            <h3 class="text-primary_color_6 font-medium text-h4 lg:text-h3">{{ __('Date and time') }}</h3>
+            <h3 class="text-primary_color_6 font-medium text-h6 lg:text-h3">{{ __('Date and time') }}</h3>
          </div>
-         <p class="text-h5 lg:h4 mt-4 font-light">
+         <p class="text-h6 lg:h4 mt-1 md:mt-2 font-normal">
             {{ Carbon\Carbon::parse($event['event']['start_time'])->format('d M Y') }}
             {{__('till')}}
             {{ Carbon\Carbon::parse($event['event']['end_time'])->format('d M Y') }}
          </p>
-         <a href="" class="mt-2 fs-h4 flex items-center gap-1 text-primary_color_3">{{__('Add to calendar')}}
+
+         <!-- <div>
+            <add-to-calendar-button name="Add the title of your event" startDate="2022-02-21" options="['iCal']" timeZone="America/Los_Angeles" />
+         </div> -->
+         <button id="addCalendr" href="" class="mt-2 md:text-h4 text-h6 flex items-center gap-1 font-medium text-primary_color_3">{{__('Add to calendar')}}
             <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M6.81405 2.73429L11.2444 7.48435C11.379 7.62888 11.4463 7.81444 11.4463 7.99997C11.4463 8.18554 11.379 8.37107 11.2444 8.5156L6.81405 13.2657C6.53328 13.5664 6.06599 13.5791 5.76996 13.295C5.47187 13.0098 5.46131 12.5333 5.7411 12.2344L9.69076 7.99997L5.7411 3.76554C5.46131 3.46672 5.47187 2.9921 5.76996 2.705C6.06599 2.42082 6.53328 2.4335 6.81405 2.73429Z" fill="#E0D3E8" />
             </svg>
-         </a>
+         </button>
       </div>
    </div>
+   <div id="map" class="hidden" style="width:100%;height:400px;"> </div>
    <div class="h-40 lg:h-h-424 mt-4 lg:mt-8 bg-location bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 flex items-center justify-center">
+<<<<<<< HEAD
       <!-- <a class="rounded-full bg-primary_color_8 py-2 px-7 flex items-center gap-2 cursor-pointer btn-hover-primary text-h5 " onclick="openModal()">
          <span class=" z-20" id="openMapBtn"> {{__(key: 'Show in map ')}}</span>
          <svg width="15" height="21" viewBox="0 0 15 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -212,22 +222,29 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
       <h3 class="text-primary_color_6 font-medium text-h4 lg:text-h3">{{ __('About Event') }}</h3>
       <p class="h5 lg:h4 mt-4 paragraph-3 max-h-96 overflow-x-auto ">
          {!! $lang == 'ar' ?strip_tags($event['event']['description_arabic']): strip_tags($event['event']['description'] ) !!}
+=======
+   </div>
+   <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-3  md:p-32-24 mt-2 lg:mt-8">
+      <h3 class="text-primary_color_6 font-medium text-h6 lg:text-h3">{{ __('About Event') }}</h3>
+      <p class="text-h13 font-normal lg:text-h4 mt-1 md:mt-4 paragraph-3 max-h-96 overflow-x-auto ">
+         {!! $lang == 'ar' ?strip_tags($event['event']['description_arabic']): strip_tags($event['event']['description'] )!!}
+>>>>>>> origin/main
       </p>
-      <span class="flex items-center gap-2 mt-3 py-1 cursor-pointer">
-         <span class="h7 lg:h4 showMore"><span class="more">{{__(key: 'Show more ...')}}</span> <span class="less hidden"> {{__(key: 'Show less ...')}}</span></span>
+      <span id="showMore" class=" flex items-center gap-2 mt-2 py-1 cursor-pointer hidden">
+         <span class="text-h6 lg:text-h4 showMore "><span class="more">{{__(key: 'Show more ...')}}</span> <span class="less hidden"> {{__(key: 'Show less ...')}}</span></span>
       </span>
    </div>
-   <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 mt-4 lg:mt-8">
+   <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-3  md:p-32-24 mt-2 lg:mt-8">
       <div data-accordion="terms_conditions" class="accordion flex items-center   justify-between cursor-pointer">
-         <h3 class="text-primary_color_6 font-medium text-h4 lg:text-h3">{{__( 'Terms and conditions')}}</h3>
+         <h3 class="text-primary_color_6 font-medium text-h6 lg:text-h3">{{__( 'Terms and conditions')}}</h3>
          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                d="M7.28125 8.71875L1.28125 2.71875C0.875 2.34375 0.875 1.6875 1.28125 1.3125C1.65625 0.90625 2.3125 0.90625 2.6875 1.3125L8 6.59375L13.2812 1.3125C13.6562 0.90625 14.3125 0.90625 14.6875 1.3125C15.0938 1.6875 15.0938 2.34375 14.6875 2.71875L8.6875 8.71875C8.3125 9.125 7.65625 9.125 7.28125 8.71875Z"
                fill="#E0D3E8" />
          </svg>
       </div>
-      <div id="terms_conditions" class="hidden h4 mt-4">
-         <p>{{__(key: 'Content for Terms and conditions.')}}</p>
+      <div id="terms_conditions" class="hidden text-h13 font-normal lg:text-h4 mt-1 md:mt-4">
+         <p class="mt-1 md:mt-4">{{__(key: 'Content for Terms and conditions.')}}</p>
       </div>
    </div>
 </div>
@@ -235,70 +252,76 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 @if($event['event']['is_repeat']== 1 )
 
-<div class="container mt-20 md:mt-32" id="tickets_section">
+<div class="container mt-m-32 md:mt-32" id="tickets_section">
    <!-- ticket type -->
-   <div class="mb-10 md:mb-16 ">
+   <div class="mb-2 md:mb-16 ">
       <div>
-         <h2 class="font-medium h3 lg:text-h2"> {{__(key: 'Select ticket type')}}</h2>
-         <p class="text-gray_9 text-h4">{{__( 'Choose your suitable ticket type.')}}</p>
+         <h2 class="font-medium text-h4 lg:text-h2"> {{__(key: 'Select ticket type')}}</h2>
+         <p class="text-gray_9  text-h6 md:text-h4">{{__( 'Choose your suitable ticket type.')}}</p>
       </div>
    </div>
-   <div class="mb-10 lg:mb-16 grid grid-cols-3 xl:grid-cols-6  gap-1">
-      @foreach ($event['event']['paid_ticket'] as $ticket)
-      <div id="{{$ticket['id']}}" data-start_time="{{$ticket['start_time']}}" data-end_time="{{$ticket['end_time']}}"
-         class=" slotEvent cursor-pointer bg-primary_color_12  hover:bg-primary_color_8   hover:border-primary_color_6  hover:bg-opacity-25 rounded-2xl border border-primary_color_o25_8 py-1 lg:py-4  px-3  text-center inner-hover transition">
-         <h3 class="font-bold text-h5 lg:text-h3">{{$ticket['name']}} </h3>
-         <div class="f-bri h5 font-bold mt-3">{{ __(key: $currency) }} {{$ticket['price']}}</div>
+   <div class="mb-10 lg:mb-16 grid grid-cols-3 xl:grid-cols-6  gap-1 swiper swiperslotType">
+      <div class="swiper-wrapper">
+         @foreach ($event['event']['paid_ticket'] as $ticket)
+         <div id="{{$ticket['id']}}" data-start_time="{{$ticket['start_time']}}" data-end_time="{{$ticket['end_time']}}"
+            class=" swiper-slide slotEvent cursor-pointer bg-primary_color_12  hover:bg-primary_color_8   hover:border-primary_color_6  hover:bg-opacity-25 rounded-2xl border border-primary_color_o25_8 py-1 lg:py-4  px-3  text-center inner-hover transition">
+            <h3 class="font-bold text-h5 lg:text-h3">{{$ticket['name']}} </h3>
+            <div class="f-bri md:text-h5 text-h7 font-bold md:mt-3 mt-1">{{ __(key: $currency) }} {{$ticket['price']}}</div>
+         </div>
+         @endforeach
       </div>
-      @endforeach
    </div>
 
    <!-- ticket slot -->
-   <div class="mb-10 lg:mb-16  hidden justify-between flex-wrap " id="slot-slider">
+   <div class="mb-4 lg:mb-16  hidden justify-between flex-wrap " id="slot-slider">
       <div>
-         <h2 class="font-medium h3 lg:text-h2"> {{__(key: 'Select your desirable tickets')}}</h2>
-         <p class="text-gray_9 text-h4">{{__( 'Choose your ticket and quantity.')}}</p>
+         <h2 class="font-medium text-h4 lg:text-h2"> {{__(key: 'Select time slot')}}</h2>
+         <p class="text-gray_9 text-h6 md:text-h4 hidden md:inline-block">{{__( 'Choose your ticket and quantity.')}}</p>
       </div>
-      <div class="flex gap-1 mt-3 md:mt-0">
-         <button class=" bg-gray_f   h-12 p-1 px-4 rounded-5xl text-h6" id="tomorrow-slot">{{__('Tomorrow')}}</button>
-         <div id="datepicker-cont" class="datepicker-container event-date relative  bg-gray_f   h-12 p-1 px-4 rounded-5xl   gap-1 flex items-center cursor-pointer w-40 ">
-            <input type="text" name="" placeholder="{{__( 'Custom date')}}" id="datepicker" class="slotEventCustome text-h6 datepicker cursor-pointer placeholder-white w-full  f-bri bg-transparent outline-0  ">
-            <svg id="slot-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M6.37109 6.87891L1.12109 1.62891C0.765625 1.30078 0.765625 0.726562 1.12109 0.398438C1.44922 0.0429688 2.02344 0.0429688 2.35156 0.398438L7 5.01953L11.6211 0.398438C11.9492 0.0429688 12.5234 0.0429688 12.8516 0.398438C13.207 0.726562 13.207 1.30078 12.8516 1.62891L7.60156 6.87891C7.27344 7.23438 6.69922 7.23438 6.37109 6.87891Z" fill="#666666" />
-            </svg>
-            <svg class="hidden" id="clear-slot" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M8 16C3.5625 16 0 12.4375 0 8C0 3.59375 3.5625 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4375 12.4062 16 8 16ZM5.46875 5.46875C5.15625 5.78125 5.15625 6.25 5.46875 6.53125L6.9375 8L5.46875 9.46875C5.15625 9.78125 5.15625 10.25 5.46875 10.5312C5.75 10.8438 6.21875 10.8438 6.5 10.5312L7.96875 9.0625L9.4375 10.5312C9.75 10.8438 10.2188 10.8438 10.5 10.5312C10.8125 10.25 10.8125 9.78125 10.5 9.46875L9.03125 8L10.5 6.53125C10.8125 6.25 10.8125 5.78125 10.5 5.46875C10.2188 5.1875 9.75 5.1875 9.4375 5.46875L7.96875 6.9375L6.5 5.46875C6.21875 5.1875 5.75 5.1875 5.46875 5.46875Z" fill="#999999" />
-            </svg>
+      <div class="flex gap-1 ">
+         <button class=" bg-gray_f   h-12 p-1 px-4 rounded-5xl text-h6 hidden md:inline-block" id="tomorrow-slot">{{__('Tomorrow')}}</button>
+         <div id="datepicker-cont" class="datepicker-container event-date relative  bg-gray_f   md:h-12 w-w-120 md:w-40 p-4-8 md:p-1 md:px-4 rounded-5xl   gap-1 flex items-center cursor-pointer  ">
+            <div class="mb-m4">
+               <svg id="slot-arrow" width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.3125 2H7.6875V1.0625C7.6875 0.757812 7.92188 0.5 8.25 0.5C8.55469 0.5 8.8125 0.757812 8.8125 1.0625V2H9.75C10.5703 2 11.25 2.67969 11.25 3.5V11C11.25 11.8438 10.5703 12.5 9.75 12.5H2.25C1.40625 12.5 0.75 11.8438 0.75 11V3.5C0.75 2.67969 1.40625 2 2.25 2H3.1875V1.0625C3.1875 0.757812 3.42188 0.5 3.75 0.5C4.05469 0.5 4.3125 0.757812 4.3125 1.0625V2ZM1.875 11C1.875 11.2109 2.03906 11.375 2.25 11.375H9.75C9.9375 11.375 10.125 11.2109 10.125 11V5H1.875V11Z" fill="#666666" />
+               </svg>
+            </div>
+            <input type="text" name="" placeholder="{{__( 'Custom date')}}" id="datepicker" class="slotEventCustome md:text-h6 text-h7 font-medium datepicker cursor-pointer placeholder-white w-full  f-bri bg-transparent outline-0  ">
+            <div>
+               <svg class="hidden" id="clear-slot" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 16C3.5625 16 0 12.4375 0 8C0 3.59375 3.5625 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4375 12.4062 16 8 16ZM5.46875 5.46875C5.15625 5.78125 5.15625 6.25 5.46875 6.53125L6.9375 8L5.46875 9.46875C5.15625 9.78125 5.15625 10.25 5.46875 10.5312C5.75 10.8438 6.21875 10.8438 6.5 10.5312L7.96875 9.0625L9.4375 10.5312C9.75 10.8438 10.2188 10.8438 10.5 10.5312C10.8125 10.25 10.8125 9.78125 10.5 9.46875L9.03125 8L10.5 6.53125C10.8125 6.25 10.8125 5.78125 10.5 5.46875C10.2188 5.1875 9.75 5.1875 9.4375 5.46875L7.96875 6.9375L6.5 5.46875C6.21875 5.1875 5.75 5.1875 5.46875 5.46875Z" fill="#999999" />
+               </svg>
+            </div>
          </div>
       </div>
    </div>
    <div class="relative">
-      <div class="swiper ticket_avail">
+      <div class="swiper ticket_avail ">
          <div class="swiper-wrapper slotEvent-container"></div>
       </div>
    </div>
 </div>
-<div class="container mt-4 lg:mt-16">
-   <div class=" bg-light rounded-2xl p-1 md:px-p32 md:py-5 ">
+<div class="container  lg:mt-16">
+   <div class="  bg-light md:rounded-2xl rounded-lg py-2 px-3 md:px-p32 md:py-5 border border-primary_color_o25_8  ">
       <form id="ticketSlot" class="" method="GET" action="{{ url('/checkout/' . $data->id) }}">
          <input value="" type="hidden" class="slot-event-id" name="time_slot_id[]" id="">
          <input value="" type="hidden" class="ids" name="ids[]" id="">
          <input value="" type="hidden" class="slot-event-date" name="slot-event-date" id="">
          <input type="hidden" class="slot-event-quantities" name="quantities[52]" value="0" id="quantity-52">
-         <div id="tickets-info" class="hidden grid  grid-cols-12 gap-4  items-center ">
-            <div class="col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-6 ">
-               <div class="grid grid-cols-2  gap-1 md:gap-4">
-                  <div class=" col-span-1 md:col-span-1  border-line">
-                     <div class="flex mt-4 items-center justify-center gap-4">
+         <div id="tickets-info" class="hidden flex  items-center ">
+            <div class=" flex-1">
+               <div class="flex items-center">
+                  <div class=" pr-3 md:pr-12 border-line ">
+                     <div class="flex  items-center justify-center md:gap-4 gap-1">
                         <button type="button" id="decrement-slot" class="decrement" data-ticket-price="10" data-ticket-id="88">
-                           <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <svg class="h-5 md:h-h-h32" width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <rect x="1" y="0.5" width="31" height="31" rx="7.5" fill="#FBF9FD" stroke="#723995"></rect>
                               <path d="M9.5 16H23.5" stroke="#723995" stroke-width="2" stroke-linecap="round"></path>
                            </svg>
                         </button>
-                        <div class="count text-primary_color_8 ">1</div>
+                        <div class="count text-primary_color_8 font-medium">1</div>
                         <button type="button" id="increment-slot" class="increment " data-ticket-price="10" data-ticket-id="88">
-                           <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <svg class="h-5 md:h-h-h32" width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <rect x="1" y="0.5" width="31" height="31" rx="7.5" fill="#FBF9FD" stroke="#723995"></rect>
                               <path d="M9.5 16H23.5" stroke="#723995" stroke-width="2" stroke-linecap="round"></path>
                               <path d="M16.5 9L16.5 23" stroke="#723995" stroke-width="2" stroke-linecap="round"></path>
@@ -306,17 +329,17 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                         </button>
                      </div>
                   </div>
-                  <div class="col-span-1 ">
-                     <h4 class="w-fit text-center lg:text-start mx-auto lg:mx-0">
-                        <span class="block text-gray_6 font-light mb-1 text-h5 lg:text-h4">{{ __('Total') }} </span>
-                        <span class="block text-dark font-medium  text-h5 lg:text-h4">{{ __($currency) }} <span class="tickets-price">0</span> </span>
+                  <div class="px-3 md:px-12 ">
+                     <h4 class="">
+                        <span class="block text-gray_6  md:mb-1 text-h8 font-normal lg:text-h4">{{ __('Total') }} </span>
+                        <span class="block text-dark font-medium  text-h7 lg:text-h4">{{ __($currency) }} <span class="tickets-price">0</span> </span>
                      </h4>
                   </div>
                </div>
             </div>
-            <div class="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-6 ">
+            <div class=" ">
                <button id="checkAuthButton"
-                  class="rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2     m-auto md:m-0  @if($lang == 'ar') md:mr-auto @else md:ml-auto lg:mr-0  @endif btn-hover-primary">
+                  class="md:rounded-full bg-primary_color_8 md:p-12-24 flex items-center gap-2  font-normal  rounded p-4-10 md:text-h5 text-h8   m-auto md:m-0  @if($lang == 'ar') md:mr-auto @else md:ml-auto lg:mr-0  @endif btn-hover-primary">
                   <span class="z-10"> {{ __('Buy Tickets') }}</span>
                   <svg class="@if($lang == 'ar') rotate-180 @endif" width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path
@@ -327,7 +350,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             </div>
          </div>
       </form>
-      <h4 id="tickets-alert" class="  text-gray_6 flex items-center justify-center gap-2 text-h5 lg:text-h4 py-3">{{__( 'Choose your tickets to continue')}}
+      <h4 id="tickets-alert" class="  text-gray_6 flex items-center justify-center gap-2 text-h5 lg:text-h4  md:py-3">{{__( 'Choose your tickets to continue')}}
          <span>
             <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path
@@ -339,64 +362,67 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
    </div>
 </div>
 @else
-<div class="container mt-20 md:mt-32" id="tickets_section">
-   <div class="mb-10 md:mb-16">
+<div class="container mt-m-32 md:mt-32" id="tickets_section">
+   <div class="mb-5 md:mb-16">
       <h2 class="font-medium h3 lg:text-h2">{{__( 'Tickets options')}}</h2>
-      <p class="h5 lg:h4  mt-1 lg:mt-1 text-gray_9">{{__( 'Choose your ticket and quantity.')}}</p>
+      <p class="text-h6 lg:text-h4  mt-1 lg:mt-1 text-gray_9">{{__( 'Choose your ticket and quantity.')}}</p>
    </div>
 </div>
 
 @if (count(value:$event['event']['paid_ticket']) != 0)
-<form id="tickets" class="mb-32" method="GET" action="{{ url('/checkout/' . $data->id) }}">
-   <div class="container ">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
-         @foreach ($data->paid_ticket as $item)
-         <div class="bg-primary_color_12  hover:border-primary_color_7 transition-all rounded-2xl border border-primary_color_o25_8  p-2  md:p-32-24 text-center">
-            <input value="{{ $item->id }}" type="hidden" name="ids[]" id="id-{{ $item->id }}">
-            <input type="hidden" name="quantities[{{ $item->id }}]" value="0" id="quantity-{{ $item->id }}">
-            <input value="0" type="hidden" name="google_login" id="google_login" class="google_login"> 
-            <h3 class="font-bold"> {{ $lang == 'ar' ? $item->name_arabic : $item->name }}
-            </h3>
-            <div class="text-gray_9 h6 my-4 flex flex-col">
-               <span> {{ \Carbon\Carbon::parse($item->start_time)->diffInDays(\Carbon\Carbon::parse($item->end_time)) }} {{__('Days')}}
-               </span>
-               <span class="my-1">{{ __('Ticket Sale starts onwards') }}</span>
-               <span>
-                  {{ Carbon\Carbon::parse($item->start_time)->format('d M Y') }} {{__('till')}}
-                  {{ Carbon\Carbon::parse($item->end_time)->format('d M Y') }}
-               </span>
+<form id="tickets" method="GET" action="{{ url('/checkout/' . $data->id) }}">
+   <div class="container overflow-hidden ">
+      <div class=" swiper-ticket">
+         <div class="swiper-wrapper">
+            @foreach ($data->paid_ticket as $item)
+            <div class="swiper-slide bg-primary_color_12  hover:border-primary_color_7 transition-all rounded-2xl border border-primary_color_o25_8  p-2  md:p-32-24 text-center">
+               <input value="{{ $item->id }}" type="hidden" name="ids[]" id="id-{{ $item->id }}">
+               <input type="hidden" name="quantities[{{ $item->id }}]" value="0" id="quantity-{{ $item->id }}">
+               <input value="0" type="hidden" name="google_login" id="google_login" class="google_login">
+               <h3 class="font-semibold md:font-bold md:text-h3 text-h6 text-primary_color_17 md:text-white"> {{ $lang == 'ar' ? $item->name_arabic : $item->name }}
+               </h3>
+               <div class="text-gray_9 h6 md:my-4 my-1 flex flex-col ">
+                  <span class="hidden md:inline-block"> {{ \Carbon\Carbon::parse($item->start_time)->diffInDays(\Carbon\Carbon::parse($item->end_time)) }} {{__('Days')}}
+                  </span>
+                  <span class="my-1 hidden md:inline-block">{{ __('Ticket Sale starts onwards') }}</span>
+                  <span class=" text-h11 md:text-h5">
+                     {{ Carbon\Carbon::parse($item->start_time)->format('d M Y') }} {{__('till')}}
+                     {{ Carbon\Carbon::parse($item->end_time)->format('d M Y') }}
+                  </span>
+               </div>
+               <div class="f-bri">
+                  <span class="md:text-h5 text-h6 font-light md:font-medium">{{ __($currency) }}</span>
+                  <span class="text-h5 md:text-h3 font-medium md:font-bold"> {{ $item->price }}</span>
+               </div>
+               <div class="flex mt-3 md:mt-4 items-center justify-center gap-4">
+                  <button type="button" class="disable decrement opacity-25" data-ticket-price="{{ $item->price }}" data-ticket-id="{{ $item->id }}">
+                     <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="0.5" width="31" height="31" rx="7.5" fill="#FBF9FD" stroke="#723995" />
+                        <path d="M9.5 16H23.5" stroke="#723995" stroke-width="2" stroke-linecap="round" />
+                     </svg>
+                  </button>
+                  <div class="count f-bri text-h4 md:text-h3 opacity-25">0</div>
+                  <button type="button" class="increment " data-ticket-price="{{ $item->price }}" data-ticket-id="{{ $item->id }}">
+                     <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="0.5" width="31" height="31" rx="7.5" fill="#FBF9FD" stroke="#723995" />
+                        <path d="M9.5 16H23.5" stroke="#723995" stroke-width="2" stroke-linecap="round" />
+                        <path d="M16.5 9L16.5 23" stroke="#723995" stroke-width="2" stroke-linecap="round" />
+                     </svg>
+                  </button>
+               </div>
+
             </div>
-            <div class="f-bri">
-               <span class="h4">{{ __($currency) }}</span>
-               <span class="h5 md:text-h3 font-bold"> {{ $item->price }}</span>
-            </div>
-            <div class="flex mt-4 items-center justify-center gap-4">
-               <button type="button" class="disable decrement opacity-25" data-ticket-price="{{ $item->price }}" data-ticket-id="{{ $item->id }}">
-                  <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <rect x="1" y="0.5" width="31" height="31" rx="7.5" fill="#FBF9FD" stroke="#723995" />
-                     <path d="M9.5 16H23.5" stroke="#723995" stroke-width="2" stroke-linecap="round" />
-                  </svg>
-               </button>
-               <div class="count" class="f-bri h3 opacity-25">0</div>
-               <button type="button" class="increment " data-ticket-price="{{ $item->price }}" data-ticket-id="{{ $item->id }}">
-                  <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <rect x="1" y="0.5" width="31" height="31" rx="7.5" fill="#FBF9FD" stroke="#723995" />
-                     <path d="M9.5 16H23.5" stroke="#723995" stroke-width="2" stroke-linecap="round" />
-                     <path d="M16.5 9L16.5 23" stroke="#723995" stroke-width="2" stroke-linecap="round" />
-                  </svg>
-               </button>
-            </div>
+            @endforeach
          </div>
-         @endforeach
       </div>
    </div>
 
-   <div class="container mt-4 lg:mt-16">
-      <div class=" bg-light rounded-2xl p-1 md:px-p32 md:py-5   ">
-         <div id="tickets-info" class="hidden grid  grid-cols-12 gap-4  items-center ">
-            <div class="col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-6 ">
-               <div class="grid grid-cols-2  gap-1 md:gap-4">
-                  <div class="hidden col-span-1 md:col-span-1  border-line">
+   <div class="container mt-m-32 lg:mt-16">
+      <div class=" bg-light md:rounded-2xl rounded-lg py-2 px-3 md:px-p32 md:py-5 border border-primary_color_o25_8  ">
+         <div id="tickets-info" class="hidden flex items-center">
+            <div class="flex-1 ">
+               <div class="flex">
+                  <div class="hidden   border-line">
                      <div class="flex mt-4 items-center justify-center gap-4">
                         <button type="button" class="decrement" data-ticket-price="10" data-ticket-id="88">
                            <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -414,23 +440,23 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                         </button>
                      </div>
                   </div>
-                  <div class="col-span-1   border-line text-center md:text-start">
+                  <div class=" pr-3 md:pr-12    border-line ">
                      <h4 class="w-full md:w-fit ">
-                        <span class="block text-gray_6 font-light mb-1 text-h5 lg:text-h4">{{__( 'Quantity')}}</span>
-                        <span class="block text-dark font-medium text-h5 lg:text-h4 "><span class="tickets-quantity">0</span> </span>
+                        <span class="block text-gray_6 font-light md:mb-1 text-h8 font-normal lg:text-h4">{{__( 'Quantity')}}</span>
+                        <span class="block text-dark font-medium text-h7 lg:text-h4 "><span class="tickets-quantity">0</span> </span>
                      </h4>
                   </div>
-                  <div class="col-span-1 text-center md:text-start ">
+                  <div class="px-3 md:px-12   ">
                      <h4 class="w-full md:w-fit ">
-                        <span class="block text-gray_6 font-light mb-1 text-h5 lg:text-h4">{{ __('Total') }} </span>
-                        <span class="block text-dark font-medium  text-h5 lg:text-h4">{{ __($currency) }} <span class="tickets-price">0</span> </span>
+                        <span class="block text-gray_6 font-light md:mb-1 text-h8 font-normal lg:text-h4">{{ __('Total') }} </span>
+                        <span class="block text-dark font-medium  text-h7 lg:text-h4">{{ __($currency) }} <span class="tickets-price">0</span> </span>
                      </h4>
                   </div>
                </div>
             </div>
-            <div class="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-6 ">
+            <div class=" ">
                <button id="checkAuthButton"
-                  class="rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2 m-auto md:m-0  @if($lang == 'ar') md:mr-auto @else md:ml-auto lg:mr-0  @endif  btn-hover-primary">
+                  class="rounded p-4-10 md:text-h5 text-h8 md:rounded-full bg-primary_color_8 font-normal  md:p-12-24 flex items-center gap-2 m-auto md:m-0  @if($lang == 'ar') md:mr-auto @else md:ml-auto lg:mr-0  @endif  btn-hover-primary">
                   <span class="z-10 "> {{ __('Buy Tickets') }}</span>
                   <svg class="@if($lang == 'ar') rotate-180 @endif" width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path
@@ -440,7 +466,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                </button>
             </div>
          </div>
-         <h4 id="tickets-alert" class="  text-gray_6 flex items-center justify-center gap-2 text-h5 lg:text-h4 py-3 ">{{__( 'Choose your tickets to continue')}}
+         <h4 id="tickets-alert" class="  text-gray_6 flex items-center justify-center gap-2 text-h6 font-medium lg:text-h4 md:py-3 ">{{__( 'Choose your tickets to continue')}}
             <span>
                <svg class="@if($lang == 'ar') rotate-180 @endif" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -560,8 +586,27 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             @csrf
             <!-- <input type="hidden" value="user" name="type"> -->
             <div class="mb-2">
+<<<<<<< HEAD
                <input type="text" value="" name="user_name" placeholder="{{ __('Mobile number or email') }}"
                   class="text-white bg-transparent  border border-gray_s mt-1 w-full focus:border-primary_color_6  outline-0    rounded-lg  p-16-16  ">
+=======
+               <div id="countrycontainr" class="flex gap-1 border-gray_s rounded-lg border items-center mt-1 px-2">
+                  <select id="countriescode" name="Countrycode" required
+                     class="hidden-imp select2 basis-2/6  w-full focus:border-primary_color_6 outline-0 bg-transparent     p-3 md:p-16-16  text-white">
+                     <option value="" disabled selected>{{ __('Select Country') }}</option>
+                     @foreach ($phone as $item)
+                     <option class=" " value="{{ $item->phonecode }}" @if($item->phonecode == "966") selected @endif>
+                        +{{$item->phonecode }}
+                     </option>
+                     @endforeach
+                  </select>
+                  <!-- <div class="selectContainer"></div> -->
+                  <input type="text" value="" name="user_name" required placeholder="{{ __('Mobile number or email') }}"
+                     class="  w-full focus:border-primary_color_6 outline-0 bg-transparent    p-3 md:py-2  text-white">
+               </div>
+               <!-- <input type="text" value="" name="user_name" placeholder="{{ __('Mobile number or email') }}"
+                  class="text-white bg-transparent  border border-gray_s mt-1 w-full focus:border-primary_color_6  outline-0    rounded-lg  p-16-16  "> -->
+>>>>>>> origin/main
                @error('email')
                <div class="_2OcwfRx4" data-qa="email-status-message">{{ $message }}</div>
                @enderror
@@ -671,23 +716,49 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 
 
+
 @if (!Auth::guard('appuser')->check())
 <script>
    var isAuthenticated = false;
 </script>
 @endif
+<script>
+   var gmapkey = '{{ $gmapkey }}';
+   var lat = '{{ $data->lat }}';
+   var lng = '{{  $data->lang }}';
+   var length_description = '{{  $length_description }}';
+</script>
 
 
 
 <div class="spinner" id="spinner"></div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script script>
+<<<<<<< HEAD
+=======
+   $("#addCalendr").on('click', function() {
+      $("#atcb-btn-1").click()
+   })
+
+   $(document).ready(function() {
+      $('input[name="user_name"]').on('input', function() {
+         if ($(this).val().match(/^\d+$/)) {
+            // Show dropdown list if input is a number
+            $('#countrycontainr .select2-container').removeClass('hidden').css('display', 'block');
+         } else {
+            // Hide dropdown list if input is not a number
+            $('#countrycontainr .select2-container').addClass('hidden').css('display', 'none');
+         }
+      });
+   });
+
+>>>>>>> origin/main
    $('#Google-login').on('click', function(e) {
       $('.google_login').val(1);
-       $('#tickets').submit();
-            
+      $('#tickets').submit();
+
+
    });
    // $('#Google-login').on('click', function(e) {
    //    $.ajax({
@@ -851,8 +922,11 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
       })
 
       function slot_events(id, dates) {
+         console.log(id);
+         console.log(dates);
          $.ajax({
-            url: 'https://ticketby.co/api/time/slots',
+            url: 'https://ticketby.com.sa/api/time/slots',
+
             type: 'POST',
             data: {
                ticket_id: id,
@@ -862,14 +936,14 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-
+               console.log(response);
                $('.slotEvent-container').html('');
                response.data.forEach(item => {
                   let slotEventHtml = `
-                    <div data-ticket-date="${item.date}"  data-ticket-available="${item.available_quanity}" data-ticket-price="${item.price}" data-time-slot-id="${item.time_slot_id}" data-ticket-id="${item.ticket_id}" class="slot-slickt swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 py-2 px-1  text-center inner-hover transition">
-                  <h3 class="font-bold text-h5 lg:text-h3">${item.date} </h3>
-                  <div class="f-bri h5 font-medium my-3"  >{{ __(key: $currency) }} ${item.price}</div>
-                  <div class="f-bri text-gray_9 h5 font-medium">${item.start_time}</div>
+                    <div data-ticket-date="${item.date}"  data-ticket-available="${item.available_quanity}" data-ticket-price="${item.price}" data-time-slot-id="${item.time_slot_id}" data-ticket-id="${item.ticket_id}" class="mb-m-32 md:mb-0 slot-slickt swiper-slide cursor-pointer bg-primary_color_12  hover:bg-primary_color_8 rounded-2xl border border-primary_color_o25_8 md:py-2 py-3 px-1  text-center inner-hover transition">
+                  <h3 class="font-medium md:font-bold text-h5 lg:text-h3">${item.date} </h3>
+                  <div class="f-bri text-h7 md:text-h5 font-medium my-1 md:my-3 hidden md:inline-block"  >{{ __(key: $currency) }} ${item.price}</div>
+                  <div class="f-bri md:text-gray_9 text-white text-h7 md:text-h5 font-medium mt-1 md:mt-0">${item.start_time}</div>
                    </div>`;
                   initializeSwiperSlot()
                   $('.slotEvent-container').append(slotEventHtml);
@@ -1195,7 +1269,11 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 
 
+
    $(document).ready(function() {
+      if (length_description > 200) {
+         $('#showMore').removeClass("hidden")
+      }
       $('.showMore').click(function() {
          $('p').toggleClass('paragraph-3');
          $('.showMore .more').toggleClass('hidden')
@@ -1216,54 +1294,59 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 
 
-   // function openModal() {
-   //    document.getElementById('locationModal').classList.remove('hidden');
-   // }
-   // function closeModal() {
-   //    document.getElementById('locationModal').classList.add('hidden');
-   // }
+   (g => {
+      var h, a, k, p = "The Google Maps JavaScript API",
+         c = "google",
+         l = "importLibrary",
+         q = "__ib__",
+         m = document,
+         b = window;
+      b = b[c] || (b[c] = {});
+      var d = b.maps || (b.maps = {}),
+         r = new Set,
+         e = new URLSearchParams,
+         u = () => h || (h = new Promise(async (f, n) => {
+            await (a = m.createElement("script"));
+            e.set("libraries", [...r] + "");
+            for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+            e.set("callback", c + ".maps." + q);
+            a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+            d[q] = f;
+            a.onerror = () => h = n(Error(p + " could not load."));
+            a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+            m.head.append(a)
+         }));
+      d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
+   })({
+      key: gmapkey,
+      v: "weekly",
+      // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+      // Add other bootstrap parameters as needed, using camel case.
+   });
+   let map;
 
 
-   // var modal = document.getElementById("mapModal");
-   // var closeMap = document.querySelector(".closeMap");
+   async function initMap() {
+      const {
+         Map
+      } = await google.maps.importLibrary("maps");
+      if (isNaN(lat) || isNaN(lng)) {
+         console.error('Invalid coordinates:', lat, lng);
+         return;
+      }
+      map = new Map(document.getElementById("map"), {
+         center: {
+            lat: parseFloat(lat),
+            lng: parseFloat(lng)
+         },
+         zoom: 0,
+      });
+   }
 
-   // closeMap.onclick = function() {
-   //    modal.style.display = "none";
-   // }
 
-   // window.onclick = function(event) {
-   //    if (event.target == modal) {
-   //       modal.style.display = "none";
-   //    }
-   // }
-
-   // const lat = parseFloat("{{ $data->lat }}");
-   // const lng = parseFloat("{{ $data->lang }}");
-
-   // function openMapModal() {
-   //    modal.style.display = "flex";
-   //    var map = new google.maps.Map(document.getElementById('map'), {
-   //       center: {
-   //          lat: lat,
-   //          lng: lng
-   //       },
-   //       zoom: 15,
-   //    });
-
-   //    var marker = new google.maps.Marker({
-   //       position: {
-   //          lat: lat,
-   //          lng: lng
-   //       },
-   //       map: map,
-
-   //    });
-   // }
-
-   // document.getElementById("openMapBtn").onclick = openMapModal;
+   window.addEventListener('load', initMap);
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ $gmapkey }}"></script>
 
 
 

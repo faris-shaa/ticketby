@@ -6,7 +6,7 @@ $showLinkBanner = \App\Models\Setting::find(1,['show_link_banner','googleplay_li
 <?php $url =  $_SERVER['REQUEST_URI'];
 ?>
 
-<footer class="container mt-20 lg:mt-64 mb-10 flex flex-col items-center">
+<footer class="container mt-24 lg:mt-64 mb-10 flex flex-col items-center">
     <div>
         @if($url=='/')
         <div class="text-center">

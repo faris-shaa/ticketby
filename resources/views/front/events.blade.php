@@ -146,7 +146,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
 
         })
-       
+
         $('#SearchEventCity').on('change', function() {
             SearchEventCity = $(this).val();
             console.log(SearchEventCity);
@@ -159,7 +159,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
 
         });
-     
+
         $('#SearchEventCat').on('change', function() {
             SearchEventCat = $(this).val();
             fetchEvents(SearchEventName, SearchEventDate, SearchEventCity, SearchEventCat, limit);
