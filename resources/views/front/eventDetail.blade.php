@@ -36,7 +36,6 @@ $error = $response->json();
 // Log the exception message or display an error message
 }
 
-
 $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 @endphp
@@ -49,38 +48,31 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 </style>
 
 <div class="container mt-12 md:mt-16 ">
-   <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4">
-      <div class="col-span-12 md:col-span-8 order-2 md:order-1 ">
-         <h2 class="font-semibold text-h5 lg:text-h2">
+   <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+      <div class="col-span-12 md:col-span-8  ">
+         <h2 class="font-medium text-h3 lg:text-h2">
             {{ $lang == 'ar' ? $event['event']['name_arabic'] :$event['event']['name'] }}
          </h2>
-         <div class="mt-1 md:mt-2">
-            <div class="flex items-center gap-1">
-               <p class="flex gap-2  mt-2 items-center">
-               <div>
-                  <svg width="12" height="17" viewBox="0 0 12 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path
-                        d="M8.5 6C8.5 7.40625 7.375 8.5 6 8.5C4.59375 8.5 3.5 7.40625 3.5 6C3.5 4.625 4.59375 3.5 6 3.5C7.375 3.5 8.5 4.625 8.5 6ZM6 7.5C6.8125 7.5 7.5 6.84375 7.5 6C7.5 5.1875 6.8125 4.5 6 4.5C5.15625 4.5 4.5 5.1875 4.5 6C4.5 6.84375 5.15625 7.5 6 7.5ZM12 6C12 8.75 8.34375 13.5938 6.71875 15.625C6.34375 16.0938 5.625 16.0938 5.25 15.625C3.625 13.5938 0 8.75 0 6C0 2.6875 2.65625 0 6 0C9.3125 0 12 2.6875 12 6ZM6 1C3.21875 1 1 3.25 1 6C1 6.5 1.15625 7.15625 1.5 8C1.84375 8.8125 2.3125 9.6875 2.875 10.5625C3.9375 12.2812 5.1875 13.9375 6 14.9375C6.78125 13.9375 8.03125 12.2812 9.09375 10.5625C9.65625 9.6875 10.125 8.8125 10.4688 8C10.8125 7.15625 11 6.5 11 6C11 3.25 8.75 1 6 1Z"
-                        fill="#A986BF" />
-                  </svg>
-               </div>
+         <div class="">
+            <p class="flex gap-2  mt-2 items-center">
+               <svg width="12" height="17" viewBox="0 0 12 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                     d="M8.5 6C8.5 7.40625 7.375 8.5 6 8.5C4.59375 8.5 3.5 7.40625 3.5 6C3.5 4.625 4.59375 3.5 6 3.5C7.375 3.5 8.5 4.625 8.5 6ZM6 7.5C6.8125 7.5 7.5 6.84375 7.5 6C7.5 5.1875 6.8125 4.5 6 4.5C5.15625 4.5 4.5 5.1875 4.5 6C4.5 6.84375 5.15625 7.5 6 7.5ZM12 6C12 8.75 8.34375 13.5938 6.71875 15.625C6.34375 16.0938 5.625 16.0938 5.25 15.625C3.625 13.5938 0 8.75 0 6C0 2.6875 2.65625 0 6 0C9.3125 0 12 2.6875 12 6ZM6 1C3.21875 1 1 3.25 1 6C1 6.5 1.15625 7.15625 1.5 8C1.84375 8.8125 2.3125 9.6875 2.875 10.5625C3.9375 12.2812 5.1875 13.9375 6 14.9375C6.78125 13.9375 8.03125 12.2812 9.09375 10.5625C9.65625 9.6875 10.125 8.8125 10.4688 8C10.8125 7.15625 11 6.5 11 6C11 3.25 8.75 1 6 1Z"
+                     fill="#A986BF" />
+               </svg>
                @if ( $event['event']['type']== 'online')
                <span> {{ __('Online Event') }}</span>
                @else
-               <a target="_blank" href="@if( $event['event']['address_url']) {{$event['event']['address_url']}} @else # @endif"><span class="text-gray_9 md:text-white md:text-h5 text-h7">{{ $event['event']['address'] }}</span></a>
+               <a target="_blank" href="@if( $event['event']['address_url']) {{$event['event']['address_url']}} @else # @endif"><span class="h5">{{ $event['event']['address'] }}</span></a>
                @endif
-               </p>
-            </div>
-            <div class="flex items-center gap-1 mt-1 md:mt-2">
-               <p class="flex gap-2  mt-2 lg:mt-2 items-center">
-               <div>
-                  <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path
-                        d="M3.5 0C3.75 0 4 0.25 4 0.5V2H10V0.5C10 0.25 10.2188 0 10.5 0C10.75 0 11 0.25 11 0.5V2H12C13.0938 2 14 2.90625 14 4V6.03125C13.8125 6.03125 13.6562 6 13.5 6C13.3125 6 13.1562 6.03125 13 6.03125V6H1V14C1 14.5625 1.4375 15 2 15H9.25C9.5625 15.4062 9.90625 15.7188 10.3125 16H2C0.875 16 0 15.125 0 14V4C0 2.90625 0.875 2 2 2H3V0.5C3 0.25 3.21875 0 3.5 0ZM12 3H2C1.4375 3 1 3.46875 1 4V5H13V4C13 3.46875 12.5312 3 12 3ZM13.4688 9C13.75 9 13.9688 9.25 13.9688 9.5V11H15C15.25 11 15.5 11.25 15.5 11.5C15.5 11.7812 15.25 12 15 12H13.4688C13.2188 12 12.9688 11.7812 12.9688 11.5V9.5C12.9688 9.25 13.2188 9 13.4688 9ZM9 11.5C9 9.03125 11 7 13.5 7C15.9688 7 18 9.03125 18 11.5C18 14 15.9688 16 13.5 16C11 16 9 14 9 11.5ZM13.5 15C15.4062 15 17 13.4375 17 11.5C17 9.59375 15.4062 8 13.5 8C11.5625 8 10 9.59375 10 11.5C10 13.4375 11.5625 15 13.5 15Z"
-                        fill="#A986BF" />
-                  </svg>
-               </div>
-               <span class="md:text-h5 text-h7 text-gray_9 md:text-white">
+            </p>
+            <p class="flex gap-2  mt-2 lg:mt-2 items-center">
+               <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                     d="M3.5 0C3.75 0 4 0.25 4 0.5V2H10V0.5C10 0.25 10.2188 0 10.5 0C10.75 0 11 0.25 11 0.5V2H12C13.0938 2 14 2.90625 14 4V6.03125C13.8125 6.03125 13.6562 6 13.5 6C13.3125 6 13.1562 6.03125 13 6.03125V6H1V14C1 14.5625 1.4375 15 2 15H9.25C9.5625 15.4062 9.90625 15.7188 10.3125 16H2C0.875 16 0 15.125 0 14V4C0 2.90625 0.875 2 2 2H3V0.5C3 0.25 3.21875 0 3.5 0ZM12 3H2C1.4375 3 1 3.46875 1 4V5H13V4C13 3.46875 12.5312 3 12 3ZM13.4688 9C13.75 9 13.9688 9.25 13.9688 9.5V11H15C15.25 11 15.5 11.25 15.5 11.5C15.5 11.7812 15.25 12 15 12H13.4688C13.2188 12 12.9688 11.7812 12.9688 11.5V9.5C12.9688 9.25 13.2188 9 13.4688 9ZM9 11.5C9 9.03125 11 7 13.5 7C15.9688 7 18 9.03125 18 11.5C18 14 15.9688 16 13.5 16C11 16 9 14 9 11.5ZM13.5 15C15.4062 15 17 13.4375 17 11.5C17 9.59375 15.4062 8 13.5 8C11.5625 8 10 9.59375 10 11.5C10 13.4375 11.5625 15 13.5 15Z"
+                     fill="#A986BF" />
+               </svg>
+               <span class="h5 ">
                   @if($event['event']['is_repeat']== 1 )
                   @if (session('direction') == 'rtl')
                   {{ Carbon\Carbon::now()->locale('ar')->translatedFormat('d M Y') }}
@@ -100,10 +92,9 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                   @endif
                   @endif
                </span>
-               </p>
-            </div>
+            </p>
          </div>
-         <div class="mt-2 flex gap-2 flex-wrap">
+         <div class="mt-4 flex gap-2 flex-wrap">
             @php
             $tagsString = $event['event']['tags'];
             $tagsArray = array_filter(explode(',', $tagsString));
@@ -112,8 +103,8 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
             @if(!empty($event['event']['tags']))
             @foreach($event['event']['tags'] as $tag)
-            <div class="flex gap-1 items-center f-bri h7 bg-primary_color_8 bg-opacity-50 md:py-1 md:px-3 p-4-8  rounded-5xl w-fit">
-               <svg class="hidden md:inline" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="flex gap-1 items-center f-bri h7 bg-primary_color_8 bg-opacity-50 py-1 px-3 rounded-5xl w-fit">
+               <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0.75 1.375C0.75 0.765625 1.24219 0.25 1.875 0.273438H5.36719C5.76562 0.273438 6.14062 0.414062 6.42188 0.695312L10.5469 4.82031C11.1328 5.40625 11.1328 6.36719 10.5469 6.95312L7.42969 10.0703C6.84375 10.6562 5.88281 10.6562 5.29688 10.0703L1.17188 5.94531C0.890625 5.66406 0.75 5.28906 0.75 4.89062V1.375ZM3.375 3.625C3.77344 3.625 4.125 3.29688 4.125 2.875C4.125 2.47656 3.77344 2.125 3.375 2.125C2.95312 2.125 2.625 2.47656 2.625 2.875C2.625 3.29688 2.95312 3.625 3.375 3.625Z" fill="#723995" />
                </svg>
                {{ $tag }}
@@ -123,13 +114,13 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
          </div>
       </div>
-      <div class="col-span-12  md:col-span-4 bg-primary_color_16 md:bg-light md:rounded-xl rounded-lg  p-1 md:p-2 order-1 md:order-2">
-         <div class="flex flex-row md:flex-col items-center  md:justify-center h-full	">
-            <h5 class="text-gray_6 me-1 text-h8 md:text-h5"> <span class="hidden md:inline">{{__('Tickets')}}</span> {{__(key: ' starting at')}}</h5>
-            <span class="md:text-h4 text-h7 text-dark font-medium">{{ __(key: $currency) }} {{$minPrice}}</span>
-            <a href="#tickets_section" class="md:mt-4 rounded md:rounded-full bg-primary_color_8 p-1 md:p-12-24 flex items-center gap-2 cursor-pointer btn-hover-primary ms-auto md:ms-0 md:text-h5 text-h7">
+      <div class="col-span-12  md:col-span-4 bg-light rounded-xl  p-2">
+         <div class="flex flex-col items-center justify-center h-full	">
+            <h5 class="text-gray_6"> {{__(key: 'Tickets starting at')}}</h5>
+            <span class="h4 text-dark font-medium">{{ __(key: $currency) }} {{$minPrice}}</span>
+            <a href="#tickets_section" class="mt-4 rounded-full bg-primary_color_8 p-12-24 flex items-center gap-2 cursor-pointer btn-hover-primary">
                <span class="z-20">{{ __('Get Tickets') }}</span>
-               <svg class="hidden md:block @if($lang == 'ar') rotate-180 @endif" width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <svg class="@if($lang == 'ar') rotate-180 @endif" width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                      d="M9.90625 1.24609L16.0938 7.15234C16.2695 7.32812 16.375 7.53906 16.375 7.78516C16.375 7.99609 16.2695 8.20703 16.0938 8.38281L9.90625 14.2891C9.58984 14.6055 9.02734 14.6055 8.71094 14.2539C8.39453 13.9375 8.39453 13.375 8.74609 13.0586L13.4219 8.62891H1.46875C0.976562 8.62891 0.625 8.24219 0.625 7.78516C0.625 7.29297 0.976562 6.94141 1.46875 6.94141H13.4219L8.74609 2.47656C8.39453 2.16016 8.39453 1.59766 8.71094 1.28125C9.02734 0.929688 9.55469 0.929688 9.90625 1.24609Z"
                      fill="#A986BF" />
@@ -204,12 +195,23 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
       </div>
    </div>
    <div class="h-40 lg:h-h-424 mt-4 lg:mt-8 bg-location bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 flex items-center justify-center">
-
+      <!-- <a class="rounded-full bg-primary_color_8 py-2 px-7 flex items-center gap-2 cursor-pointer btn-hover-primary text-h5 " onclick="openModal()">
+         <span class=" z-20" id="openMapBtn"> {{__(key: 'Show in map ')}}</span>
+         <svg width="15" height="21" viewBox="0 0 15 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.625 8C10.625 9.75781 9.21875 11.125 7.5 11.125C5.74219 11.125 4.375 9.75781 4.375 8C4.375 6.28125 5.74219 4.875 7.5 4.875C9.21875 4.875 10.625 6.28125 10.625 8ZM7.5 9.875C8.51562 9.875 9.375 9.05469 9.375 8C9.375 6.98438 8.51562 6.125 7.5 6.125C6.44531 6.125 5.625 6.98438 5.625 8C5.625 9.05469 6.44531 9.875 7.5 9.875ZM15 8C15 11.4375 10.4297 17.4922 8.39844 20.0312C7.92969 20.6172 7.03125 20.6172 6.5625 20.0312C4.53125 17.4922 0 11.4375 0 8C0 3.85938 3.32031 0.5 7.5 0.5C11.6406 0.5 15 3.85938 15 8ZM7.5 1.75C4.02344 1.75 1.25 4.5625 1.25 8C1.25 8.625 1.44531 9.44531 1.875 10.5C2.30469 11.5156 2.89062 12.6094 3.59375 13.7031C4.92188 15.8516 6.48438 17.9219 7.5 19.1719C8.47656 17.9219 10.0391 15.8516 11.3672 13.7031C12.0703 12.6094 12.6562 11.5156 13.0859 10.5C13.5156 9.44531 13.75 8.625 13.75 8C13.75 4.5625 10.9375 1.75 7.5 1.75Z" fill="#A986BF" />
+         </svg>
+      </a>
+      <div id="mapModal" class="modal" style="display: none;">
+         <div class="modal-content">
+            <span class="closeMap"><i class="fa-regular fa-circle-xmark fa-2xl my-6"></i></span>
+            <div id="map" style="height: 400px; width: 700px; "></div>
+         </div>
+      </div> -->
    </div>
    <div class="bg-light bg-opacity-5 rounded-2xl border border-primary_color_o10_1  p-2  md:p-32-24 mt-4 lg:mt-8">
       <h3 class="text-primary_color_6 font-medium text-h4 lg:text-h3">{{ __('About Event') }}</h3>
       <p class="h5 lg:h4 mt-4 paragraph-3 max-h-96 overflow-x-auto ">
-         {!! $lang == 'ar' ?strip_tags($event['event']['description_arabic']): strip_tags($event['event']['description'] )!!}
+         {!! $lang == 'ar' ?strip_tags($event['event']['description_arabic']): strip_tags($event['event']['description'] ) !!}
       </p>
       <span class="flex items-center gap-2 mt-3 py-1 cursor-pointer">
          <span class="h7 lg:h4 showMore"><span class="more">{{__(key: 'Show more ...')}}</span> <span class="less hidden"> {{__(key: 'Show less ...')}}</span></span>
@@ -553,24 +555,13 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             <i class="fa-solid fa-triangle-exclamation text-white"></i>
             <span class="messages"></span>
          </div>
+         <!-- <form action="{{ url('user/login') }}" method="post" data-qa="form-login" name="login" class=" min-w "> -->
          <form id="login_form" action="{{ url('/web/login') }}" method="POST" class=" min-w ">
             @csrf
+            <!-- <input type="hidden" value="user" name="type"> -->
             <div class="mb-2">
-               <div class="flex gap-1 border-gray_s rounded-lg border items-center mt-1 px-2">
-                  <select id="countriescode" name="Countrycode" required
-                     class="hidden-imp select2 basis-2/6  w-full focus:border-primary_color_6 outline-0 bg-transparent     p-3 md:p-16-16  text-white">
-                     <option value="" disabled selected>{{ __('Select Country') }}</option>
-                     @foreach ($phone as $item)
-                     <option class=" " value="{{ $item->phonecode }}" @if($item->phonecode == "966") selected @endif>
-                        +{{$item->phonecode }}
-                     </option>
-                     @endforeach
-                  </select>
-                  <input type="text" value="" name="user_name" required placeholder="{{ __('Mobile number or email') }}"
-                     class="  w-full focus:border-primary_color_6 outline-0 bg-transparent    p-3 md:py-2  text-white">
-               </div>
-               <!-- <input type="text" value="" name="user_name" placeholder="{{ __('Mobile number or email') }}"
-                  class="text-white bg-transparent  border border-gray_s mt-1 w-full focus:border-primary_color_6  outline-0    rounded-lg  p-16-16  "> -->
+               <input type="text" value="" name="user_name" placeholder="{{ __('Mobile number or email') }}"
+                  class="text-white bg-transparent  border border-gray_s mt-1 w-full focus:border-primary_color_6  outline-0    rounded-lg  p-16-16  ">
                @error('email')
                <div class="_2OcwfRx4" data-qa="email-status-message">{{ $message }}</div>
                @enderror
@@ -580,7 +571,16 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                </div>
                @endif
             </div>
-
+            <!-- <div>
+               <label class="text-gray_9" for="password">{{ __('Password') }}</label>
+               <input type="password" name="password" placeholder="*******"
+                  class="text-dark mt-1 w-full focus:border-primary_color_6 outline-0  bg-light p-16-16 rounded-lg " name=""
+                  id="">
+               @error('password')
+               <div class="_2OcwfRx4 font-bold-big" data-qa="email-status-message">{{ $message }}</div>
+               @enderror
+               <a data-form-user="password-model" class="cursor-pointer from-switch f-bri mt-1 block text-end text-primary_color_6 h6  underline"> {{__( 'Forget password ?')}}</a>
+            </div> -->
             <button class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-8 text-center"> {{__( 'Get code')}}
             </button>
          </form>
@@ -599,7 +599,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
          <div class="bg-dark_4  rounded-2xl   p-2  md:p-32-32 relative w-w-500">
             <div class="mb-6 md:mb-7  pb-2">
                <div class="flex items-center gap-1">
-                  <button id="returnTosign" class="@if($lang == 'ar') rotate-180 @endif">
+                  <button class="@if($lang == 'ar') rotate-180 @endif">
                      <svg width="11" height="19" viewBox="0 0 11 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0.601562 8.64062L8.10156 1.14062C8.57031 0.632812 9.39062 0.632812 9.85938 1.14062C10.3672 1.60938 10.3672 2.42969 9.85938 2.89844L3.25781 9.5L9.85938 16.1406C10.3672 16.6094 10.3672 17.4297 9.85938 17.8984C9.39062 18.4062 8.57031 18.4062 8.10156 17.8984L0.601562 10.3984C0.09375 9.92969 0.09375 9.10938 0.601562 8.64062Z" fill="#C4ACD3" />
                      </svg>
@@ -608,16 +608,29 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                </div>
                <h4 class="text-gray_9 lg:text-h4 text-h6 mt-1 ">{{__( 'Enter the 4-digit we just sent to your email')}}</h4>
             </div>
-
+            <!-- <form action="{{ url('user/otp-verify') }}" method="POST" class="verfication">
+               @csrf
+               <input hidden type="text" name="otp" required
+                  class="h-14 w-full text-dark mx-auto  focus:border-primary_color_6 outline-0 bg-light p-16-16 rounded-lg">
+               <input type="hidden" name='id' id="user_id" value="">
+               <div id="verfication" class="grid grid-cols-4 ">
+                  <input autofocus type="number" maxlength="1" data-val="p-1" class="text-center  verification-pass h-16 w-16 col-span-1 mx-auto  outline-0  focus:border-primary_color_6  text-white bg-transparent  border border-gray_s p-16-16 rounded-lg" name="" id="">
+                  <input autofocus type="number" maxlength="1" data-val="p-2" class=" text-center verification-pass h-16 w-16 col-span-1 mx-auto  outline-0  focus:border-primary_color_6  text-white bg-transparent  border border-gray_s p-16-16 rounded-lg" name="" id="">
+                  <input autofocus type="number" maxlength="1" data-val="p-3" class=" text-center verification-pass h-16 w-16 col-span-1 mx-auto  outline-0  focus:border-primary_color_6  text-white bg-transparent  border border-gray_s p-16-16 rounded-lg" name="" id="">
+                  <input autofocus type="number" maxlength="1" data-val="p-4" class="text-center  verification-pass h-16 w-16 col-span-1 mx-auto  outline-0  focus:border-primary_color_6  text-white bg-transparent  border border-gray_s p-16-16 rounded-lg" name="" id="">
+               </div>
+               <button class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-7 text-center ">Confirm
+               </button>
+            </form> -->
             <form id="verificationForm" class="verification">
                @csrf
                <input type="hidden" name="otp" required id="otpField">
                <input type="hidden" name='id' id="user_id" value="">
-               <div id="verification" class="flex @if($lang == 'ar') flex-row-reverse @endif">
-                  <input type="number" autofocus maxlength="1" class=" text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 1)" data-val="p-1">
-                  <input type="number" maxlength="1" class="disabled text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 2)" data-val="p-2">
-                  <input type="number" maxlength="1" class="disabled text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 3)" data-val="p-3">
-                  <input type="number" maxlength="1" class="disabled text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 4)" data-val="p-4">
+               <div id="verification" class="grid grid-cols-4">
+                  <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 1)" data-val="p-1">
+                  <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 2)" data-val="p-2">
+                  <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 3)" data-val="p-3">
+                  <input type="number" maxlength="1" class="text-center verification-pass h-16 w-16 col-span-1 mx-auto outline-0 focus:border-primary_color_6 text-white bg-transparent border border-gray_s p-16-16 rounded-lg" oninput="moveToNext(this, 4)" data-val="p-4">
                </div>
                <p class="error" id="login-error"></p>
                <button type="button" id="confirmButton" class="rounded-full bg-primary_color_8 p-12-24 w-full block mt-7 text-center">{{__('Confirm')}}</button>
@@ -671,7 +684,6 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script script>
-
    $('#Google-login').on('click', function(e) {
       $('.google_login').val(1);
        $('#tickets').submit();
@@ -697,38 +709,16 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
    //       },
    //       error: function(xhr, status, error) {
    //          console.error('Error:', error);
-
-   // $(document).ready(function() {
-   //    $('[aria-labelledby="select2-countriescode-container"]').addClass("hidden-imp");
-   //    $('input[name="user_name"]').on('input', function() {
-   //       if ($(this).val().match(/^\d+$/)) {
-   //          $('#countries').removeClass('hidden-imp');
-   //          $('[aria-labelledby="select2-countriescode-container"]').removeClass("hidden-imp");
-   //       } else {
-   //          $('#countries').addClass('hidden-imp');
-   //          $('[aria-labelledby="select2-countriescode-container"]').addClass("hidden-imp");
-
    //       }
    //    });
+
    // });
-
-
-   $("#returnTosign").on("click", function() {
-      $('#otp-model').addClass("hidden");
-      $('#register-model').removeClass("hidden");
-   })
-
-   $(window).on('load', function() {
-      $('input[data-val="p-1"]').addClass('focus').focus();
-   });
 
    function moveToNext(currentInput, index) {
       if (currentInput.value.length >= 1) {
          const nextInput = document.querySelector(`input[data-val='p-${index + 1}']`);
          if (nextInput) {
             nextInput.focus();
-            nextInput.classList.add('focus');
-            nextInput.classList.remove('disabled');
          }
       }
    }
@@ -777,7 +767,19 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
       });
    });
 
-
+   /* $("#verfication input").each(function(i, ele) {
+       $(this).on("input", function() {
+          let curent = $(this).attr('data-val');
+          let next_ele = +curent.split("-")[1] + 1
+          if ($(this).val() !== "") {
+             $(`[data-val=p-${next_ele}]`).removeAttr("disabled");
+             $(`[data-val=p-${next_ele}]`).focus()
+             if (i === 3) {
+                 $("#verfication").submit();
+             }
+          }
+       });
+    });*/
    $(document).ready(function() {
       const urlParams = new URLSearchParams(window.location.search);
       const scrollTo = urlParams.get('scroll');
@@ -1037,9 +1039,6 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                $.each(errors, function(field, messages) {
                   $('#errorMessages .messages').text(messages[0]);
                });
-            },
-            complete: function() {
-               $('#spinner').hide();
             }
 
          });

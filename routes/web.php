@@ -29,6 +29,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Artisan;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\ApplePayController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,9 @@ Route::get('/apple-pay', function () {
 Route::get('/qr-pdf', function () {
     return view('qr_pdf');
 });
+
+Route::any('/validate-merchant', [ApplePayController::class, 'validateMerchant']);
+Route::any('/process-payment', [ApplePayController::class, 'processPayment']);
 
 Route::any('/admin/login', [LicenseController::class, 'adminLogin']);
 Route::get('/logout', [LicenseController::class, 'adminLogout'])->name('logout123');

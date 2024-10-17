@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Review;
 use App\Models\Ticket;
 use App\Models\Coupon;
+use App\Export\UsersExport;
 use App\Models\Tax;
 use App\Models\OrderTax;
 use App\Models\AppUser;
@@ -73,6 +74,7 @@ use Vonage\Client as VonageClient;
 use Vonage\SMS\Message\SMS;
 use Vonage\SMS\Message\SMSCollection;
 use DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FrontendController extends Controller
 {
@@ -1514,8 +1516,68 @@ class FrontendController extends Controller
     public function createOrder(Request $request)
     {
 
+        if($request->payment_type == "ApplePay"  ){
+            $data = $request->token;  
+        
+            $publicKeyHash = $data['transactionIdentifier'];  
+            $identifier = $publicKeyHash;  // Replace with actual identifier
+            $order_id = '#' . rand(9999, 100000);  // Replace with actual order ID
+            $order_amount = (string)number_format($request->amount, 2, '.', ''); 
+            $order_currency = 'SAR';  // Replace with actual order currency
+            $password = 'a92f7b7f0d869d3e676c5facda5262ae';  // Replace with your actual password 
 
+            $hash = md5(strtoupper(strrev($identifier.$order_id.$order_amount.$order_currency.$password))); 
 
+            $paymentData = '{"paymentData":{"data":"'.@$data['paymentData']['data'].'","signature":"'.@$data['paymentData']['signature'].'","header":{"publicKeyHash":"'.@$data['paymentData']['header']['publicKeyHash'].'","ephemeralPublicKey":"'.@$data['paymentData']['header']['ephemeralPublicKey'].'","transactionId":"'.@$data['paymentData']['header']['transactionId'].'"},"version":"'.@$data['paymentData']['version'].'"},"paymentMethod":{"displayName":"'.@$data['paymentMethod']['displayName'].'","network":"'.@$data['paymentMethod']['network'].'","type":"'.@$data['paymentMethod']['type'].'"},"transactionIdentifier":"'.@$data['transactionIdentifier'].'"}';
+                
+            $response = Http::withHeaders([
+                'Cookie' => 'PHPSESSID=6hahu1ps9sji5vjeg2pru3no8v',
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])
+            ->asForm()
+            ->post('https://api.edfapay.com/applepay/orders/s2s/sale', [
+                'action' => 'SALE',
+                'client_key' => 'd857c073-c58c-49dc-906b-24fa667dc306', // Replace with your actual client key
+                'brand' => 'applepay',
+                'order_id' => $order_id,
+                'order_amount' => $order_amount,
+                'order_currency' => 'SAR',
+                'order_description' => 'TickeBy',
+                'payer_first_name' => $request->name,
+                'payer_last_name' =>  $request->name,
+                'payer_address' => $request->email,
+                'payer_country' => 'SA',
+                'payer_state' => 'Riyadh',
+                'payer_city' => 'Riyadh',
+                'payer_zip' => '123221',
+                'payer_email' => $request->email,
+                'payer_phone' =>  $request->phone,
+                'payer_birth_date' => '1987-12-12',
+                'payer_ip' => '176.44.76.100',
+                'return_url' => 'https://ticketby.co',
+                'identifier' => $publicKeyHash,
+                'hash' => $hash, // Replace with the correct hash
+                'parameters' => $paymentData, 
+                'payer_address2' => 'test',
+                'payer_middle_name' => 'test',
+            ]);   
+
+            if ($response['result'] == 'SUCCESS') {
+                $data['payment_status'] = 1;
+                $data['order_status'] = 'Complete';
+            } else {
+                $data['payment_status'] = 0;
+                $data['order_status'] = 'Pending'; 
+
+                return response()->json([
+                    'error_message' => 'payment_failed',
+                    'type' => 'ApplePay',
+                    'status' => 500
+                ]); 
+
+            }
+        }
+        
         $data = $request->all();
 
         if ($request->payment_type == "TAMARA") {
@@ -1558,6 +1620,7 @@ class FrontendController extends Controller
         $data['customer_id'] = $user->id;
         $data['organization_id'] = $org->id;
         $data['order_status'] = 'Pending';
+        $data['web'] = 1;
 
         if ($user->id == 202) {
             return response("This is eror");
@@ -1613,10 +1676,11 @@ class FrontendController extends Controller
          // multiple ticket 
         if($event->is_repeat == 0)
         {
-            /*$ticketIdsString = $request->ticket_ids; 
-            $quantitiesString = $request->ticket_quantities; */
-            $ticketIdsString =  "99,98"; 
-            $quantitiesString = "2,0";
+
+            $ticketIdsString = $request->ticket_ids; 
+            $quantitiesString = $request->ticket_quantities; 
+            /*$ticketIdsString =  "99,98"; 
+            $quantitiesString = "2,0";*/
             // Convert the comma-separated strings into arrays
             $ticketIds = explode(',', $ticketIdsString);
             $quantities = explode(',', $quantitiesString);
@@ -1634,10 +1698,12 @@ class FrontendController extends Controller
                     'quantity' => (int) $quantity,  // Casting to int if necessary
                 ];
             }, $ticketIds, $quantities);
-
+            $count_quantity = 0 ;
             foreach ($tickets as $key => $ticket_array) {
+
                 $ticekt = Ticket::find($ticket_array['ticket_id']);
                 for ($i = 1; $i <= $ticket_array['quantity']; $i++) {
+                    $count_quantity = $count_quantity +1 ; 
                     $child['ticket_number'] = uniqid();
                     $child['ticket_id'] = $ticket_array['ticket_id'];
                     $child['order_id'] = $order->id;
@@ -1648,7 +1714,7 @@ class FrontendController extends Controller
                 }
             }
 
-            
+            $order_update_quantiy = Order::where('id',$order->id)->update(['quantity'=>$count_quantity]);
         }
         // multiple ticket 
 
@@ -2268,6 +2334,7 @@ class FrontendController extends Controller
         //$dataemail['qrcode'] = $order->order_id ;
         $child_qr =  OrderChild::where('order_id', $order->id)->get();
         foreach ($child_qr as $key => $value) {
+
             $dataemail['qrcode'] = QrCode::format('png')
                 ->size(300)
                 ->generate($value->ticket_number, public_path('qrcodes/qr-' . $value->id . '.png'));
@@ -2299,6 +2366,53 @@ class FrontendController extends Controller
             // });
 
         }
+        $order_update = Order::where('id', $id)->update(['payment_status' => 1, 'order_status' => 'Complete']);
+    }
+     public function sendOrderMailPdf($id)
+    {
+
+        //$order_update = Order::where('id',$id)->update(['payment_status'=>1 , 'order_status' =>'Complete']);
+        $order = Order::find($id);
+
+
+        $dataemail['order'] = $order;
+        $dataemail['event'] = Event::find($dataemail['order']->event_id);
+        $dataemail['user'] = AppUser::find($dataemail['order']->customer_id);
+        $dataemail['email'] = $dataemail['user']->email;
+
+          $order = Order::with(['customer', 'event', 'organization', 'ticket'])->find($id);
+        $order->tax_data = OrderTax::where('order_id', $order->id)->get();
+        $order->ticket_data = OrderChild::where('order_id', $order->id)->get();
+        $customPaper = array(0, 0, 720, 1440);
+        $pdf = FacadePdf::loadView('ticketmail', compact('order'))->save(public_path("ticket.pdf"))->setPaper($customPaper, $orientation = 'portrait');
+        $data["email"] = $order->customer->email;
+        $data["title"] = "Ticket PDF";
+        $data["body"] = "";
+        $tempp = $pdf->output();
+
+        Mail::send(['html' => 'emails.ticketpdf'], $dataemail, function ($message) use ($tempp ,$dataemail) {
+                $message->to($dataemail['email'])->subject('Ticket Booked');
+                $message->from('ticketbyksa@gmail.com', 'TicketBy')->attachData($tempp, "ticket.pdf");
+            });
+
+
+
+        //$dataemail['qrcode'] = $order->order_id ;
+      /*  $child_qr =  OrderChild::where('order_id', $order->id)->get();
+        foreach ($child_qr as $key => $value) {
+            $dataemail['qrcode'] = QrCode::format('png')
+                ->size(300)
+                ->generate($value->ticket_number, public_path('qrcodes/qr-' . $value->id . '.png'));
+            $dataemail['qr_id'] = $value->id;
+            Mail::send(['html' => 'emails.ticketbooked'], $dataemail, function ($message) use ($dataemail) {
+                $message->to($dataemail['email'])->subject('Ticket Booked');
+                $message->from('ticketbyksa@gmail.com', 'TicketBy');
+            });
+
+
+
+
+        }*/
         $order_update = Order::where('id', $id)->update(['payment_status' => 1, 'order_status' => 'Complete']);
     }
     public function sendMail($id)
@@ -2875,22 +2989,23 @@ class FrontendController extends Controller
         $tax = array();
 
         $ticket['upcoming'] = Order::with(['orderchild','event:id,name,image,start_time,type,end_time,address', 'ticket:id,ticket_number,start_time,name,price,type', 'organization:id,first_name,last_name,image'])
-            ->where([['customer_id', Auth::guard('appuser')->user()->id], ['order_status', 'Pending']])
-            ->orWhere([['customer_id', Auth::guard('appuser')->user()->id], ['order_status', 'Complete']])
+           
+            ->where([['customer_id', Auth::guard('appuser')->user()->id], ['order_status', 'Complete']])
             ->orderBy('id', 'DESC')->paginate(10);
+            
         $event = [];
 
         if (count($ticket['upcoming']) > 0) {
             foreach ($ticket['upcoming'] as $events) {
 
-                if ($events->event->start_time <= Carbon::now() && $events->event->end_time >= Carbon::now()) {
+                if ($events->event->end_time >= Carbon::now()) {
                     $ticket_qr_code =  OrderChild::where('order_id',$events->id)->get();
                     $qrs = array();
                     foreach ($ticket_qr_code as  $qr_code) {
                         $qrs[] = url('qrcodes/qr-').$qr_code->id.".png";
                     }
                      $events->ticket_qr_code = $qrs;
-                    $event[] = $events;
+                   $event[] = $events;
                 }
             }
            
@@ -2913,15 +3028,29 @@ class FrontendController extends Controller
 
 
         $ticket['past'] = Order::with(['event:id,name,image,start_time,type,end_time,address', 'ticket:id,ticket_number,name,type,price', 'organization:id,first_name,last_name,image'])
-            ->where([['customer_id', Auth::guard('appuser')->user()->id], ['order_status', 'Cancel']])
+             ->whereHas('event', function ($query) {
+                // Ensure end_time is compared correctly
+                $query->whereDate('end_time', '<=', Carbon::now());
+            })
+            ->where([['customer_id', Auth::guard('appuser')->user()->id], ['order_status', 'Complete']])
             ->orderBy('id', 'DESC')->paginate(10);
         if (count($ticket['past']) > 0) {
             foreach ($ticket['past'] as $events) {
-                if ($events->event->end_time <= Carbon::now()) {
+                $past_event = Event::find($events->event_id);
+                //dd($past_event);
+                if ($past_event->end_time <= Carbon::now()) {
+                    
+                    $ticket_qr_code =  OrderChild::where('order_id',$events->id)->get();
+                    $qrs = array();
+                    foreach ($ticket_qr_code as  $qr_code) {
+                        $qrs[] = url('qrcodes/qr-').$qr_code->id.".png";
+                    }
+                     $events->ticket_qr_code = $qrs;
                     $event[] = $events;
+                    $ticket['past']->event = $event;
                 }
             }
-            $ticket['past']->event = $event;
+           
         }
         foreach ($ticket['past'] as $item) {
             $ordertaxs = OrderTax::where('order_id', $item->id)->get();
@@ -3550,15 +3679,15 @@ class FrontendController extends Controller
                 return redirect('/failed');
             }
         }
-        $this->sendOrderMail($orderId);
+        $this->sendOrderMailPdf($orderId);
         return view('frontend/thankyou');
     }
 
     public function failed()
     {
         $orderId = Session::get('order_id');
-        OrderChild::where('order_id', $orderId)->forceDelete();
-        Order::where('id', $orderId)->forceDelete();
+            OrderChild::where('order_id', $orderId)->forceDelete();
+            Order::where('id', $orderId)->forceDelete();
         return view('frontend/failed');
     }
 
@@ -3739,8 +3868,12 @@ class FrontendController extends Controller
 
     public function ordarMailSender()
     {
-        $order_id = "445";
-        $this->sendOrderMail($order_id);
+        $data = Order::where('event_id',150)->sum('quantity');
+        dd($data);
+        //$order_id = "880";
+        /*$this->sendOrderMailPdf($order_id);*/
+      
+        
     }
 
 
@@ -3997,4 +4130,10 @@ class FrontendController extends Controller
                     });*/
         return response()->json(['msg' => 'Subscribe', 'success' => true]);
    }
+
+   public function excelExport ()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+
+    }
 }

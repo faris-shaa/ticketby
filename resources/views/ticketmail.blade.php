@@ -142,8 +142,8 @@
                                             <td><small>{{ $loop->iteration }}</small></td>
                                             <td class="text-center"><small>{{ $order->ticket->name }}</small></td>
                                             <td class="text-center"><small>{{ $item->ticket_number }}</small></td>
-                                            <td class="text-center specialchar">
-                                                <small>{{ $currency . $order->ticket->price }}</small>
+                                            <td class="text-center ">
+                                                <small>{{  $order->ticket->price }} SAR</small>
                                             </td>
                                     @endforeach
                                 </table>
@@ -171,23 +171,30 @@
                                     <tr>
                                         <td class="small">
                                             {{ __('Subtotal') }}</td>
-                                        <td class="small specialchar ">
-                                            {{ $currency . ($order->payment + $order->coupon_discount - $order->tax) }}
+                                        <td class="small  ">
+                                            {{ ($order->payment + $order->coupon_discount - $order->tax) }} SAR
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="small ">
                                             {{ __('Coupon Discount') }}</td>
-                                        <td class="small specialchar ">
+                                        <td class="small  ">
                                             (-)
-                                            {{ $currency . $order->coupon_discount }}
+                                            {{ $order->coupon_discount }} SAR
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="small">
+                                            {{ __('Tax') }}</td>
+                                        <td class="small ">
+                                            {{  $order->tax }} SAR
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="small">
                                             {{ __('Total') }}</td>
-                                        <td class="small specialchar">
-                                            {{ $currency . $order->payment }}
+                                        <td class="small ">
+                                            {{  $order->payment }} SAR
                                         </td>
                                     </tr>
                                 </table>

@@ -2,6 +2,7 @@
 @section('title', __('Checkout'))
 @section('content')
 {{-- content --}}
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script async crossorigin
     src="https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js"></script>
@@ -9,7 +10,8 @@
 
 <script async crossorigin
         src="https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js"
-        ></script><style>
+        ></script>
+<style>
 apple-pay-button {
   --apple-pay-button-width: 150px;
   --apple-pay-button-height: 30px;
@@ -17,15 +19,28 @@ apple-pay-button {
   --apple-pay-button-padding: 0px 0px;
   --apple-pay-button-box-sizing: border-box;
 }
+
+.apple-pay-btn-wrapper {
+    width: 100%;
+    min-height: 50px; /* Increased height */
+    height: var(--apple-pay-button-height, 50px); /* Increased height */
+}
+
 .apple-pay-button {
     display: inline-block;
     -webkit-appearance: -apple-pay-button;
     appearance: -apple-pay-button;
     apple-pay-button-type: buy;
-    apple-pay-button-style: black;
+    apple-pay-button-style: white; /* Change from 'black' to 'white' */
     height: 44px;
     width: 100%;
+    --apple-pay-button-width: 150px;
+    --apple-pay-button-height: 30px;
+    --apple-pay-button-border-radius: 3px;
+    --apple-pay-button-padding: 0px 0px;
+    --apple-pay-button-box-sizing: border-box;
 }
+
 </style>
 
 @php
@@ -33,9 +48,10 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 @endphp
 @php $ticket_amount = 0 ;
+
 @endphp
 @foreach( $data->ticket_details as $ticket)
-@php $ticket_amount = $ticket_amount + ($ticket->price * $ticket->selected_quantity);
+@php $ticket_ids =  implode(', ', request('ids')); $ticket_quantities =  implode(', ', request('quantities')) ;   $ticket_amount = $ticket_amount + ($ticket->price * $ticket->selected_quantity);
 @endphp
 
 
@@ -43,7 +59,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 
 
 <div class="container mt-12 md:mt-16 ">
-    <div class="grid grid-cols-12 md:gap-14">
+    <div class="grid grid-cols-12 xl:gap-14">
         <div id="ticketorder"
             class="col-span-12 lg:col-span-7 bg-primary_color_o10_1 bg-opacity-5 rounded-2xl border border-primary_color_o10_1 p-2 md:p-4">
             <div class="mb-4 flex gap-1 flex-wrap">
@@ -53,10 +69,12 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             <input type="hidden" name="totalAmountTax" id="totalAmountTax" value="{{ $data->totalAmountTax }}">
             <input type="hidden" name="totalPersTax" id="totalPersTax" value="{{ $data->totalPersTax }}">
             <input type="hidden" name="flutterwave_key" value="{{ \App\Models\PaymentSetting::find(1)->ravePublicKey }}">
+
             @if(isset(auth()->guard('appuser')->user()->email))
-            <input type="hidden" name="email" value="{{ auth()->guard('appuser')->user()->email }}">
-            <input type="hidden" name="phone" value="{{ auth()->guard('appuser')->user()->phone }}">
-            <input type="hidden" name="name" value="{{ auth()->guard('appuser')->user()->name }}">
+            <input type="hidden" name="email" id="email" value="{{ auth()->guard('appuser')->user()->email }}">
+            <input type="hidden" name="phone" id="phone" value="{{ auth()->guard('appuser')->user()->phone }}">
+            <input type="hidden" name="name" id="name" value="{{ auth()->guard('appuser')->user()->name }}">
+
             <input type="hidden" name="is_login" value="1" id="is-login">
             @else
             <input type="hidden" name="is_login" value="0" id="is-login">
@@ -69,6 +87,8 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             <input type="hidden" id="stripePublicKey" name="stripePublicKey"
                 value="{{ \App\Models\PaymentSetting::find(1)->stripePublicKey }}">
             <input type="hidden" value="{{ $data->ticket_per_order }}" name="tpo" id="tpo">
+            <input type="hidden" value="{{ $ticket_ids}}" name="ticket_ids" id="ticket_ids">
+            <input type="hidden" value="{{ $ticket_quantities }}" name="ticket_quantities" id="ticket_quantities">
             <input type="hidden" value="{{ $data->available_qty }}" name="available" id="available">
             <input type="hidden" name="price" id="ticket_price" value="{{ $data->price }}">
             <input type="hidden" name="tax" id="tax_total" value="{{$data->tax_total}}">
@@ -90,15 +110,17 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             <input type="hidden" name="currency_code" id="currency_code" value="{{ $data->currency_code }}">
             <input type="hidden" name="currency" id="currency" value="{{ __($currency) }}">
             <input type="hidden" name="payment_token" id="payment_token">
-            <input type="hidden" name="ticket_id" id="ticket_id" value="{{ $data->id }}">
+            <input type="hidden" name="ticket_id" id="ticket_id" value="{{ $ticket->id }}">
+            
             <input type="hidden" name="selectedSeats" id="selectedSeats">
             <input type="hidden" name="selectedSeatsId[]" id="selectedSeatsId">
             <input type="hidden" name="coupon_id" id="coupon_id" value="">
             <input type="hidden" name="coupon_discount" id="coupon_discount" value="0">
             <input type="hidden" name="ticket-price-amount" id="ticket-price-amount" value="">
             <input type="hidden" name="add_ticket" value="">
+            <input type="hidden" name="event_id" value="{{ $data->event->id }}" id="event_id">
             @foreach( $data->ticket_details as $ticket)
-            <input type="hidden" name="event_id" value="{{ $ticket->id }}" id="event-id">
+            <input type="hidden" name="event_id" value="{{ $data->event->id }}" id="event-id">
             <input type="hidden" name="ticketname" id="ticketname" value="{{ $ticket->name }}">
             @endforeach
             @if ($data->available_qty > 0)
@@ -170,6 +192,9 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             </div>
             <!-- edafpay -->
             <!-- epay  -->
+            @if($data->event->id == 151)
+            @endif 
+
             <div class="  mb-4">
                 <div
                     class="bg-gray_f  w-full rounded-2xl border border-primary_color_o10_1 p-24-16 flex justify-between items-center payments ">
@@ -200,13 +225,18 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                         </span>
                     </div>
                 </div>
-                <div class="epay   hidden bg-gray_f  w-full rounded-2xl border border-primary_color_8 p-24-16 mt-2">
-                    <div class="apple-pay-button-div">
-                        <div class="apple-pay-button" id="applePayButton"></div>
-                        <div id="apple-pay-button"></div>
+                <div   class="epay  hidden bg-gray_f  w-full rounded-2xl border border-primary_color_8 p-24-16 mt-2" style="display: none;"> 
+                    <div class="mb-4" id="applePayContainer" > 
+                        <div class="epay w-full rounded-2xl mt-2">
+                            <div class="apple-pay-button-div">
+                                <div id="applePayButton"></div> 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+           
+
             <!-- epay  -->
             <!-- stc  -->
             <div class="hidden mb-4">
@@ -330,7 +360,7 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             @endif
         </div>
         <div
-            class="mt-4 md:mt-0 col-span-12 lg:col-span-5   rounded-2xl  bg-primary_color_o10_1 bg-opacity-5 border border-primary_color_o10_1   p-2 md:p-4 h-fit">
+            class="mt-4 col-span-12 lg:col-span-5   rounded-2xl  bg-primary_color_o10_1 bg-opacity-5 border border-primary_color_o10_1   p-2 md:p-4 h-fit">
             <div class="mb-4">
                 <h3 class="font-bold text-h5 md:text-h3">{{ __('Order Summary') }}</h3>
             </div>
@@ -583,9 +613,36 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
 <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Check for Apple Pay availability
+
+            const applePayButton = document.getElementById('applePayButton'); 
+
+
             if (window.ApplePaySession && ApplePaySession.canMakePayments()) { 
                 // Event listener for the Apple Pay button
-                document.getElementById('applePayButton').addEventListener('click', function () { 
+
+        //         const button = document.createElement('apple-pay-button');
+        // button.setAttribute('buttonstyle', 'white'); // White button
+        // button.setAttribute('type', 'buy'); // Can be 'plain' or 'buy'
+        // button.style.width = "100%"; // Ensure full width
+        // button.style.height = "44px"; // Ensure appropriate height
+        
+        // // Append the button to the applePayButton div
+        // applePayButton.appendChild(button);
+
+
+
+        const button = document.createElement('apple-pay-button');
+        button.setAttribute('buttonstyle', 'white'); // White button
+        button.setAttribute('type', 'buy'); // Can be 'plain' or 'buy'
+        button.id = 'applePayActualButton';
+        button.style.width = "100%";
+        button.style.height = "44px"; 
+        
+        applePayButton.appendChild(button);
+
+        button.addEventListener('click', function () { 
+
+ 
 
 
                   if ($("#is-login").val() == 0) { 
@@ -641,7 +698,43 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
                             headers: {
                                 'Content-Type': 'application/json'
                             }, 
-                            body: JSON.stringify({ token: payment.token,payment_type:'ApplePay',amount:$('#payment').val(),event_id:$('#event-id').val(),ticket_id:$('#ticket_id').val(),payment:$('#payment').val(),tax:$('#tax').val(),coupon_id:$('#coupon_id').val(),selectedSeatsId:$('#selectedSeatsId').val(),selectedSeats:$('#selectedSeats').val(),quantity:$('#event-quantity').val(),email:$('#email').val(),name:$('#name').val(),phone:$('#phone').val() })
+                            body: JSON.stringify({
+                                token: payment.token,
+                                payment_type: 'ApplePay',
+                                amount: $('#payment').val(),
+                                event_id: $('#event_id').val(),
+                                ticket_id: $('#ticket_id').val(),
+                                payment: $('#payment').val(),
+                                tax: $('#tax_total').val(),
+                                coupon_id: $('#coupon_id').val(),
+                                selectedSeatsId: $('#selectedSeatsId').val(),
+                                selectedSeats: $('#selectedSeats').val(),
+                                quantity: $('#event-quantity').val(),
+                                email: $('#email').val(),
+                                name: $('#name').val(),
+                                phone: $('#phone').val(),
+                                totalAmountTax: $('#totalAmountTax').val(),
+                                totalPersTax: $('#totalPersTax').val(),
+                                flutterwave_key: $('#flutterwave_key').val(),
+                                is_login: $('#is-login').val(),
+                                razor_key: $('#razor_key').val(),
+                                stripePublicKey: $('#stripePublicKey').val(),
+                                tpo: $('#tpo').val(),
+                                ticket_ids: $('#ticket_ids').val(),
+                                ticket_quantities: $('#ticket_quantities').val(),
+                                available: $('#available').val(), 
+                                tax_total_price: $('#tax_total_price').val(),
+                                ticket_total: $('#ticket_total').val(),
+                                stripe_payment: $('#stripe_payment').val(),
+                                currency_code: $('#currency_code').val(),
+                                currency: $('#currency').val(),
+                                payment_token: $('#payment_token').val(),
+                                coupon_discount: $('#coupon_discount').val(),
+                                ticket_price_amount: $('#ticket-price-amount').val(),
+                                add_ticket: $('input[name="add_ticket"]').val(),
+                                ticketname: $('#ticketname').val(),
+                            }
+)
                         })
                         .then(response => response.json())
                         .then(data => {
@@ -667,4 +760,21 @@ $lang = session('direction') == 'rtl' ? 'ar' : 'en';
             }
         });
     </script>
+
+
+<script>
+                // Function to detect Safari browser
+                function isSafari() {
+                    const userAgent = navigator.userAgent;
+                    const isSafariBrowser = /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
+                    return isSafariBrowser;
+                }
+
+                // Show the entire mb-4 container if the browser is Safari
+                if (isSafari()) {
+                    document.getElementById('applePayContainer').style.display = 'block';
+                } else {
+                    document.getElementById('applePayContainer').style.display = 'none';
+                }
+            </script>
 @endsection

@@ -124,7 +124,7 @@ class EventController extends Controller
         
          $request->validate([
             'name' => 'bail|required',
-            //'image' => 'bail|required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'bail|required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'start_time' => 'bail|required',
             //'end_time' => 'bail|required',
             'category_id' => 'bail|required',

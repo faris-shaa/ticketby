@@ -772,6 +772,7 @@ $(document).ready(function () {
 
                 }
                 $("#EDAFPAY_form_submit").on("click", function () {
+                    
                     var requestData = {
                         payment: $("#payment").val(),
                         payment_token: null,
@@ -786,6 +787,8 @@ $(document).ready(function () {
                         ticket_date: $("#onetime").val(),
                         selectedSeats: $("#selectedSeats").val(),
                         selectedSeatsId: $("#selectedSeatsId").val(),
+                        ticket_ids: $("#ticket_ids").val(),
+                        ticket_quantities: $("#ticket_quantities").val(),
                         month: $("#month").val(),
                         year: $("#year").val(),
                         cvv: $("#cvc").val(),
@@ -863,6 +866,8 @@ $(document).ready(function () {
                         ticket_date: $("#onetime").val(),
                         selectedSeats: $("#selectedSeats").val(),
                         selectedSeatsId: $("#selectedSeatsId").val(),
+                        ticket_ids: $("#ticket_ids").val(),
+                        ticket_quantities: $("#ticket_quantities").val(),
                     };
                     createOrder(requestData);
                 });

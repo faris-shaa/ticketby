@@ -25,7 +25,11 @@ Route::any('/get-apple-pay-session', [FrontendController::class, 'getApplePaySes
 
 Route::post('/guest/subscribe', [FrontendController::class, 'subscribe']);
 
+Route::get('/send-mail/{id}', [FrontendController::class, 'sendOrderMail']);
+
 Route::post('/web/login', [FrontendController::class, 'webUserLogin']);
+
+Route::get('/export-data', [FrontendController::class, 'excelExport']);
 
 Route::group(['middleware' => ['mode', 'XSS']], function () {
 
